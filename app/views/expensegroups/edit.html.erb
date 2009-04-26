@@ -1,0 +1,22 @@
+<h1>Editing expensegroup</h1>
+
+<% form_for(@expensegroup) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  
+  <p>
+	<%= f.label :users %><br />
+	<%= f.select :user_ids , User.find(:all).collect {|p| [ p.login, p.id ] } , { } , :multiple=>"multiple" %>		
+  </p>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @expensegroup %> |
+<%= link_to 'Back', expensegroups_path %>
