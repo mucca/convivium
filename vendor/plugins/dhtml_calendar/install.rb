@@ -7,9 +7,12 @@ Dir.chdir(Dir.getwd.sub(/vendor.*/, '')) do
 ##
 
 def copy_files(source_path, destination_path, directory)
-  source, destination = File.join(directory, source_path), File.join(RAILS_ROOT, destination_path)
-  FileUtils.mkdir(destination) unless File.exist?(destination)
-  FileUtils.cp_r(Dir.glob(source+'/*.*'), destination)
+  begin
+    source, destination = File.join(directory, source_path), File.join(RAILS_ROOT, destination_path)
+    FileUtils.mkdir(destination) unless File.exist?(destination)
+    FileUtils.cp_r(Dir.glob(source+'/*.*'), destination)
+  rescue
+  end
 end
 
 directory = File.dirname(__FILE__)
