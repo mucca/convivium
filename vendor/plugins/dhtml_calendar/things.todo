@@ -1,0 +1,24 @@
+========
+= HIGH =
+========
+
+- Fix overlabel
+  - Currently the label only fits if the input is big enough
+  - OverLabel.initialize_all not getting called on Ajax form
+  - Will it work in search forms?
+  - Still need to have Calendar call it somehow and let it know to change the class on the label so that it doesn't display over top of it.
+
+- or get TextFieldWithExample to work
+  - Help string seemed like such a good idea but I couldn't figure out how to get Calendar to hide/show the example text and real text box before updating the box so that the proper field was submitted. 
+  - Need to figure out how to get a pointer to the input object when it is still a TextFieldWithExample object so that we can call this.removeExample
+  - And need to figure out how to call that before, and while still calling Calendar.onSelect
+  
+- In 2.0 drop support for date_bocks, remove unused-code for date_box
+
+==========
+= MEDIUM =
+==========
+
+=======
+= LOW =
+======= 

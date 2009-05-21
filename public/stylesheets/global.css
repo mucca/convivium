@@ -1,0 +1,30 @@
+#main-container {
+    margin:auto;
+}
+#column-right{
+    float:left;
+    width:15em;
+}
+#column-content{
+    float:left;
+    margin:20px;
+}
+
+#top-menu ul {
+	display:inline;
+	margin:0.5em;
+} 
+
+#top-menu ul li {
+	list-style: none;
+	float:left;
+	padding:0.2em;
+	border: 1px solid black;
+}
+
+img {
+    border:0px solid transparent;
+}
+
+table th {
+}

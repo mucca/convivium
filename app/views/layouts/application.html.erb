@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>
+    Convivium - <%= controller.controller_name %>:<%= controller.action_name %>
+  </title>
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'global' %>
+  <%= javascript_include_tag :defaults %>
+  <%= dhtml_calendar_includes %>
+</head>
+<body>
+<div id="main-container">
+    <div id="column-content">
+        <div id="top-menu">
+            <ul>
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+        <div>
+
+        <% if current_user %>
+            <%= t 'logged in as' %> : <%= current_user.login %>
+            <%= link_to t 'Logout', { :controller => "sessions" , :action => "destroy"} %>
+        <% end %>
+        </div>
+
+        <% if flash[:notice] %>
+        <div class="flash notice"><%= flash[:notice] %></div>
+        <% end %>
+
+        <%= yield %>
+    </div>
+    <div id="column-right">
+        <ul>
+            <li><%= link_to "Report", { :controller => "expenses" , :action => "index"} %></li>
+            <li><%= link_to "Add expense", { :controller => "expenses" , :action => "new"} %></li>
+            <li><%= link_to "Expense groups", { :controller => "expensegroups" , :action => "index"} %></li>
+            <li><%= link_to "Categories", { :controller => "categories" , :action => "index"} %></li>
+        </ul>
+        <%= yield :left_portlets %>
+    </div>
+</div>
+
+</body>
+</html>
