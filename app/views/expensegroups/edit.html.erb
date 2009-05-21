@@ -7,12 +7,10 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
-  
   <p>
-	<%= f.label :users %><br />
-	<%= f.select :user_ids , User.find(:all).collect {|p| [ p.login, p.id ] } , { } , :multiple=>"multiple" %>		
+	<%= f.label :disabled %><br />
+	<%= f.check_box :disabled %>		
   </p>
-
   <p>
     <%= f.submit 'Update' %>
   </p>

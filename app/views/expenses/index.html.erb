@@ -1,22 +1,91 @@
-<h1>Listing expenses</h1>
+<h1><%= t "Expenses" %></h1>
 
 <table>
   <tr>
-    <th>Description</th>
-    <th>Amount</th>
+    <th><%= t "Date" %></th>
+    <th><%= t "Description" %></th>
+    <th><%= t "Amount" %></th>
+    <th><%= t "Creator" %></th>
+    <th><%= t "Group" %></th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <% @expenses.each do |expense| %>
   <tr>
+    <td><%=h format_date expense.reference_date %></td>
+    
     <td><%=h expense.description %></td>
-    <td><%=h expense.amount %></td>
-    <td><%= link_to 'Show', expense %></td>
-    <td><%= link_to 'Edit', edit_expense_path(expense) %></td>
-    <td><%= link_to 'Destroy', expense, :confirm => 'Are you sure?', :method => :delete %></td>
+    
+    <% if expense.expensegroup.personal %>
+        <td><%=h expense.amount %></td>
+    <% else %>    
+        <td><%=h expense.amount %></td>
+    <% end %>
+    
+    <td><%=h expense.creator.login %></td>
+    
+    <td>
+        <% if expense.expensegroup.personal %>
+            <%= t "Personal" %>
+        <% else %>
+            <%=h expense.expensegroup.name %>
+        <% end %>
+    </td>
+
+    <td><%= link_to image_tag("icons/page.gif", :alt => t('show expense'), :title => t('show expense') ), expense %></td>
+    <% if can_edit_expense expense %>
+        <td><%= link_to image_tag("icons/page_edit.gif", :alt => t('edit expense'), :title => t('edit expense') ), edit_expense_path(expense) %></td>
+        <td><%= link_to image_tag("icons/page_delete.gif", :alt => t('delete expense'), :title => t('edit expense') ), expense, :confirm => t('Are you sure?'), :method => :delete %></td>
+    <% else %>
+        <td></td>
+        <td></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
+<%= will_paginate @expenses %>
+
+<br />
+<% content_for :left_portlets do %>
+<table>
+    <h3><%= t 'Expenses of last 30 days' %></h3>
+    <tr>
+        <th><%= t 'Personals' %>:</th>
+        <td><%= @totals[:personal] %></td>
+    </tr>
+    <tr>
+        <th><%= t 'Shared' %>:</th>
+        <td><%= @totals[:shared] %></td>
+    </tr>
+    <tr>
+        <th><%= t 'Total' %>:</th>
+        <td><%= @totals[:total] %></td>
+    </tr>
+</table>
+
+<h3><%= t 'Status' %></h3>
+<table>
+    <% for group in get_user_expensegroups %>
+        <% if not group.personal %>
+            <% status = expensegroup_status group %>
+            <tr>
+                <th><%= group.name %></th>
+                <td>
+                    <% if status > 0 %>
+                        <%= t 'to receive' %> <%= status %>
+                    <% else %>
+                        <%= t 'to give' %> <%= status + ( status * 2 * -1 ) %>
+                    <% end %>
+                </td>
+            </tr>
+        <% end %>
+    <% end %>
+</table>
+<% end %>
+
 <br />
 
-<%= link_to 'New expense', new_expense_path %>
+<%= link_to t('New expense'), new_expense_path %>

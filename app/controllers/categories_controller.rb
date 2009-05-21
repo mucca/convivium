@@ -1,4 +1,7 @@
 class CategoriesController < ApplicationController
+
+  require_role :admin, :for => [:edit, :update, :destroy], :unless => "current_user.is_owner?(params[:id],Category)"
+
   # GET /categories
   # GET /categories.xml
   def index
@@ -41,6 +44,10 @@ class CategoriesController < ApplicationController
   # POST /categories.xml
   def create
     @category = Category.new(params[:category])
+
+    if not current_user.has_role? :admin
+      @category.creator = current_user
+    end
 
     respond_to do |format|
       if @category.save

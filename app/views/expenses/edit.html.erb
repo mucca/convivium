@@ -2,7 +2,10 @@
 
 <% form_for(@expense) do |f| %>
   <%= f.error_messages %>
-
+  <p>
+	<%= f.label :reference_date %><br />
+	<%= calendar_field :expense, 'reference_date' ,{} , {:showsTime=>false} %>
+  </p>
   <p>
     <%= f.label :description %><br />
     <%= f.text_field :description %>
@@ -12,9 +15,23 @@
     <%= f.text_field :amount %>
   </p>
   <p>
+	<%= f.label :category %><br />
+	<%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %>		
+  </p>  
+  <p>
 	<%= f.label :expensegroup %><br />
-	<%= f.select :expensegroup_ids , Expensegroup.find(:all).collect {|p| [ p.login, p.id ] } , { } %>		
+	<%= f.select :expensegroup_id ,  get_user_expensegroups.collect {|p| [ p.name, p.id ] } , { } %>
   </p>
+  <p>
+	<%= f.label :notes %><br />
+	<%= f.text_field :notes %>		
+  </p>
+  <% if has_role? :admin %>
+  <p>
+	<%= f.label :creator %><br />
+	<%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { } %>		
+  </p>  
+  <% end %>
   <p>
     <%= f.submit 'Update' %>
   </p>

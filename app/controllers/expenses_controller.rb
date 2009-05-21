@@ -1,15 +1,37 @@
 class ExpensesController < ApplicationController
+
+  require_role :user
+  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
+
   # GET /expenses
   # GET /expenses.xml
   def index
-    @expenses = Expense.all
+    @user = User.find session[:user_id]
+    @expensegroups = @user.expensegroups
+    
+    if params[:limit]
+      @limit = params[:limit]
+    else
+      @limit = 30
+    end
+    
+    #query = []
+    #params = {}
+    #query.push "expensegroup_id in :expensegroup_ids"
+    #params[:expensegroup_ids] = @expensegroups.collect {|p| p.id }
+    
+    #@posts = Post.paginate_by_board_id @board.id, :page => params[:page], :order => 'updated_at DESC'
+    
 
+    @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
+    @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @expenses }
     end
   end
-
+  
   # GET /expenses/1
   # GET /expenses/1.xml
   def show
@@ -24,8 +46,9 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   # GET /expenses/new.xml
   def new
-    @expense = Expense.new
-
+    @expense = Expense.new :creator=>current_user
+    @expense.reference_date = DateTime.now
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @expense }
@@ -40,13 +63,16 @@ class ExpensesController < ApplicationController
   # POST /expenses
   # POST /expenses.xml
   def create
-    params[:expense][:creator_id] = session[:user_id]
+    user = User.find session[:user_id]
+    if not user.has_role? :admin or not params[:expense][:creator_id]
+        params[:expense][:creator_id] = user.id
+    end 
     @expense = Expense.new(params[:expense])
 
     respond_to do |format|
       if @expense.save
         flash[:notice] = 'Expense was successfully created.'
-        format.html { redirect_to(@expense) }
+        format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @expense, :status => :created, :location => @expense }
       else
         format.html { render :action => "new" }
@@ -82,5 +108,22 @@ class ExpensesController < ApplicationController
       format.html { redirect_to(expenses_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def calculate_total_for(expense_list)
+    user = User.find session[:user_id]
+    personal = 0
+    shared = 0
+    amounts = []
+    for expense in expense_list
+      if expense.expensegroup.personal == user
+        personal += expense.amount
+      elsif true #expense.status == 'approved'
+        shared += expense.amount / expense.expensegroup.users.length
+      end
+       
+    end
+    total = shared + personal
+    return { :personal => personal, :shared => shared, :total => total }
   end
 end

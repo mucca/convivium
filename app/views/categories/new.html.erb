@@ -4,9 +4,15 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :description %><br />
-    <%= f.text_field :description %>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
   </p>
+  <% if has_role? :admin %>
+  <p>
+	<%= f.label :creator %><br />
+	<%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :include_blank => true } %>		
+  </p>  
+  <% end %>
   <p>
     <%= f.submit 'Create' %>
   </p>

@@ -9,21 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090426165019) do
+ActiveRecord::Schema.define(:version => 20090505192845) do
 
   create_table "categories", :force => true do |t|
-    t.string   "description"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "expensegroups", :force => true do |t|
     t.string   "name"
+    t.integer  "personal_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "expensegroups_users", :force => true do |t|
+  create_table "expensegroups_users", :id => false, :force => true do |t|
     t.integer  "expensegroup_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -33,12 +34,29 @@ ActiveRecord::Schema.define(:version => 20090426165019) do
   create_table "expenses", :force => true do |t|
     t.string   "description"
     t.float    "amount"
+    t.text     "notes"
+    t.text     "status"
+    t.text     "workflow"
+    t.datetime "reference_date"
     t.integer  "creator_id"
     t.integer  "category_id"
     t.integer  "expensegroup_id"
+    t.integer  "personal_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "roles", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "role_id"
+    t.integer "user_id"
+  end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40

@@ -1,4 +1,7 @@
 class ExpensegroupsController < ApplicationController
+  
+  require_role :admin
+
   # GET /expensegroups
   # GET /expensegroups.xml
   def index
