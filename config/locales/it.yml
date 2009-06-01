@@ -19,4 +19,10 @@ it:
   Status: "Stato"
   Personal: "Personale"
   New expense: "Nuova spesa"
-
+  Expenses of last 30 days: "Spese degli ultimi 30 giorni"
+  Personals: "Personali"
+  Shared: "Condivise"
+  Total: "Totale"
+  to receive: "da ricevere"
+  logged in as: "collegato come"
+  Logout: "Logout"
