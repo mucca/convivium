@@ -1,8 +1,8 @@
 class ExpensesController < ApplicationController
 
   require_role :user
-  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
-
+  #require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
+  
   # GET /expenses
   # GET /expenses.xml
   def index
