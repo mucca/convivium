@@ -1,6 +1,5 @@
 class ExpensesController < ApplicationController
-  include AuthenticatedSystem
-  
+
   require_role :user
   require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
 
