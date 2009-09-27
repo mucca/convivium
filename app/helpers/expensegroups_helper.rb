@@ -21,6 +21,6 @@ module ExpensegroupsHelper
         to_pay += expense.amount / expensegroup.users.length
       end
     end
-    return paid - to_pay
+    paid - to_pay
   end
 end

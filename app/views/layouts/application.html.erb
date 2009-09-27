@@ -28,9 +28,11 @@
         <% end %>
         </div>
 
-        <% if flash[:notice] %>
-        <div class="flash notice"><%= flash[:notice] %></div>
+        <div class="flash notice" id='notice'>
+		<% if flash[:notice] %>
+        <%= flash[:notice] %>
         <% end %>
+		</div>
 
         <%= yield %>
     </div>

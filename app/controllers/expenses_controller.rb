@@ -1,5 +1,6 @@
 class ExpensesController < ApplicationController
-
+  include AuthenticatedSystem
+  
   require_role :user
   require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
 
@@ -25,6 +26,9 @@ class ExpensesController < ApplicationController
 
     @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
     @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
+    
+    # This is just for the ajax form
+    @expense = Expense.new :reference_date => Date.today
     
     respond_to do |format|
       format.html # index.html.erb
@@ -63,22 +67,42 @@ class ExpensesController < ApplicationController
   # POST /expenses
   # POST /expenses.xml
   def create
-    user = User.find session[:user_id]
+    user = current_user
     if not user.has_role? :admin or not params[:expense][:creator_id]
-        params[:expense][:creator_id] = user.id
+      params[:expense][:creator_id] = user.id
     end 
     @expense = Expense.new(params[:expense])
-
+    
     respond_to do |format|
       if @expense.save
         flash[:notice] = 'Expense was successfully created.'
         format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @expense, :status => :created, :location => @expense }
+        format.js { 
+            render :update do |page|
+              page[:new_expense].reset
+              page[:notice].visual_effect :highlight
+              flash.discard
+              response = render :partial=>"expense_line", :locals=>{:object=>@expense}, :file => "expenses/_expense_line.html.erb"
+              page.insert_html :top, :expense_list_table, response  
+              #here add the line
+            end
+          }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @expense.errors, :status => :unprocessable_entity }
+        format.js { 
+            render :update do |page|
+              bad_attributes = @expense.errors.each{ |attr, msg| attr }
+              for attribute in [ 'description', 'reference_date', 'amount' ]
+                if bad_attributes.include? attribute
+                  page["expense_#{attribute}"].visual_effect :highlight
+                end
+              end
+            end
+          }
       end
-    end
+    end # end respond_to
   end
 
   # PUT /expenses/1

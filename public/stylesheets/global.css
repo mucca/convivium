@@ -3,11 +3,12 @@
 }
 #column-right{
     float:left;
-    width:15em;
+    width:12em;
 }
 #column-content{
     float:left;
     margin:20px;
+    width:700px;
 }
 
 #top-menu ul {
@@ -27,4 +28,17 @@ img {
 }
 
 table th {
+}
+
+input {
+    border:1px solid gray;
+}
+
+.inline_form {
+    float:left;
+    margin-right:0.3em;
+}
+
+.inline_form_last {
+    clear:both;
 }
