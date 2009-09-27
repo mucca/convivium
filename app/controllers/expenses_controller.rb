@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
 
-  require_role :admin
+  #require_role :admin
   #require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
   
   # GET /expenses
