@@ -1,14 +1,30 @@
+body {
+    margin:0;
+    padding:0;
+}
+
 #main-container {
     margin:auto;
 }
 #column-right{
+    position:absolute;
     float:left;
-    width:12em;
+    right:0;
+    padding:1em;
+    width:13em;
+    margin-bottom:0;
+    height:100%;
+    border-left:3px solid #063A0D;
+    border-bottom:20px solid #063A0D;
 }
 #column-content{
     float:left;
-    margin:20px;
+    margin-left:2em;
     width:700px;
+}
+#top-menu {
+    background-color:#063A0D;
+    padding:0.5em;
 }
 
 #top-menu ul {
@@ -17,9 +33,10 @@
 } 
 
 #top-menu ul li {
+    size:+2;
 	list-style: none;
 	float:left;
-	padding:0.2em;
+	padding: 0 1em 0 1em;
 	border: 1px solid black;
 }
 
@@ -41,4 +58,13 @@ input {
 
 .inline_form_last {
     clear:both;
+}
+
+#actions-container{
+    float:right;
+    color:white;
+}
+
+#actions-container a {
+    color:yellow;
 }

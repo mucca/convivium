@@ -14,20 +14,18 @@
 </head>
 <body>
 <div id="main-container">
-    <div id="column-content">
-        <div id="top-menu">
-            <ul>
-            </ul>
-        </div>
-        <div style="clear:both"></div>
-        <div>
-
+	<div id="top-menu">
+        <ul>
+        </ul>
+		<div id="actions-container">
         <% if current_user %>
-            <%= t 'logged in as' %> : <%= current_user.login %>
+            <%= t 'Hi' %> <%= current_user.login %>
             <%= link_to t 'Logout', { :controller => "sessions" , :action => "destroy"} %>
         <% end %>
         </div>
-
+    </div>
+    <div id="column-content">
+        <div style="clear:both"></div>
         <div class="flash notice" id='notice'>
 		<% if flash[:notice] %>
         <%= flash[:notice] %>
