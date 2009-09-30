@@ -6,29 +6,29 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.xml
   def index
-    # @user = User.find session[:user_id]
-    # @expensegroups = @user.expensegroups
-    # 
-    # if params[:limit]
-    #   @limit = params[:limit]
-    # else
-    #   @limit = 30
-    # end
-    # 
-    # #query = []
-    # #params = {}
-    # #query.push "expensegroup_id in :expensegroup_ids"
-    # #params[:expensegroup_ids] = @expensegroups.collect {|p| p.id }
-    # 
-    # #@posts = Post.paginate_by_board_id @board.id, :page => params[:page], :order => 'updated_at DESC'
-    # 
-    # 
-    # @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
-    # @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
-    # 
-    # # This is just for the ajax form
-    # @expense = Expense.new :reference_date => Date.today
-    # 
+    @user = User.find session[:user_id]
+    @expensegroups = @user.expensegroups
+    
+    if params[:limit]
+      @limit = params[:limit]
+    else
+      @limit = 30
+    end
+    
+    #query = []
+    #params = {}
+    #query.push "expensegroup_id in :expensegroup_ids"
+    #params[:expensegroup_ids] = @expensegroups.collect {|p| p.id }
+    
+    #@posts = Post.paginate_by_board_id @board.id, :page => params[:page], :order => 'updated_at DESC'
+    
+    
+    @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
+    @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
+    
+    # This is just for the ajax form
+    @expense = Expense.new :reference_date => Date.today
+ 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @expenses }

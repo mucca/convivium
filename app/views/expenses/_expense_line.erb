@@ -1,0 +1,25 @@
+<tr>
+    <td><%=h format_date object.reference_date %></td>
+    <td><%=h object.description %></td>
+    <% if object.expensegroup.personal %>
+        <td><%=h object.amount %></td>
+    <% else %>    
+        <td><%=h object.amount %></td>
+    <% end %>  
+   <td><%=h object.creator.login %></td>
+   <td>
+       <% if object.expensegroup.personal %>
+            <%= t "Personal" %>
+        <% else %>
+            <%=h object.expensegroup.name %>
+        <% end %>
+    </td>
+    <td><%= link_to image_tag("icons/page.gif", :alt => t('show expense'), :title => t('show expense') ), object %></td>
+    <% if can_edit_expense object %>
+        <td><%= link_to image_tag("icons/page_edit.gif", :alt => t('edit expense'), :title => t('edit expense') ), edit_expense_path(object) %></td>
+        <td><%= link_to image_tag("icons/page_delete.gif", :alt => t('delete expense'), :title => t('edit expense') ), object, :confirm => t('Are you sure?'), :method => :delete %></td>
+   <% else %>
+        <td></td>
+        <td></td>
+    <% end %>
+</tr>
