@@ -19,9 +19,17 @@
 </div>
 
 <table id="expense_list_table" width="630">
+  <% form_for :filters, @filters, :url=>{ :action=>'index'} do |f| %>
   <tr>
     <th align="left"><%= t "Date" %></th>
-    <th align="left"><%= t "Description" %></th>
+    <th align="left">
+        <%= t "Description" %> 
+        <%= link_to_remote image_tag("icons/arrow_down.gif", :title=>'show description filter'), 
+                           :url => { :action => "toggle_filter", :id => 'description' } %>
+        <div id="description_filter_box" style="display:none">
+        <input id='description_filter' name="description_filter" />
+        </div>
+    </th>
     <th align="left"><%= t "Amount" %></th>
     <th align="left"><%= t "Creator" %></th>
     <th align="left"><%= t "Group" %></th>
@@ -29,6 +37,7 @@
     <th></th>
     <th></th>
   </tr>
+  <% end %>
 
 <% @expenses.each do |expense| %>
   <%= render :partial=>'expense_line', :object=>expense %>
@@ -43,15 +52,15 @@
     <h3><%= t 'Expenses of last 30 days' %></h3>
     <tr>
         <th><%= t 'Personals' %>:</th>
-        <td><%= @totals[:personal] %></td>
+        <td><%= number_with_precision @totals[:personal], :precision=>2, :separator => '.' %></td>
     </tr>
     <tr>
         <th><%= t 'Shared' %>:</th>
-        <td><%= @totals[:shared] %></td>
+        <td><%= number_with_precision @totals[:shared], :precision=>2, :separator => '.' %></td>
     </tr>
     <tr>
-        <th><%= t 'Total' %>:</th>
-        <td><%= @totals[:total] %></td>
+        <th><%= t 'Total' %>: </th>
+        <td><%= number_with_precision @totals[:total], :precision=>2, :separator => '.' %></td>
     </tr>
 </table>
 
@@ -64,10 +73,9 @@
                 <th><%= group.name %></th>
                 <td>
                     <% if status > 0 %>
-                        <%= t 'to receive' %> <%= number_with_precision status, :precision=> 2, :delimiter => '.' %>
+                        + <%= number_with_precision status, :precision=> 2, :separator => '.' %>
                     <% else %>
-                        <%= status %>
-                        <%= t 'to give' %> <%= number_with_precision (status + ( status * 2 * -1 )), :precision=> 2, :delimiter => '.' %>
+                        - <%= number_with_precision (status + ( status * 2 * -1 )), :precision=> 2, :separator => '.' %>
                     <% end %>
                 </td>
             </tr>

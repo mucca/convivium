@@ -83,8 +83,7 @@ class ExpensesController < ApplicationController
               page[:notice].visual_effect :highlight
               flash.discard
               response = render :partial=>"expense_line", :locals=>{:object=>@expense}
-              page.insert_html :top, :expense_list_table, response  
-              #here add the line
+              page.insert_html :top, :expense_list_table, response
             end
           }
       else
@@ -131,6 +130,16 @@ class ExpensesController < ApplicationController
       format.html { redirect_to(expenses_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def toggle_filter
+    respond_to do |format|
+        format.js { 
+            render :update do |page|
+              page["#{params[:id]}_filter_box"].toggle
+            end
+          }
+    end # end respond_to
   end
   
   def calculate_total_for(expense_list)
