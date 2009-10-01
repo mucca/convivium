@@ -82,7 +82,7 @@ class ExpensesController < ApplicationController
               page[:new_expense].reset
               page[:notice].visual_effect :highlight
               flash.discard
-              response = render :partial=>"expense_line", :locals=>{:object=>@expense}, :file => "expenses/_expense_line.html.erb"
+              response = render :partial=>"expense_line", :locals=>{:object=>@expense}
               page.insert_html :top, :expense_list_table, response  
               #here add the line
             end
