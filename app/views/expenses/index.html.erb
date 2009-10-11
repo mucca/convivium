@@ -17,9 +17,10 @@
 <div class="inline_form inline_form_last"></div>
 <% end %>
 </div>
-
+<div style="clear:both"></div>
+<div>
 <table id="expense_list_table" width="630">
-  <% form_for :filters, @filters, :url=>{ :action=>'index'} do |f| %>
+  <% form_for :filters, @filters, :url=>{ :action=>'index' }, :html=>{ :method=>'get' } do |f| %>
   <tr>
     <th align="left"><%= t "Date" %></th>
     <th align="left">
@@ -27,7 +28,7 @@
         <%= link_to_remote image_tag("icons/arrow_down.gif", :title=>'show description filter'), 
                            :url => { :action => "toggle_filter", :id => 'description' } %>
         <div id="description_filter_box" style="display:none">
-        <input id='description_filter' name="description_filter" />
+            <%= f.text_field :description, :size=>15%>
         </div>
     </th>
     <th align="left"><%= t "Amount" %></th>
@@ -43,46 +44,46 @@
   <%= render :partial=>'expense_line', :object=>expense %>
 <% end %>
 </table>
-
+</div>
 <%= will_paginate @expenses %>
 
 <br />
-<% content_for :left_portlets do %>
-<table>
-    <h3><%= t 'Expenses of last 30 days' %></h3>
-    <tr>
-        <th><%= t 'Personals' %>:</th>
-        <td><%= number_with_precision @totals[:personal], :precision=>2, :separator => '.' %></td>
-    </tr>
-    <tr>
-        <th><%= t 'Shared' %>:</th>
-        <td><%= number_with_precision @totals[:shared], :precision=>2, :separator => '.' %></td>
-    </tr>
-    <tr>
-        <th><%= t 'Total' %>: </th>
-        <td><%= number_with_precision @totals[:total], :precision=>2, :separator => '.' %></td>
-    </tr>
-</table>
+<% content_for :portlets do %>
+    <table>
+        <h3><%= t 'Expenses of last 30 days' %></h3>
+        <tr>
+            <th align='left'><%= t 'Personals' %>:</th>
+            <td align='right'><%= number_with_precision @totals[:personal], :precision=>2, :separator => '.' %></td>
+        </tr>
+        <tr>
+            <th align='left'><%= t 'Shared' %>:</th>
+            <td align='right'><%= number_with_precision @totals[:shared], :precision=>2, :separator => '.' %></td>
+        </tr>
+        <tr>
+            <th align='left'><%= t 'Total' %>: </th>
+            <td align='right'><%= number_with_precision @totals[:total], :precision=>2, :separator => '.' %></td>
+        </tr>
+    </table>
 
-<h3><%= t 'Status' %></h3>
-<table>
-    <% for group in get_user_expensegroups %>
-        <% if not group.personal %>
-            <% status = expensegroup_status group %>
-            <tr>
-                <th><%= group.name %></th>
-                <td>
-                    <% if status > 0 %>
-                        + <%= number_with_precision status, :precision=> 2, :separator => '.' %>
-                    <% else %>
-                        - <%= number_with_precision (status + ( status * 2 * -1 )), :precision=> 2, :separator => '.' %>
-                    <% end %>
-                </td>
-            </tr>
+    <h3><%= t 'Status' %></h3>
+    <table>
+        <% for group in get_user_expensegroups %>
+            <% if not group.personal %>
+                <% status = expensegroup_status group %>
+                <tr>
+                    <th align='left'><%= group.name.capitalize %></th>
+                    <td>
+                        <% if status > 0 %>
+                            + <%= number_with_precision status, :precision=> 2, :separator => '.' %>
+                        <% else %>
+                            - <%= number_with_precision (status + ( status * 2 * -1 )), :precision=> 2, :separator => '.' %>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
         <% end %>
-    <% end %>
-</table>
-<% end %>
+    </table>
+<% end %><!-- end portlets space -->
 
 <br />
 

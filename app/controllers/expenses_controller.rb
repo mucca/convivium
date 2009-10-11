@@ -8,31 +8,19 @@ class ExpensesController < ApplicationController
   def index
     @user = User.find session[:user_id]
     @expensegroups = @user.expensegroups
-    
-    if params[:limit]
-      @limit = params[:limit]
-    else
-      @limit = 30
-    end
-    
-    #query = []
-    #params = {}
-    #query.push "expensegroup_id in :expensegroup_ids"
-    #params[:expensegroup_ids] = @expensegroups.collect {|p| p.id }
-    
-    #@posts = Post.paginate_by_board_id @board.id, :page => params[:page], :order => 'updated_at DESC'
-    
-    
-    @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
     @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
-    
-    # This is just for the ajax form
     @expense = Expense.new :reference_date => Date.today
- 
+    @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @expenses }
     end
+  end
+  
+  def search
+    @filters = Hashit.new params[:filters] || {}
+    @results = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
   end
   
   # GET /expenses/1
@@ -157,5 +145,16 @@ class ExpensesController < ApplicationController
     end
     total = shared + personal
     return { :personal => personal, :shared => shared, :total => total }
+  end
+    
+end
+
+class Hashit
+  def initialize(hash)
+    hash.each do |k,v|
+      self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
+      self.class.send(:define_method, k, proc{self.instance_variable_get("@#{k}")})  ## create the getter that returns the instance variable
+      self.class.send(:define_method, "#{k}=", proc{|v| self.instance_variable_set("@#{k}", v)})  ## create the setter that sets the instance variable
+    end
   end
 end

@@ -7,5 +7,5 @@ module ExpensesHelper
       true
     end    
   end
-  
+    
 end 

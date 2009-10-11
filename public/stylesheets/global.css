@@ -10,7 +10,7 @@ body {
     position:absolute;
     float:left;
     right:0;
-    padding:1em;
+/*    padding:1em;*/
     width:13em;
     margin-bottom:0;
     height:100%;
@@ -67,4 +67,14 @@ input {
 
 #actions-container a {
     color:yellow;
+}
+
+#portlets-container h3 {
+    color:#063A0D;
+    margin-left:0;
+/*    background-color:#063A0D;*/
+}
+
+#portlets-container {
+    padding-left:1em;
 }

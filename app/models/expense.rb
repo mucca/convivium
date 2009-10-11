@@ -8,5 +8,9 @@ class Expense < ActiveRecord::Base
   def self.per_page
     15
   end
+
+  def get_user_amount user=nil
+    self.amount / self.expensegroup.users.length
+  end
   
 end

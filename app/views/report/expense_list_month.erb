@@ -1,0 +1,10 @@
+<table>
+<% for ex in @expenses %>
+  <tr>
+    <td><%=h format_date ex.reference_date %></td>
+    <td><%= ex.description %></td>
+    <td><%= ex.category.name %></td>
+    <td><%= ex.get_user_amount %></td>
+  </tr>
+<% end %>
+</table>

@@ -23,6 +23,7 @@
             <%= link_to t 'Logout', { :controller => "sessions" , :action => "destroy"} %>
         <% end %>
         </div>
+        <div style="clear:both"></div>
     </div>
     <div id="column-content">
         <div style="clear:both"></div>
@@ -36,12 +37,15 @@
     </div>
     <div id="column-right">
         <ul>
-            <li><%= link_to "Report", { :controller => "expenses" , :action => "index"} %></li>
-            <li><%= link_to "Add expense", { :controller => "expenses" , :action => "new"} %></li>
-            <li><%= link_to "Expense groups", { :controller => "expensegroups" , :action => "index"} %></li>
-            <li><%= link_to "Categories", { :controller => "categories" , :action => "index"} %></li>
+            <li><%= link_to t "Report", { :controller => "expenses" , :action => "index"} %></li>
+            <li><%= link_to t "Complete report", { :controller => "reports" , :action => "expense_report"} %></li>
+            <li><%= link_to t "Add expense", { :controller => "expenses" , :action => "new"} %></li>
+            <li><%= link_to t "Expense groups", { :controller => "expensegroups" , :action => "index"} %></li>
+            <li><%= link_to t "Categories", { :controller => "categories" , :action => "index"} %></li>
         </ul>
-        <%= yield :left_portlets %>
+        <div id="portlets-container">
+        <%= yield :portlets %>
+        </div>
     </div>
 </div>
 
