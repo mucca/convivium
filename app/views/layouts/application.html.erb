@@ -20,7 +20,7 @@
 		<div id="actions-container">
         <% if current_user %>
             <%= t 'Hi' %> <%= current_user.login %>
-            <%= link_to t 'Logout', { :controller => "sessions" , :action => "destroy"} %>
+            <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
         <% end %>
         </div>
         <div style="clear:both"></div>
@@ -37,11 +37,11 @@
     </div>
     <div id="column-right">
         <ul>
-            <li><%= link_to t "Report", { :controller => "expenses" , :action => "index"} %></li>
-            <li><%= link_to t "Complete report", { :controller => "reports" , :action => "expense_report"} %></li>
-            <li><%= link_to t "Add expense", { :controller => "expenses" , :action => "new"} %></li>
-            <li><%= link_to t "Expense groups", { :controller => "expensegroups" , :action => "index"} %></li>
-            <li><%= link_to t "Categories", { :controller => "categories" , :action => "index"} %></li>
+            <li><%= link_to t("Report"), :controller => "expenses" , :action => "index" %></li>
+            <li><%= link_to t("Complete report"), :controller => "report" , :action => "expense_report" %></li>
+            <li><%= link_to t("Add expense"), { :controller => "expenses" , :action => "new"} %></li>
+            <li><%= link_to t("Expense groups"), { :controller => "expensegroups" , :action => "index"} %></li>
+            <li><%= link_to t("Categories"), { :controller => "categories" , :action => "index"} %></li>
         </ul>
         <div id="portlets-container">
         <%= yield :portlets %>
