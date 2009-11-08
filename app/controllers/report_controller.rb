@@ -1,4 +1,5 @@
 class ReportController < ApplicationController
+  require_role :user
   
   def expense_report
     @user = User.find session[:user_id]

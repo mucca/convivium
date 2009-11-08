@@ -1,6 +1,6 @@
 module CategoriesHelper
   def get_user_categories_for_expense(expense)
-    if current_user != expense.creator
+    if expense.creator
       user = expense.creator
     else
       user = current_user

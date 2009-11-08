@@ -3,8 +3,9 @@
   <tr>
     <td><%=h format_date ex.reference_date %></td>
     <td><%= ex.description %></td>
-    <td><%= ex.category.name %></td>
+    <td><%if ex.category %><%= ex.category.name %><% end %></td>
     <td><%= ex.get_user_amount %></td>
   </tr>
 <% end %>
 </table>
+

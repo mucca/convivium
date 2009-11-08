@@ -1,6 +1,9 @@
 <tr>
     <td><%=h format_date object.reference_date %></td>
     <td><%=h object.description %></td>
+    <td>
+        <% if object.category %><%=h truncate object.category.name %><% end %>
+    </td>
     <% if object.expensegroup.personal %>
         <td><%=h object.amount %></td>
     <% else %>    

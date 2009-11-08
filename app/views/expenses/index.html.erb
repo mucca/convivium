@@ -9,9 +9,10 @@
 	<% if has_role? :admin %>
 	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
 	<% else %>
-    
+	    current_user.login
 	<% end %>
 </div>
+<div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
 <div class="inline_form"><%= f.select :expensegroup_id ,  get_user_expensegroups.collect {|p| [ p.name, p.id ] } , { } %></div>
 <div class="inline_form"><%= submit_tag "add"%></div>
 <div class="inline_form inline_form_last"></div>
@@ -19,7 +20,7 @@
 </div>
 <div style="clear:both"></div>
 <div>
-<table id="expense_list_table" width="630">
+<table id="expense_list_table" width="750">
   <% form_for :filters, @filters, :url=>{ :action=>'index' }, :html=>{ :method=>'get' } do |f| %>
   <tr>
     <th align="left"><%= t "Date" %></th>
@@ -31,6 +32,7 @@
             <%= f.text_field :description, :size=>15%>
         </div>
     </th>
+    <th align="left"><%= t "Category" %></th>
     <th align="left"><%= t "Amount" %></th>
     <th align="left"><%= t "Creator" %></th>
     <th align="left"><%= t "Group" %></th>
