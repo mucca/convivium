@@ -8,9 +8,10 @@ class ExpensesController < ApplicationController
   def index
     @user = User.find session[:user_id]
     @expensegroups = @user.expensegroups
-    @totals = calculate_total_for Expense.all :conditions => [ "reference_date > :last_month and expensegroup_id in (:expensegroup_ids)" , { :last_month => 1.month.ago, :expensegroup_ids => @expensegroups} ]
+    @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
+    
     @expense = Expense.new :reference_date => Date.today
-    @expenses = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
+    @expenses = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
     
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +21,7 @@ class ExpensesController < ApplicationController
   
   def search
     @filters = Hashit.new params[:filters] || {}
-    @results = Expense.paginate :all, :page => params[:page], :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date DESC'
+    @results = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
   end
   
   # GET /expenses/1
