@@ -3,14 +3,7 @@
 <% form_for(@expensegroup) do |f| %>
   <%= f.error_messages %>
 
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-	<%= f.label :disabled %><br />
-	<%= f.check_box :disabled %>		
-  </p>
+  <%= render :partial => 'form' , :locals => {:f => f} %>
   <p>
     <%= f.submit 'Update' %>
   </p>

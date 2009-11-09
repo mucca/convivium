@@ -1,0 +1,16 @@
+<p>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+</p>
+<p>
+<%= f.label :users %><br />
+<%= f.select :user_ids , User.find(:all).collect {|p| [ p.login, p.id ] } , { } , :multiple=>"multiple" %>		
+</p>
+<p>
+<%= f.label :personal %><br />
+<%= f.select :personal_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :include_blank=>true } %>		
+</p>
+<p>
+<%= f.label :disabled %><br />
+<%= f.check_box :disabled  %>		
+</p>
