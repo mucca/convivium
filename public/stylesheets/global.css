@@ -78,3 +78,8 @@ input {
 #portlets-container {
     padding-left:1em;
 }
+
+input.add_submit {
+    /* just to finish change the add button */
+    color:red;
+}

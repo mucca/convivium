@@ -14,6 +14,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
   map.resource :reports
   
+  # map.with_options :controller => 'importer' do |importer|
+  #     importer.index '', :action  => 'index'
+  #     importer.import '', :action  => 'import'
+  # end
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
 

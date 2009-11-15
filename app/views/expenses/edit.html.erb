@@ -4,7 +4,7 @@
   <%= f.error_messages %>
   <p>
 	<%= f.label :reference_date %><br />
-	<%= calendar_field :expense, 'reference_date' ,{} , {:showsTime=>false} %>
+	<%= f.text_field :reference_date, :class=>"jquery-date-picker" %>
   </p>
   <p>
     <%= f.label :description %><br />

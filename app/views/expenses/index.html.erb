@@ -2,7 +2,7 @@
 
 <div>
 <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'} do |f| %>
-<div class="inline_form"><%= calendar_field :expense, 'reference_date' ,{ :size=>9 } , {:showsTime=>false} %></div>
+<div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
 <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
 <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>
 <div class="inline_form">
