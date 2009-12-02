@@ -10,6 +10,9 @@ class CreateRoles < ActiveRecord::Migration
     end
     add_index "roles_users", "role_id"
     add_index "roles_users", "user_id"
+    
+    Role.create :name=>'admin'
+    Role.create :name=>'user'
   end
 
   def self.down
