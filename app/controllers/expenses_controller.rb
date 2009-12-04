@@ -5,13 +5,16 @@ class ExpensesController < ApplicationController
   
   # GET /expenses
   # GET /expenses.xml
-  def index
+  def index        
     @user = User.find session[:user_id]
     @expensegroups = @user.expensegroups
     @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
     
     @expense = Expense.new :reference_date => Date.today
     @expenses = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
+    
+    @from = Expense.related_to_group(@expensegroups).min {|a,b| a.reference_date <=> b.reference_date}.reference_date
+    @to = Expense.related_to_group(@expensegroups).max {|a,b| a.reference_date <=> b.reference_date}.reference_date
     
     respond_to do |format|
       format.html # index.html.erb
@@ -22,6 +25,21 @@ class ExpensesController < ApplicationController
   def search
     @filters = Hashit.new params[:filters] || {}
     @results = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
+  end  
+  
+  def filter   
+    @user = User.find session[:user_id]
+    @expensegroups = @user.expensegroups
+    @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)  
+    @from = params[:expense][:from]
+    @to = params[:expense][:to]
+    
+    @expense = Expense.new :reference_date => Date.today
+    @expenses = Expense.between(@from,@to).related_to_group(@expensegroups).paginate :all, :page => params[:page]
+    
+    respond_to do |format|
+      format.js
+    end
   end
   
   # GET /expenses/1
@@ -72,7 +90,7 @@ class ExpensesController < ApplicationController
               page[:notice].visual_effect :highlight
               flash.discard
               response = render :partial=>"expense_line", :locals=>{:object=>@expense}
-              page.insert_html :top, :expense_list_table, response
+              page.insert_html :bottom, :expense_list_table, response
             end
           }
       else
@@ -149,6 +167,8 @@ class ExpensesController < ApplicationController
   end
     
 end
+ 
+#mi sa che questa parte complicatissima non serve :D io la lascio perchè non saprei riscriverla!!
 
 class Hashit
   def initialize(hash)

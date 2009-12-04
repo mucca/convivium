@@ -1,5 +1,5 @@
 <tr>
-    <td><%=h format_date object.reference_date %></td>
+    <td id="<%= object.reference_date.to_i %>"><%=h format_date object.reference_date %></td>
     <td><%=h object.description %></td>
     <td>
         <% if object.category %><%=h truncate object.category.name %><% end %>
@@ -7,7 +7,7 @@
     <% if object.expensegroup.personal %>
         <td><%=h object.amount %></td>
     <% else %>    
-        <td><%=h object.amount %></td>
+        <td><%=h object.amount %> <%= t "Currency" %></td>
     <% end %>  
    <td><%=h object.creator.login %></td>
    <td>

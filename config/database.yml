@@ -5,14 +5,12 @@
 #  database: db/development.sqlite3
 #  pool: 5
 #  timeout: 5000
+
 development: 
-    adapter: mysql 
-    encoding: utf8 
-    database: convivium_development 
-    pool: 5 
-    username: root 
-    password: 
-    host: localhost
+    adapter: sqlite3 
+    database: db/convivium_development.sqlite3 
+    pool: 5
+    timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

@@ -13,6 +13,7 @@ ActiveRecord::Schema.define(:version => 20090505192845) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -20,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20090505192845) do
   create_table "expensegroups", :force => true do |t|
     t.string   "name"
     t.integer  "personal_id"
+    t.boolean  "disabled"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

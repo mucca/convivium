@@ -13,15 +13,20 @@
   <%= stylesheet_link_tag 'jquery.gritter.css' %>
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag 'jquery.gritter.js' %>
+  <%= javascript_include_tag 'jquery.tablesorter.min.js' %>
   <script>
 	$(document).ready(function(){
 	    $(".jquery-date-picker").each(function(){
 	        $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false })
-	    })
+	    });
 	    $(".skip-import-submit").click(function(){
-	        $(this).parent('form').remove()
+	        $(this).parent('form').remove();
 	        return false;
-	    })
+	    });   
+	    $(".submitfull").change(function(){
+          $(".submitfullbtn").trigger("click"); 
+      });
+	    tableSort();
 	})
 
   </script>
@@ -38,7 +43,7 @@
         <% end %>
         </div>
         <div style="clear:both"></div>
-    </div>
+    </div>                
     <div id="column-content">
         <div style="clear:both"></div>
         <div class="flash notice" id='notice'>

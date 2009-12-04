@@ -26,3 +26,6 @@ it:
   to receive: "da ricevere"
   logged in as: "collegato come"
   Logout: "Logout"
+  Currency: "&euro;"     
+  From: "da"
+  To: "a"
