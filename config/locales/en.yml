@@ -21,7 +21,6 @@ en:
   Expenses of last 30 days: "Expenses of last 30 days"
   Personals: "Personals"
   Shared: "Shared"
-  Total: "Total"
   Complete report: "Complete report"
   Add expense: "Add expense"
   Expense Groups: "Expense Groups"
@@ -29,5 +28,7 @@ en:
   Status: "Status"
   Logout: "Logout"
   New expense: "New expense"
-  
-
+  Total: "Total"
+  Currency: "$"
+  From: "from"
+  To: "to"

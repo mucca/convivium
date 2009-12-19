@@ -1,0 +1,1 @@
+page.replace_html :expense_list_div, :partial=>"table", :locals=>{:expenses => @expenses}

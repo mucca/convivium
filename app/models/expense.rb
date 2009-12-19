@@ -13,4 +13,15 @@ class Expense < ActiveRecord::Base
     self.amount / self.expensegroup.users.length
   end
   
+  default_scope :order => 'reference_date DESC'
+  named_scope :last_week, lambda { { :conditions => ['reference_date > ?', 1.week.ago] } }
+  named_scope :last_month, lambda { { :conditions => ['reference_date > ?', 1.month.ago] } }
+  named_scope :related_to_group, lambda { |expensegroups|{ :conditions => ['expensegroup_id in (?)', expensegroups] } }
+  named_scope :between, lambda { |from,to|{ :conditions => ['reference_date > ? and reference_date < ?', from , to ] } }  
+  
+  named_scope :search, lambda {|field,value,*op| 
+    op = "=" if op.empty? || op.first.nil?
+    {:conditions => ["#{field} #{op} ?", value]}
+  }
+  
 end

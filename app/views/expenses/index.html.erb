@@ -1,7 +1,6 @@
-<h1><%= t "Expenses" %></h1>
-
+<h1><%= t "Expenses" %></h1>    
 <div>
-<% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'} do |f| %>
+<% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"var sorting = [[0,0]]; $(\"#expense_list_table\").trigger(\"sorton\",[sorting]);" do |f| %>
 <div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
 <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
 <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>
@@ -20,35 +19,20 @@
 </div>
 <div style="clear:both"></div>
 <div>
-<table id="expense_list_table" width="750">
-  <% form_for :filters, @filters, :url=>{ :action=>'index' }, :html=>{ :method=>'get' } do |f| %>
-  <tr>
-    <th align="left"><%= t "Date" %></th>
-    <th align="left">
-        <%= t "Description" %> 
-        <%= link_to_remote image_tag("icons/arrow_down.gif", :title=>'show description filter'), 
-                           :url => { :action => "toggle_filter", :id => 'description' } %>
-        <div id="description_filter_box" style="display:none">
-            <%= f.text_field :description, :size=>15%>
-        </div>
-    </th>
-    <th align="left"><%= t "Category" %></th>
-    <th align="left"><%= t "Amount" %></th>
-    <th align="left"><%= t "Creator" %></th>
-    <th align="left"><%= t "Group" %></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <% form_remote_tag :url => { :controller => :expenses , :action => :filter} , :loading => "$(\"#expense_list_div\").html(\"<b>Please Wait...</b>\");" do |f| %>
+  <div>
+  <h4><%= t "Expenses" %> 
+  <%= t "from" %> <%= text_field :expense,:from, :size=>9, :class=>"jquery-date-picker mimetic submitfull" ,:value=> @from %> 
+  <%= t "to" %> <%= text_field :expense,:to, :size=>9, :class=>"jquery-date-picker mimetic submitfull" ,:value=> @to %></h4> 
+  
+  <%= submit_tag "filtra" , :class => "submitfullbtn" %>
+  </div> 
   <% end %>
-
-<% @expenses.each do |expense| %>
-  <%= render :partial=>'expense_line', :object=>expense %>
-<% end %>
-</table>
-</div>
-<%= will_paginate @expenses %>
-
+  
+  <div id="expense_list_div">
+    <%= render :partial => 'table' , :locals => {:expenses => @expenses} %>
+  </div>
+  
 <br />
 <% content_for :portlets do %>
     <table>
