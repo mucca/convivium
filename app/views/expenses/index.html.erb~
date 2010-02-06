@@ -4,7 +4,8 @@
 <div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
 <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
 <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
-
+<input type="hidden" name="page" value="<%= params[:page] %>">
+<input type="hidden" name="sort" value="<%= params[:sort] %>">
 <div class="inline_form">
 	<% if has_role? :admin %>
 	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
