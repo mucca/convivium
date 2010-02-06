@@ -8,11 +8,7 @@
   <% @monthly_expense.keys.sort.each do |month| %>
     [<%= month %>, <%= @monthly_expense[month] %>],
   <% end %>
-  ];
-  // <% @expenses.each do |ex| %>
-  //   data1.push(["<%= ex.reference_date.day %>-<%= ex.reference_date.month %>", <%= ex.amount %>])
-  //   <% end %>  
-  
+  ];  
   var plot = $.plot($("#plot-container"),
              [ { data: data1, label: "spese"} ],
              { lines: { show: true },

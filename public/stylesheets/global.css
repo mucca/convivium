@@ -54,14 +54,6 @@ input {
 	border:0 solid gray;
 	width:100px;
 }
-.inline_form {
-    float:left;
-    margin-right:0.3em;
-}
-
-.inline_form_last {
-    clear:both;
-}
 
 #actions-container{
     float:right;

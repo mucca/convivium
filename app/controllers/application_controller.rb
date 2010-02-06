@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
 
+  before_filter :set_locale 
+  def set_locale 
+    # TODO add on the user model the config for the locale, can be also a string
+    if current_user
+      I18n.locale = 'it'
+    end
+  end 
 
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
