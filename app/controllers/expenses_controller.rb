@@ -13,8 +13,8 @@ class ExpensesController < ApplicationController
     @expense = Expense.new :reference_date => Date.today
     @expenses = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
     
-    @from = Expense.related_to_group(@expensegroups).min {|a,b| a.reference_date <=> b.reference_date}.reference_date
-    @to = Expense.related_to_group(@expensegroups).max {|a,b| a.reference_date <=> b.reference_date}.reference_date
+    @from = Expense.related_to_group(@expensegroups).min {|a,b| a.reference_date <=> b.reference_date}.reference_date.to_date
+    @to = Expense.related_to_group(@expensegroups).max {|a,b| a.reference_date <=> b.reference_date}.reference_date.to_date
     
     respond_to do |format|
       format.html # index.html.erb
