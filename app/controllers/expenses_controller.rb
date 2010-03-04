@@ -22,12 +22,8 @@ class ExpensesController < ApplicationController
     end
   end
   
-  def search
-    @filters = Hashit.new params[:filters] || {}
-    @results = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
-  end  
-  
-  def filter   
+  def filter
+    breakpoint
     @user = User.find session[:user_id]
     @expensegroups = @user.expensegroups
     @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)  
@@ -166,16 +162,4 @@ class ExpensesController < ApplicationController
     return { :personal => personal, :shared => shared, :total => total }
   end
     
-end
- 
-#mi sa che questa parte complicatissima non serve :D io la lascio perchè non saprei riscriverla!!
-
-class Hashit
-  def initialize(hash)
-    hash.each do |k,v|
-      self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
-      self.class.send(:define_method, k, proc{self.instance_variable_get("@#{k}")})  ## create the getter that returns the instance variable
-      self.class.send(:define_method, "#{k}=", proc{|v| self.instance_variable_set("@#{k}", v)})  ## create the setter that sets the instance variable
-    end
-  end
 end
