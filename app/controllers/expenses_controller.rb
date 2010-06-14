@@ -18,12 +18,25 @@ class ExpensesController < ApplicationController
     
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @expenses }
+      format.xml { render :xml => @expenses }
+      format.csv {
+        response = FasterCSV.generate do |csv| 
+          csv << ["Creation date", "Reference date", "Category", "Group", 
+                  'User', "Description", "Amount"]
+          @xpenses.each do |e|
+            csv << [ e.creation_date, e.reference_date, e.category.name, 
+                     e.expensegroup.name, e.user.login, e.description, e.amount]
+          end
+        end
+        send_data response,
+                  :type => 'text/csv; charset=iso-8859-1; header=present',
+                  :disposition => "attachment; filename=users.csv"
+      }
+      
     end
   end
   
   def filter
-    breakpoint
     @user = User.find session[:user_id]
     @expensegroups = @user.expensegroups
     @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)  

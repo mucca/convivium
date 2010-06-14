@@ -4,13 +4,13 @@
     <td>
         <% if object.category %><%=h truncate object.category.name %><% end %>
     </td>
-    <% if object.expensegroup.personal %>
-        <td><%=h object.amount %></td>
-    <% else %>    
-        <td><%=h object.amount %> <%= t "Currency" %></td>
-    <% end %>  
-   <td><%=h object.creator.login %></td>
-   <td>
+    <td style="text-align:right">
+      <%=h number_with_precision object.amount, :precision=>2, :separator => '.' %> 
+      <%= t "Currency" %>
+    </td>
+    <td><%=h number_with_precision object.influence(current_user), :precision=>2, :separator => '.' %></td>
+    <td><%=h object.creator.login %></td>
+    <td>
        <% if object.expensegroup.personal %>
             <%= t "Personal" %>
         <% else %>
@@ -21,7 +21,7 @@
     <% if can_edit_expense object %>
         <td><%= link_to image_tag("icons/page_edit.gif", :alt => t('edit expense'), :title => t('edit expense') ), edit_expense_path(object) %></td>
         <td><%= link_to image_tag("icons/page_delete.gif", :alt => t('delete expense'), :title => t('edit expense') ), object, :confirm => t('Are you sure?'), :method => :delete %></td>
-   <% else %>
+    <% else %>
         <td></td>
         <td></td>
     <% end %>

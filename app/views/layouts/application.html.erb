@@ -58,6 +58,7 @@
         <ul>
             <li><%= link_to t("Report"), :controller => "expenses" , :action => "index" %></li>
             <li><%= link_to t("Complete report"), :controller => "report" , :action => "expense_report" %></li>
+            <li><%= link_to t("History"), :controller => "report" , :action => "history" %></li>
             <li><%= link_to t("Add expense"), { :controller => "expenses" , :action => "new"} %></li>
             <li><%= link_to t("Expense groups"), { :controller => "expensegroups" , :action => "index"} %></li>
             <li><%= link_to t("Categories"), { :controller => "categories" , :action => "index"} %></li>

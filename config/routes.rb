@@ -1,8 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :expensegroups
-
   map.resources :categories
-
   map.resources :expenses
   
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
@@ -13,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resource :session
   map.resource :reports
-  
+    
   # map.with_options :controller => 'importer' do |importer|
   #     importer.index '', :action  => 'index'
   #     importer.import '', :action  => 'import'

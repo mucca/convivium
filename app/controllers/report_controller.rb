@@ -3,11 +3,12 @@ class ReportController < ApplicationController
   
   def expense_report
     @user = current_user
-    if params[:year]:
-      @year = params[:year]
+    if params[:id].to_i != 0
+      @year = params[:id].to_i
     else
       @year = Date.today.year
-    end 
+    end
+    
     start_date = Date.new y = @year, m=1, d=1
     end_date = start_date + 1.year
     @expensegroups = @user.expensegroups
@@ -20,6 +21,32 @@ class ReportController < ApplicationController
       end
       @monthly_expense[key] += ex.amount / ex.expensegroup.users.length 
     end
+  end
+  
+  def history
+    @user = current_user
+    if params[:id].to_i != 0
+      @year = params[:id].to_i
+    else
+      @year = Date.today.year
+    end
+    
+    start_date = Date.new y = @year, m=1, d=1
+    end_date = start_date + 1.year - 1.day
+    @expensegroups = @user.expensegroups
+    @history = {}
+    for g in @expensegroups
+      total = 0
+      group_stats = {}
+      for e in Expense.between(start_date, end_date).related_to_group(g)
+        total += e.influence current_user
+        group_stats[e.reference_date] = total
+      end
+      if not group_stats.empty? and not g.personal
+        @history[g] = group_stats
+      end
+    end
+    
   end
   
   def category_report
@@ -42,7 +69,7 @@ class ReportController < ApplicationController
     @user = current_user
     @expensegroups = @user.expensegroups
     start_date = Date.new y=Date.today.year, m=month, d=1
-    end_date = start_date + 1.month
+    end_date = start_date + 1.month - 1.day
     @expenses = Expense.find :all, :conditions => { :expensegroup_id => @expensegroups, :reference_date=>start_date..end_date }, :order=>'reference_date'
     render :layout=>false 
   end

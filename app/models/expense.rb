@@ -13,6 +13,15 @@ class Expense < ActiveRecord::Base
     self.amount / self.expensegroup.users.length
   end
   
+  def influence user
+    amount = self.get_user_amount
+    if self.creator == user
+      amount
+    else
+      amount * -1
+    end
+  end
+  
   default_scope :order => 'reference_date DESC'
   named_scope :last_week, lambda { { :conditions => ['reference_date > ?', 1.week.ago] } }
   named_scope :last_month, lambda { { :conditions => ['reference_date > ?', 1.month.ago] } }
