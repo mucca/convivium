@@ -28,16 +28,16 @@ body {
 }
 
 #top-menu ul {
-	display:inline;
-	margin:0.5em;
+    display:inline;
+    margin:0.5em;
 } 
 
 #top-menu ul li {
     size:+2;
-	list-style: none;
-	float:left;
-	padding: 0 1em 0 1em;
-	border: 1px solid black;
+    list-style: none;
+    float:left;
+    padding: 0 1em 0 1em;
+    border: 1px solid black;
 }
 
 img {
@@ -51,8 +51,8 @@ input {
     border:1px solid gray;
 }
 .mimetic {
-	border:0 solid gray;
-	width:100px;
+    border:0 solid gray;
+    width:100px;
 }
 
 #actions-container{
@@ -80,18 +80,22 @@ input.add_submit {
 }      
 
 .button {
-	background:#8DBDD8;
-	font-size:12px;
-	height:16px;
-	margin-bottom:7px;
-	padding-top:6px;
-	text-align:center;  
-	margin-right:1px;
+    background:#8DBDD8;
+    font-size:12px;
+    height:16px;
+    margin-bottom:7px;
+    padding-top:6px;
+    text-align:center;  
+    margin-right:1px;
 }                    
 .button a , .button a:visited;{
-	text-decoration:none;
-	color:#000;	
+    text-decoration:none;
+    color:#000; 
 }
 .submitfullbtn {
-	display:none;
+    display:none;
+}
+
+.inline_form {
+    float:left;
 }
