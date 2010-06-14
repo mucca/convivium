@@ -2,53 +2,35 @@ class ExpensesController < ApplicationController
 
   require_role :user
   require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
+  sortable_table Expense   
   
   # GET /expenses
   # GET /expenses.xml
-  def index        
-    @user = User.find session[:user_id]
-    @expensegroups = @user.expensegroups
-    @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
+  def index                        
+     @user = User.find session[:user_id]
+     @expensegroups = @user.expensegroups
+     @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
     
-    @expense = Expense.new :reference_date => Date.today
-    @expenses = Expense.related_to_group(@expensegroups).paginate :all, :page => params[:page]
-    
-    @from = Expense.related_to_group(@expensegroups).min {|a,b| a.reference_date <=> b.reference_date}.reference_date.to_date
-    @to = Expense.related_to_group(@expensegroups).max {|a,b| a.reference_date <=> b.reference_date}.reference_date.to_date
-    
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml { render :xml => @expenses }
-      format.csv {
-        response = FasterCSV.generate do |csv| 
-          csv << ["Creation date", "Reference date", "Category", "Group", 
-                  'User', "Description", "Amount"]
-          @xpenses.each do |e|
-            csv << [ e.creation_date, e.reference_date, e.category.name, 
-                     e.expensegroup.name, e.user.login, e.description, e.amount]
-          end
-        end
-        send_data response,
-                  :type => 'text/csv; charset=iso-8859-1; header=present',
-                  :disposition => "attachment; filename=users.csv"
-      }
-      
-    end
-  end
-  
-  def filter
-    @user = User.find session[:user_id]
-    @expensegroups = @user.expensegroups
-    @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)  
-    @from = params[:expense][:from]
-    @to = params[:expense][:to]
-    
-    @expense = Expense.new :reference_date => Date.today
-    @expenses = Expense.between(@from,@to).related_to_group(@expensegroups).paginate :all, :page => params[:page]
-    
-    respond_to do |format|
-      format.js
-    end
+     @expense = Expense.new :reference_date => Date.today  
+     build_table @user,params         
+     respond_to do |format|
+       format.html # index.html.erb
+       format.xml  { render :xml => @expenses }
+       format.csv {
+         response = FasterCSV.generate do |csv| 
+           csv << ["Creation date", "Reference date", "Category", "Group", 
+                   'User', "Description", "Amount"]
+           @xpenses.each do |e|
+             csv << [ e.creation_date, e.reference_date, e.category.name, 
+                      e.expensegroup.name, e.user.login, e.description, e.amount]
+           end
+         end
+         send_data response,
+                   :type => 'text/csv; charset=iso-8859-1; header=present',
+                   :disposition => "attachment; filename=users.csv"
+       }
+       
+     end        
   end
   
   # GET /expenses/1
@@ -93,15 +75,7 @@ class ExpensesController < ApplicationController
         flash[:notice] = 'Expense was successfully created.'
         format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @expense, :status => :created, :location => @expense }
-        format.js { 
-            render :update do |page|
-              page[:new_expense].reset
-              page[:notice].visual_effect :highlight
-              flash.discard
-              response = render :partial=>"expense_line", :locals=>{:object=>@expense}
-              page.insert_html :bottom, :expense_list_table, response
-            end
-          }
+        format.js { build_table User.find session[:user_id] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @expense.errors, :status => :unprocessable_entity }
@@ -175,4 +149,25 @@ class ExpensesController < ApplicationController
     return { :personal => personal, :shared => shared, :total => total }
   end
     
+end   
+
+def build_table (user,p = params)
+options = {:table_headings => [['Reference date', 'reference_date'],['Description', 'description'], ['Amount', 'amount'], ['Creator','creator.login'], ['Expense Group','expensegroup.name']] , 
+ :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id'],'expensegroup.name' => ['expenses.expensegroup_id']},
+ :include_relations => [:creator,:expensegroup] , :per_page => 15,        
+ :conditions => ['expensegroup_id IN (?)',user.expensegroup_ids],
+ :default_sort => ['reference_date', 'DESC'] }
+ get_sorted_objects(p,options)    
+end
+ 
+#mi sa che questa parte complicatissima non serve :D io la lascio perchè non saprei riscriverla!!
+
+class Hashit
+  def initialize(hash)
+    hash.each do |k,v|
+      self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
+      self.class.send(:define_method, k, proc{self.instance_variable_get("@#{k}")})  ## create the getter that returns the instance variable
+      self.class.send(:define_method, "#{k}=", proc{|v| self.instance_variable_set("@#{k}", v)})  ## create the setter that sets the instance variable
+    end
+  end
 end

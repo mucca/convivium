@@ -28,4 +28,5 @@ it:
   Logout: "Logout"
   Currency: "&euro;"     
   From: "da"
-  To: "a"
+  To: "a"    
+  Expenses in period: "Spese nel periodo"

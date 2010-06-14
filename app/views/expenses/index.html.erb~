@@ -1,11 +1,11 @@
 <h1><%= t "Expenses" %></h1>    
-<<<<<<< HEAD:app/views/expenses/index.html.erb
 <div>
 <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"" do |f| %>
 <div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
 <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
 <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
-
+<input type="hidden" name="page" value="<%= params[:page] %>">
+<input type="hidden" name="sort" value="<%= params[:sort] %>">
 <div class="inline_form">
 	<% if has_role? :admin %>
 	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
@@ -20,50 +20,6 @@
 <% end %>
 </div>
 <div style="clear:both"></div>
-=======
-<div class="inline-form">
-    <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"var sorting = [[0,0]]; $(\"#expense_list_table\").trigger(\"sorton\",[sorting]);" do |f| %>
-        <%= f.text_field :reference_date, 
-                         :size=>9, 
-                         :class=>"jquery-date-picker", 
-                         :value=>@expense.reference_date.to_date,
-                         :tabindex => 1 %>
-        <%= f.text_field :description, :size=>20, :tabindex => 2 %>
-        <%= f.text_field :amount, :size=>9,:tabindex => 3 %>
-    	<% if has_role? :admin %>
-    	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id }, :tabindex => 4 %>		
-    	<% else %>
-    	    current_user.login
-    	<% end %>
-        <%= f.select :category_id, 
-                     get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] }, 
-                     {}, 
-                     :tabindex => 5 %>
-        <%= f.select :expensegroup_id ,  
-                     get_user_expensegroups.collect {|p| [ p.name, p.id ] } , 
-                     { }, 
-                     :tabindex => 6 %>
-        <%= submit_tag "add"%>
-    <% end %>
-</div>
-<div style="clear:both"></div>
-<div>
-  <% form_remote_tag :url => { :controller => :expenses , :action => :filter} , 
-                     :loading => "$(\"#expense_list_div\").html(\"<b>Please Wait...</b>\");" do |f| %>
-  <div>
-      <h4>
-        <%= t "Expenses" %> 
-        <%= t "from" %> <%= text_field :expense,:from, :size=>9, :class=>"jquery-date-picker mimetic submitfull" ,:value=> @from, :tabindex=>100%> 
-        <%= t "to" %> <%= text_field :expense,:to, :size=>9, :class=>"jquery-date-picker mimetic submitfull" ,:value=> @to, :tabindex=>101 %>
-      </h4> 
-      <%= submit_tag "Filter" , :class => "submitfullbtn" %>
-  </div> 
-  <% end %>
-  
-  <div id="expense_list_div">
-    <%= render :partial => 'table' , :locals => {:expenses => @expenses} %>
-  </div>
->>>>>>> 491bf219e3386260e24e693e26336c5019442544:app/views/expenses/index.html.erb
   
 <br />     
 
