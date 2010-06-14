@@ -1,0 +1,38 @@
+<%= javascript_include_tag "jquery.flot.js" %>
+
+<h1>History report <%=h @year %></h1>
+<div id="plot-container" style="width:600px;height:300px;"></div>
+<div id="space"></div>
+<script>
+  <% for group in @history.keys %>  
+      var data<%=h group.id %>= [
+      <% @history[group].keys.sort.each do |date| %>
+        [Date.parse('<%= date %>'), <%= @history[group][date] %>],
+      <% end %>
+      ];  
+  <% end %>
+  var dataset = [
+    <% for group in @history.keys %>
+      { data: data<%=h group.id %>, label: "<%=h group.name %>"},
+    <% end %>
+  ];
+  var plot = $.plot($("#plot-container"),
+             dataset,
+             { lines: { show: true },
+               points: { show: true },
+               // selection: { mode: "xy" },
+               grid: { hoverable: true, clickable: true },
+               //yaxis: { min: -1.2, max: 1.2 }
+               xaxis: { tickDecimals: 0 }
+               });
+
+   $("#plot-container").bind("plotclick", function (event, pos, item) {
+     if (item) {
+       plot.highlight(item.series, item.datapoint);
+       var date = item.datapoint[0]
+       $("#space").load('<%= url_for :controller=>'report', :action=>'expense_list_date' %>/' + date)
+       }
+   });
+
+
+</script>
