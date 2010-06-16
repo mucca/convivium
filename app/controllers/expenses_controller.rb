@@ -12,7 +12,8 @@ class ExpensesController < ApplicationController
      @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
     
      @expense = Expense.new :reference_date => Date.today  
-     build_table @user,params         
+     build_table @user,params
+     
      respond_to do |format|
        format.html # index.html.erb
        format.xml  { render :xml => @expenses }
@@ -20,9 +21,10 @@ class ExpensesController < ApplicationController
          response = FasterCSV.generate do |csv| 
            csv << ["Creation date", "Reference date", "Category", "Group", 
                    'User', "Description", "Amount"]
-           @xpenses.each do |e|
-             csv << [ e.creation_date, e.reference_date, e.category.name, 
-                      e.expensegroup.name, e.user.login, e.description, e.amount]
+           Expense.all.each do |e|
+             csv << [ e.created_at, e.reference_date, e.category, 
+                      e.expensegroup.name, e.creator.login, e.description, 
+                      e.amount ]
            end
          end
          send_data response,
@@ -152,12 +154,12 @@ class ExpensesController < ApplicationController
 end   
 
 def build_table (user,p = params)
-options = {:table_headings => [['Reference date', 'reference_date'],['Description', 'description'], ['Amount', 'amount'], ['Creator','creator.login'], ['Expense Group','expensegroup.name']] , 
- :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id'],'expensegroup.name' => ['expenses.expensegroup_id']},
- :include_relations => [:creator,:expensegroup] , :per_page => 15,        
- :conditions => ['expensegroup_id IN (?)',user.expensegroup_ids],
- :default_sort => ['reference_date', 'DESC'] }
- get_sorted_objects(p,options)    
+  options = {:table_headings => [['Reference date', 'reference_date'],['Description', 'description'], ['Amount', 'amount'], ['Creator','creator.login'], ['Expense Group','expensegroup.name']] , 
+   :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id'],'expensegroup.name' => ['expenses.expensegroup_id']},
+   :include_relations => [:creator,:expensegroup] , :per_page => 15,        
+   :conditions => ['expensegroup_id IN (?)',user.expensegroup_ids],
+   :default_sort => ['reference_date', 'DESC'] }
+   get_sorted_objects(p,options)    
 end
  
 #mi sa che questa parte complicatissima non serve :D io la lascio perchè non saprei riscriverla!!

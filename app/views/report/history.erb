@@ -6,8 +6,8 @@
 <script>
   <% for group in @history.keys %>  
       var data<%=h group.id %>= [
-      <% @history[group].keys.sort.each do |date| %>
-        [Date.parse('<%= date %>'), <%= @history[group][date] %>],
+      <% for date in @history[group].keys.sort.reverse %>
+        [ Date.parse('<%= date %>'), <%= @history[group][date] %>],
       <% end %>
       ];  
   <% end %>
@@ -21,17 +21,47 @@
              { lines: { show: true },
                points: { show: true },
                // selection: { mode: "xy" },
+               legend: { position: 'nw' },
                grid: { hoverable: true, clickable: true },
                //yaxis: { min: -1.2, max: 1.2 }
-               xaxis: { tickDecimals: 0 }
+               xaxis: { mode: 'time' },
                });
 
-   $("#plot-container").bind("plotclick", function (event, pos, item) {
-     if (item) {
-       plot.highlight(item.series, item.datapoint);
-       var date = item.datapoint[0]
-       $("#space").load('<%= url_for :controller=>'report', :action=>'expense_list_date' %>/' + date)
-       }
+  function showTooltip(date, x, y) {
+    // TODO the date works without formatting probably only chrome?
+    var params = {date:date};
+    var url = '<%= url_for(:action => 'list') %>/?' + $.param(params);
+    $('<div id="tooltip">'+'</div>').css( {
+      position: 'absolute',
+      display: 'none',
+      top: y + 5,
+      left: x + 5,
+      border: '1px solid #fdd',
+      padding: '2px',
+      'background-color': '#fee',
+      opacity: 0.80
+    }).appendTo("body").load(url).fadeIn(200);
+  }
+
+   var previousPoint = null;
+   $("#plot-container").bind("plothover", function (event, pos, item) {
+      if(item){
+        if (previousPoint != item.datapoint) {
+            previousPoint = item.datapoint;
+            $("#tooltip").remove();
+            var selectedDate = new Date(item.datapoint[0]);
+            showTooltip(selectedDate, pos.pageX, pos.pageY);
+        }
+      } else {
+        $("#tooltip").remove();
+        previousPoint = null;
+      }
+   });
+   
+   $("#plot-container").bind("plothover",  function (event, pos, item) {
+       latestPosition = pos;
+       // if (!updateLegendTimeout)
+       //     updateLegendTimeout = setTimeout(updateLegend, 50);
    });
 
 

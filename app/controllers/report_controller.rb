@@ -38,7 +38,10 @@ class ReportController < ApplicationController
     for g in @expensegroups
       total = 0
       group_stats = {}
-      for e in Expense.between(start_date, end_date).related_to_group(g)
+      expense_list = Expense.between(start_date, end_date).related_to_group(g)
+      # WARNING : the oreder metter because i'm using a single variable to 
+      # sum and subtract the total for the group
+      for e in expense_list.all(:order => 'reference_date ASC')
         total += e.influence current_user
         group_stats[e.reference_date] = total
       end
@@ -47,6 +50,13 @@ class ReportController < ApplicationController
       end
     end
     
+  end
+  
+  def list
+    # TODO filter the response by expensegroup
+    @date = DateTime.parse params[:date]
+    @expenses = Expense.between(@date-1.day, @date)
+    render :layout=>false
   end
   
   def category_report
