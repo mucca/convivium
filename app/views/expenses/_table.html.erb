@@ -52,7 +52,7 @@
 
 <table width="100%" class='sortableTable' cellpadding="0" cellspacing="0">
   <thead>
-    <%= table_header %>  
+    <%= table_header %>
   </thead>
   <tbody>
 	<%if @objects.size == 0%>
@@ -66,13 +66,27 @@
              <td>
                <%= object.instance_eval(heading[1]) %>                  
              </td>  
-         <% end %>  
-         <td><%= link_to image_tag("icons/page.gif", :alt => t('show expense'), :title => t('show expense') ), object %></td>
-          <% if can_edit_expense object %>
-              <td><%= link_to image_tag("icons/page_edit.gif", :alt => t('edit expense'), :title => t('edit expense') ), edit_expense_path(object) %></td>
-              <td><%= link_to image_tag("icons/page_delete.gif", :alt => t('delete expense'), :title => t('edit expense') ), object, :confirm => t('Are you sure?'), :method => :delete %></td> 
+         <% end %>
+          <% if format_number object.influence(current_user) < 0 %>
+          <td class="influence-column negative-influence">
+            <%= format_number object.influence(current_user) %>
+          </td>
           <% else %>
-          <td></td><td></td>
+          <td class="influence-column positive-influence">
+            +<%= object.influence(current_user) %>
+          </td>
+          <% end %>
+          <td class="users-column">
+            <% for user in object.users %>
+            <span><%= name_or_login user %></span>
+            <% end %>
+          </td>
+          <td><%= link_to image_tag("icons/page.gif", :alt => t('show expense'), :title => t('show expense') ), object %></td>
+          <% if can_edit_expense object %>
+            <td><%= link_to image_tag("icons/page_edit.gif", :alt => t('edit expense'), :title => t('edit expense') ), edit_expense_path(object) %></td>
+            <td><%= link_to image_tag("icons/page_delete.gif", :alt => t('delete expense'), :title => t('edit expense') ), object, :confirm => t('Are you sure?'), :method => :delete %></td>
+          <% else %>
+            <td></td><td></td>
           <% end %>
   		</tr>
 	<%  end

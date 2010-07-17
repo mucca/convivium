@@ -1,3 +1,5 @@
+include ApplicationHelper
+
 class ExpensesController < ApplicationController
 
   require_role :user
@@ -8,8 +10,7 @@ class ExpensesController < ApplicationController
   # GET /expenses.xml
   def index                        
      @user = User.find session[:user_id]
-     @expensegroups = @user.expensegroups
-     @totals = calculate_total_for Expense.last_month.related_to_group(@expensegroups)
+     @totals = calculate_total_for Expense.last_month.related_to_user(current_user)
     
      @expense = Expense.new :reference_date => Date.today  
      build_table @user,params
@@ -22,9 +23,8 @@ class ExpensesController < ApplicationController
            csv << ["Creation date", "Reference date", "Category", "Group", 
                    'User', "Description", "Amount"]
            Expense.all.each do |e|
-             csv << [ e.created_at, e.reference_date, e.category, 
-                      e.expensegroup.name, e.creator.login, e.description, 
-                      e.amount ]
+             csv << [ e.created_at, e.reference_date, e.category, e.creator.login, 
+                      e.description, e.amount ]
            end
          end
          send_data response,
@@ -70,7 +70,9 @@ class ExpensesController < ApplicationController
     if not user.has_role? :admin or not params[:expense][:creator_id]
       params[:expense][:creator_id] = user.id
     end 
-    @expense = Expense.new(params[:expense])
+    expense_data = params[:expense]
+    expense_data[:user_ids] = expense_data[:user_ids].split(',')
+    @expense = Expense.new(expense_data)
     
     respond_to do |format|
       if @expense.save
@@ -124,52 +126,44 @@ class ExpensesController < ApplicationController
     end
   end
   
-  def toggle_filter
-    respond_to do |format|
-        format.js { 
-            render :update do |page|
-              page["#{params[:id]}_filter_box"].toggle
-            end
-          }
-    end # end respond_to
-  end
-  
   def calculate_total_for(expense_list)
-    user = User.find session[:user_id]
+    user = current_user
     personal = 0
     shared = 0
     amounts = []
     for expense in expense_list
-      if expense.expensegroup.personal == user
+      if expense.users == [ user ]
         personal += expense.amount
       elsif true #expense.status == 'approved'
-        shared += expense.amount / expense.expensegroup.users.length
+        shared += expense.amount / expense.users.length
       end
-       
     end
     total = shared + personal
     return { :personal => personal, :shared => shared, :total => total }
   end
-    
+  
+  def users_autocomplete
+    @response = []
+    q = '%' + params[:q] + '%'
+    for user in User.find :all, :conditions => [ "email LIKE ? OR login LIKE ? OR name LIKE ?", q,q,q ]
+      @response.push({ :id => user.id, :name => name_or_login(user) })
+    end
+    respond_to do |format|
+      format.js { render :json => @response.to_json() }
+    end
+  end
 end   
 
 def build_table (user,p = params)
-  options = {:table_headings => [['Reference date', 'reference_date'],['Description', 'description'], ['Amount', 'amount'], ['Creator','creator.login'], ['Expense Group','expensegroup.name']] , 
-   :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id'],'expensegroup.name' => ['expenses.expensegroup_id']},
-   :include_relations => [:creator,:expensegroup] , :per_page => 15,        
-   :conditions => ['expensegroup_id IN (?)',user.expensegroup_ids],
+  options = {
+   :table_headings => [['Reference date', 'reference_date'],
+                       ['Description', 'description'], 
+                       ['Creator','creator.login'],
+                       ['Amount', 'amount']], 
+   :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id']},
+   :include_relations => [:creator] , 
+   :per_page => 15,        
+   :conditions => [],
    :default_sort => ['reference_date', 'DESC'] }
    get_sorted_objects(p,options)    
-end
- 
-#mi sa che questa parte complicatissima non serve :D io la lascio perchè non saprei riscriverla!!
-
-class Hashit
-  def initialize(hash)
-    hash.each do |k,v|
-      self.instance_variable_set("@#{k}", v)  ## create and initialize an instance variable for this key/value pair
-      self.class.send(:define_method, k, proc{self.instance_variable_get("@#{k}")})  ## create the getter that returns the instance variable
-      self.class.send(:define_method, "#{k}=", proc{|v| self.instance_variable_set("@#{k}", v)})  ## create the setter that sets the instance variable
-    end
-  end
 end

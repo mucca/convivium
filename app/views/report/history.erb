@@ -4,16 +4,16 @@
 <div id="plot-container" style="width:600px;height:300px;"></div>
 <div id="space"></div>
 <script>
-  <% for group in @history.keys %>  
-      var data<%=h group.id %>= [
-      <% for date in @history[group].keys.sort.reverse %>
-        [ Date.parse('<%= date %>'), <%= @history[group][date] %>],
+  <% for user in @history.keys %>  
+      var data<%=h user.id %>= [
+      <% for date in @history[user].keys.sort.reverse %>
+        [ Date.parse('<%= date %>'), <%= @history[user][date] %>],
       <% end %>
       ];  
   <% end %>
   var dataset = [
-    <% for group in @history.keys %>
-      { data: data<%=h group.id %>, label: "<%=h group.name %>"},
+    <% for user in @history.keys %>
+      { data: data<%=h user.id %>, label: "<%=h name_or_login user %>"},
     <% end %>
   ];
   var plot = $.plot($("#plot-container"),

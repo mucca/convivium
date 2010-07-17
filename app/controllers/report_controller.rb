@@ -11,15 +11,14 @@ class ReportController < ApplicationController
     
     start_date = Date.new y = @year, m=1, d=1
     end_date = start_date + 1.year
-    @expensegroups = @user.expensegroups
-    @expenses = Expense.find :all, :conditions => { :expensegroup_id => @expensegroups , :reference_date=>start_date..end_date}, :order=>'reference_date'
+    @expenses = Expense.find :all, :conditions => {:reference_date=>start_date..end_date}, :order=>'reference_date'
     @monthly_expense = {}
     for ex in @expenses
       key = ex.reference_date.month# "#{ex.reference_date.month}-#{ex.reference_date.year}"
       if not @monthly_expense.keys.include? key
         @monthly_expense[key] = 0
       end
-      @monthly_expense[key] += ex.amount / ex.expensegroup.users.length 
+      @monthly_expense[key] += ex.amount / ex.users.length 
     end
   end
   
@@ -30,30 +29,25 @@ class ReportController < ApplicationController
     else
       @year = Date.today.year
     end
-    
     start_date = Date.new y = @year, m=1, d=1
     end_date = start_date + 1.year - 1.day
-    @expensegroups = @user.expensegroups
-    @history = {}
-    for g in @expensegroups
-      total = 0
-      group_stats = {}
-      expense_list = Expense.between(start_date, end_date).related_to_group(g)
+    for user in User.all
+      @history = {}
+      user_total = 0
+      user_stats = {}
+      expense_list = Expense.between(start_date, end_date).related_to_user(@user)
       # WARNING : the oreder metter because i'm using a single variable to 
-      # sum and subtract the total for the group
-      for e in expense_list.all(:order => 'reference_date ASC')
-        total += e.influence current_user
-        group_stats[e.reference_date] = total
+      # sum and subtract the user_total for the group
+      for e in expense_list.related_to_user(user).all(:order => 'reference_date ASC')
+        user_total += e.influence @user
+        user_stats[e.reference_date] = user_total
       end
-      if not group_stats.empty? and not g.personal
-        @history[g] = group_stats
-      end
+      @history[user] = user_stats
     end
-    
   end
   
   def list
-    # TODO filter the response by expensegroup
+    # TODO filter the expenses the user can see
     @date = DateTime.parse params[:date]
     @expenses = Expense.between(@date-1.day, @date)
     render :layout=>false
@@ -61,14 +55,13 @@ class ReportController < ApplicationController
   
   def category_report
     @user = current_user
-    @expensegroups = @user.expensegroups
-    @expenses = Expense.find :all, :conditions => { :expensegroup_id => @expensegroups }, :order=>'reference_date'
+    @expenses = Expense.find :all, :conditions => {}, :order=>'reference_date'
     categories = {}
     for ex in @expenses:
       if categories.keys.include? ex.category.name
         categories[ex.categoty.name] = 0
       end
-      categories[key] += ex.amount / ex.expensegroup.users.length 
+      categories[key] += ex.amount / ex.users.length 
     end
     for category in categories.keys
     end
@@ -77,10 +70,9 @@ class ReportController < ApplicationController
   def expense_list_month
     month = Integer(params[:id])
     @user = current_user
-    @expensegroups = @user.expensegroups
     start_date = Date.new y=Date.today.year, m=month, d=1
     end_date = start_date + 1.month - 1.day
-    @expenses = Expense.find :all, :conditions => { :expensegroup_id => @expensegroups, :reference_date=>start_date..end_date }, :order=>'reference_date'
+    @expenses = Expense.find :all, :conditions => { :reference_date=>start_date..end_date }, :order=>'reference_date'
     render :layout=>false 
   end
 

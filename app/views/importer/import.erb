@@ -5,7 +5,7 @@
         <%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker", :id=>'expense_reference_date_'+form_id %>
         <%= f.text_field :description, :size=>20 %>
         <%= f.select :category_id , get_user_categories_for_expense(expense).collect {|p| [ p.name, p.id ] } , { } %>
-        <%= f.select :expensegroup_id ,  get_user_expensegroups.collect {|p| [ p.name, p.id ] } , { } %>
+        <%= f.text_field :user_ids %>
         <%= f.text_field :amount, :size=>9 %>
         <%= submit_tag "add", :class=> 'ui-corner-all' %>
         <%= submit_tag "skip", :class=> 'ui-corner-all skip-import-submit' %>
