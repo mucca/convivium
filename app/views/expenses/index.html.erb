@@ -45,6 +45,12 @@
 
     <h3><%= t 'Status' %></h3>
     <table>
+      <% for user, amount in get_credit_status.to_a %>
+        <tr>
+          <td><%= name_or_login user %></td>
+          <td><%= amount %></td>
+        </tr>
+      <% end %>
       <!-- TODO create the status table based on the new grouping functionality -->
     </table>
 <% end %><!-- end portlets space -->
