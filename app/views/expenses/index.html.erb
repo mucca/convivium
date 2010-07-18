@@ -8,8 +8,6 @@
 <div class="inline_form">
 	<% if has_role? :admin %>
 	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
-	<% else %>
-	    current_user.login
 	<% end %>
 </div>
 <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
