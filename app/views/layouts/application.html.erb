@@ -45,6 +45,7 @@
         }
       }
       $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
+      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
     });
   </script>
   

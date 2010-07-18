@@ -1,6 +1,7 @@
 class ExpensegroupsController < ApplicationController
   
-  require_role :admin
+  include AuthenticatedSystem
+  before_filter :check_administrator_role
 
   # GET /expensegroups
   # GET /expensegroups.xml

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100717133912) do
+ActiveRecord::Schema.define(:version => 20100718193240) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20100717133912) do
     t.boolean  "disabled"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_manager_id"
   end
 
   create_table "expensegroups_users", :id => false, :force => true do |t|

@@ -1,13 +1,6 @@
 <h1>Editing expensegroup</h1>
 
-<% form_for(@expensegroup) do |f| %>
-  <%= f.error_messages %>
-
-  <%= render :partial => 'form' , :locals => {:f => f} %>
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
-<% end %>
+  <%= render :partial => 'form' , :locals => {:expensegroup => @expensegroup} %>
 
 <%= link_to 'Show', @expensegroup %> |
 <%= link_to 'Back', expensegroups_path %>
