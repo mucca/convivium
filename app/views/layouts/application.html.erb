@@ -6,7 +6,15 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>
     Convivium - <%= controller.controller_name %>:<%= controller.action_name %>
-  </title>
+  </title>     
+  <%= stylesheet_link_tag 'print' %>     
+  <%= stylesheet_link_tag 'screen' %>   
+  <%= stylesheet_link_tag 'style' %>   
+  <!--[if IE]>           
+  <%= stylesheet_link_tag 'ie' %>     
+  <![endif]-->       
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'global' %>
   <%= stylesheet_link_tag 'jquery-ui.css' %>
   <%= stylesheet_link_tag 'jquery.gritter.css' %>
   <%= stylesheet_link_tag 'token-input.css' %>
@@ -37,6 +45,7 @@
         }
       }
       $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
+      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
     });
   </script>
   
