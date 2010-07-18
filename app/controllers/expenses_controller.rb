@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
 
-  require_role :user
+  before_filter :login_required
   require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_owner?(params[:id],Expense)"
   sortable_table Expense   
   
