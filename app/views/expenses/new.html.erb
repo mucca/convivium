@@ -19,8 +19,8 @@
 	<%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %>		
   </p>  
   <p>
-	<%= f.label :expensegroup %><br />
-	<%= f.select :expensegroup_id ,  get_user_expensegroups.collect {|p| [ p.name, p.id ] } , { } %>
+	<%= f.label :users %><br />
+	<%= f.text_field :user_ids %>
   </p>
   <p>
 	<%= f.label :notes %><br />

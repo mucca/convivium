@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :expensegroups
   map.resources :categories
+  map.connect 'expenses/users_autocomplete', :controller => 'expenses', :action => 'users_autocomplete'
   map.resources :expenses
   
   map.signup '/signup', :controller => 'users', :action => 'new'

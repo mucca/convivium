@@ -1,14 +1,12 @@
-<b>For date <%=h @date %></b>
+<b>For date <%=h format_date @date %></b>
 <table>
 <% for expense in @expenses %>
   <tr>
     <td><%=h expense.creator.login %></td>
     <td>
-      <% if expense.expensegroup.personal %>
-           <%= t "Personal" %>
-       <% else %>
-           <%=h expense.expensegroup.name %>
-       <% end %>
+      <% for user in expense.users %>
+      <span><% name_or_login user %></span>
+      <% end %>
     </td>
     <td><%=h expense.description %></td>
     <td style="text-align:right"><%=h expense.influence current_user %></td>

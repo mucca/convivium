@@ -9,43 +9,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090505192845) do
+ActiveRecord::Schema.define(:version => 20100712211405) do
 
   create_table "categories", :force => true do |t|
-    t.string   "name"
-    t.integer  "creator_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "creator_id"
   end
 
   create_table "expensegroups", :force => true do |t|
-    t.string   "name"
-    t.integer  "personal_id"
-    t.boolean  "disabled"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "name"
+    t.integer   "personal_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.boolean   "disabled"
   end
 
   create_table "expensegroups_users", :id => false, :force => true do |t|
-    t.integer  "expensegroup_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "expensegroup_id"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "expenses", :force => true do |t|
-    t.string   "description"
-    t.float    "amount"
-    t.text     "notes"
-    t.text     "status"
-    t.text     "workflow"
-    t.datetime "reference_date"
-    t.integer  "creator_id"
-    t.integer  "category_id"
-    t.integer  "expensegroup_id"
-    t.integer  "personal_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "description"
+    t.float     "amount"
+    t.text      "notes"
+    t.text      "status"
+    t.text      "workflow"
+    t.timestamp "reference_date"
+    t.integer   "creator_id"
+    t.integer   "category_id"
+    t.integer   "expensegroup_id"
+    t.integer   "personal_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "expenses_users", :id => false, :force => true do |t|
+    t.integer "expense_id", :null => false
+    t.integer "user_id",    :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -61,15 +66,15 @@ ActiveRecord::Schema.define(:version => 20090505192845) do
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
+    t.string    "login",                     :limit => 40
+    t.string    "name",                      :limit => 100, :default => ""
+    t.string    "email",                     :limit => 100
+    t.string    "crypted_password",          :limit => 40
+    t.string    "salt",                      :limit => 40
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "remember_token",            :limit => 40
+    t.timestamp "remember_token_expires_at"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

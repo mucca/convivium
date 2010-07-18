@@ -13,7 +13,7 @@
 	<% end %>
 </div>
 <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
-<div class="inline_form"><%= f.select :expensegroup_id ,  get_user_expensegroups.collect {|p| [ p.name, p.id ] } , { } %></div>
+<div class="inline_form"><%= f.text_field :user_ids %></div>
 <div class="inline_form"><%= submit_tag "add"%></div>
 <div class="inline_form inline_form_last"></div>
 <% end %>
@@ -45,21 +45,7 @@
 
     <h3><%= t 'Status' %></h3>
     <table>
-        <% for group in get_user_expensegroups %>
-            <% if not group.personal %>
-                <% status = expensegroup_status group %>
-                <tr>
-                    <th align='left'><%= group.name.capitalize %></th>
-                    <td>
-                        <% if status > 0 %>
-                            + <%= number_with_precision status, :precision=> 2, :separator => '.' %>
-                        <% else %>
-                            - <%= number_with_precision (status + ( status * 2 * -1 )), :precision=> 2, :separator => '.' %>
-                        <% end %>
-                    </td>
-                </tr>
-            <% end %>
-        <% end %>
+      <!-- TODO create the status table based on the new grouping functionality -->
     </table>
 <% end %><!-- end portlets space -->
 

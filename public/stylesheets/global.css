@@ -49,6 +49,7 @@ table th {
 
 input {
     border:1px solid gray;
+    height:23px;
 }
 .mimetic {
     border:0 solid gray;
@@ -98,4 +99,8 @@ input.add_submit {
 
 .inline_form {
     float:left;
+}
+
+ul.token-input-list-facebook, div.token-input-dropdown-facebook{
+    width:250px;
 }

@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   # ---------------------------------------
   
   
-  
+  has_and_belongs_to_many :expenses
   
   include Authentication
   include Authentication::ByPassword
@@ -43,10 +43,8 @@ class User < ActiveRecord::Base
   
   has_many :expenses, :foreign_key=>:creator_id
   has_many :categories, :foreign_key=>:creator_id
-  has_and_belongs_to_many :expensegroups 
   
   after_save do |user| 
-    Expensegroup.create( :name=>user.login + " personal expense", :users=>[ user ], :personal=>user ) 
     user.roles << Role.find_by_name("admin")  # OK we need to know that admin role exists!!!!
   end   
   

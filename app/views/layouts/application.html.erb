@@ -17,19 +17,47 @@
   <%= stylesheet_link_tag 'global' %>
   <%= stylesheet_link_tag 'jquery-ui.css' %>
   <%= stylesheet_link_tag 'jquery.gritter.css' %>
-  <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag 'jquery.gritter.js' %>
-  <script>
-	$(document).ready(function(){
-	    $(".jquery-date-picker").each(function(){
-	        $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false })
-	    });
-	    $(".skip-import-submit").click(function(){
-	        $(this).parent('form').remove();
-	        return false;
-	    });   
-	})
+  <%= stylesheet_link_tag 'token-input.css' %>
+  <%= stylesheet_link_tag 'token-input-facebook.css' %>
 
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'global' %>
+
+  <%= javascript_include_tag :defaults %>  
+  <%= javascript_include_tag 'jquery.gritter.js' %>
+  <%= javascript_include_tag 'jquery.tokeninput.js' %>
+  
+  
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      var fb_style = {
+        classes: {
+            tokenList: "token-input-list-facebook",
+            token: "token-input-token-facebook",
+            tokenDelete: "token-input-delete-token-facebook",
+            selectedToken: "token-input-selected-token-facebook",
+            highlightedToken: "token-input-highlighted-token-facebook",
+            dropdown: "token-input-dropdown-facebook",
+            dropdownItem: "token-input-dropdown-item-facebook",
+            dropdownItem2: "token-input-dropdown-item2-facebook",
+            selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+            inputToken: "token-input-input-token-facebook"
+        }
+      }
+      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
+    });
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $(".jquery-date-picker").each(function(){
+            $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false })
+        });
+        $(".skip-import-submit").click(function(){
+            $(this).parent('form').remove();
+            return false;
+        });   
+    })
   </script>
 </head>
 <body>
@@ -39,7 +67,7 @@
         </ul>
 		<div id="actions-container">
         <% if current_user %>
-            <%= t 'Hi' %> <%= current_user.login %>
+            <%= t 'Hi' %> <%= name_or_login current_user %>
             <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
         <% end %>
         </div>
