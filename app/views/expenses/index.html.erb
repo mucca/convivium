@@ -25,29 +25,15 @@
 </div> 
 
 <% content_for :portlets do %>
-    <table>
-        <h3><%= t 'Expenses of last 30 days' %></h3>
-        <tr>
-            <th align='left'><%= t 'Personals' %>:</th>
-            <td align='right'><%= number_with_precision @totals[:personal], :precision=>2, :separator => '.' %></td>
-        </tr>
-        <tr>
-            <th align='left'><%= t 'Shared' %>:</th>
-            <td align='right'><%= number_with_precision @totals[:shared], :precision=>2, :separator => '.' %></td>
-        </tr>
-        <tr>
-            <th align='left'><%= t 'Total' %>: </th>
-            <td align='right'><%= number_with_precision @totals[:total], :precision=>2, :separator => '.' %></td>
-        </tr>
-    </table>
-
-    <h3><%= t 'Status' %></h3>
+    <h3><%= t 'Credit status' %></h3>
     <table>
       <% for user, amount in get_credit_status.to_a %>
+        <% if amount != 0 %>
         <tr>
           <td><%= name_or_login user %></td>
-          <td><%= amount %></td>
+          <td><% if amount > 0 %>+<% end %><%= amount %></td>
         </tr>
+        <% end %>
       <% end %>
       <!-- TODO create the status table based on the new grouping functionality -->
     </table>

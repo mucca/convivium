@@ -104,3 +104,17 @@ input.add_submit {
 ul.token-input-list-facebook, div.token-input-dropdown-facebook{
     width:250px;
 }
+
+td.users-column span {
+    background-color: #EFF2F7;
+    border: 1px solid #CCD5E4;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    padding:1px;
+}

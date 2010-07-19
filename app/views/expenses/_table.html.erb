@@ -79,7 +79,7 @@
           <td class="users-column">
             <% for user in object.users %>
             <span><%= name_or_login user %></span>
-            <% end %>
+            <% end %>              
           </td>
           <td><%= link_to image_tag("icons/page.gif", :alt => t('show expense'), :title => t('show expense') ), object %></td>
           <% if can_edit_expense object %>

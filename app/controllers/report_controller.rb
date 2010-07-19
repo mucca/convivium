@@ -1,5 +1,6 @@
 class ReportController < ApplicationController
-  require_role :user
+  
+  before_filter :login_required
   
   def expense_report
     @user = current_user
@@ -38,7 +39,7 @@ class ReportController < ApplicationController
       expense_list = Expense.between(start_date, end_date).related_to_user(@user)
       # WARNING : the oreder metter because i'm using a single variable to 
       # sum and subtract the user_total for the group
-      for e in expense_list.related_to_user(user).all(:order => 'reference_date ASC')
+      for e in expense_list.all(:order => 'reference_date ASC')
         user_total += e.influence @user
         user_stats[e.reference_date] = user_total
       end
