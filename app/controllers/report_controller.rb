@@ -32,18 +32,23 @@ class ReportController < ApplicationController
     end
     start_date = Date.new y = @year, m=1, d=1
     end_date = start_date + 1.year - 1.day
-    for user in User.all
-      @history = {}
-      user_total = 0
-      user_stats = {}
-      expense_list = Expense.between(start_date, end_date).related_to_user(@user)
-      # WARNING : the oreder metter because i'm using a single variable to 
-      # sum and subtract the user_total for the group
-      for e in expense_list.all(:order => 'reference_date ASC')
-        user_total += e.influence @user
-        user_stats[e.reference_date] = user_total
+    
+    user_total = {}
+    @history = {}
+    expense_list = Expense.between(start_date, end_date).related_to_user(@user)
+    for expense in expense_list.all(:order => 'reference_date ASC')
+      for user in expense.users
+        if user != current_user
+          if not user_total.include? user
+            user_total[user] = 0
+          end
+          if not @history.include? user
+            @history[user] = {}
+          end
+          user_total[user] += expense.influence current_user
+          @history[user][expense.reference_date] = user_total[user]
+        end
       end
-      @history[user] = user_stats
     end
   end
   
