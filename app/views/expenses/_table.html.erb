@@ -67,13 +67,13 @@
                <%= object.instance_eval(heading[1]) %>                  
              </td>  
          <% end %>
-          <% if format_number object.influence(current_user) < 0 %>
+          <% if object.influence(current_user) < 0 %>
           <td class="influence-column negative-influence">
             <%= format_number object.influence(current_user) %>
           </td>
           <% else %>
           <td class="influence-column positive-influence">
-            +<%= object.influence(current_user) %>
+            +<%= format_number object.influence(current_user) %>
           </td>
           <% end %>
           <td class="users-column">

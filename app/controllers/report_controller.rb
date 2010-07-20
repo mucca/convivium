@@ -55,8 +55,14 @@ class ReportController < ApplicationController
   def list
     # TODO filter the expenses the user can see
     @date = DateTime.parse params[:date]
-    @expenses = Expense.between(@date-1.day, @date)
-    render :layout=>false
+    @user = User.find(:first , :conditions=>{:id=>params[:user]})
+    @expenses = []
+    for expense in Expense.related_to_user(current_user).between(@date-1.day, @date)
+      if expense.users.include? @user
+        @expenses.push expense
+      end
+    end
+    render :layout => false
   end
   
   def category_report

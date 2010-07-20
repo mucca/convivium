@@ -13,44 +13,46 @@
   <% end %>
   var dataset = [
     <% for user in @history.keys %>
-      { data: data<%=h user.id %>, label: "<%=h name_or_login user %>"},
+      { data: data<%=h user.id %>, label: "<%=h name_or_login user %>", user_id:<%=h user.id %>},
     <% end %>
   ];
-  var plot = $.plot($("#plot-container"),
-             dataset,
-             { lines: { show: true },
-               points: { show: true },
-               // selection: { mode: "xy" },
-               legend: { position: 'nw' },
-               grid: { hoverable: true, clickable: true },
-               //yaxis: { min: -1.2, max: 1.2 }
-               xaxis: { mode: 'time' },
-               });
+  var options = { 
+     lines: { show: true },
+     points: { show: true },
+     // selection: { mode: "xy" },
+     legend: { position: 'nw' },
+     grid: { hoverable: true, clickable: true },
+     //yaxis: { min: -1.2, max: 1.2 }
+     xaxis: { mode: 'time' },
+   }
+   var container = $("#plot-container")
+  var plot = $.plot(container, dataset, options);
 
-  function showTooltip(date, x, y) {
+  function showTooltip(user_id, date, x, y) {
     // TODO the date works without formatting probably only chrome?
-    var params = {date:date};
+    var params = {date:date, user:user_id};
     var url = '<%= url_for(:action => 'list') %>/?' + $.param(params);
     $('<div id="tooltip">'+'</div>').css( {
-      position: 'absolute',
-      display: 'none',
-      top: y + 5,
-      left: x + 5,
-      border: '1px solid #fdd',
-      padding: '2px',
+      'position': 'absolute',
+      'display': 'none',
+      'top': y + 5,
+      'left': x + 5,
+      'border': '1px solid #fdd',
+      'padding': '2px',
       'background-color': '#fee',
-      opacity: 0.80
+      'opacity': 0.80
     }).appendTo("body").load(url).fadeIn(200);
   }
 
    var previousPoint = null;
    $("#plot-container").bind("plothover", function (event, pos, item) {
       if(item){
+        console.log(item);
         if (previousPoint != item.datapoint) {
             previousPoint = item.datapoint;
             $("#tooltip").remove();
             var selectedDate = new Date(item.datapoint[0]);
-            showTooltip(selectedDate, pos.pageX, pos.pageY);
+            showTooltip(item.series['user_id'], selectedDate, pos.pageX, pos.pageY);
         }
       } else {
         $("#tooltip").remove();

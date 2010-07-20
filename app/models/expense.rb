@@ -6,6 +6,10 @@ class Expense < ActiveRecord::Base
   
   validates_presence_of :amount, :description, :creator, :reference_date
   
+  def formatted_reference_date
+    format_date self.reference_date
+  end
+  
   def self.per_page
     15
   end

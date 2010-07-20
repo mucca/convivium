@@ -156,14 +156,17 @@ end
 
 def build_table (user,p = params)
   options = {
-   :table_headings => [['Reference date', 'reference_date'],
+   :table_headings => [['Reference date', 'formatted_reference_date'],
                        ['Description', 'description'], 
                        ['Creator','creator.login'],
                        ['Amount', 'amount']], 
-   :sort_map =>  {'reference_date' => ['expenses.reference_date'], 'description' => ['expenses.description'],'amount' => ['expenses.amount'],'creator.login' => ['expenses.creator_id']},
+   :sort_map =>  {'formatted_reference_date' => ['expenses.reference_date'], 
+                  'description' => ['expenses.description'],
+                  'amount' => ['expenses.amount'],
+                  'creator.login' => ['expenses.creator_id']},
    :include_relations => [:creator] , 
    :per_page => 15,        
    :conditions => [],
-   :default_sort => ['reference_date', 'DESC'] }
+   :default_sort => ['formatted_reference_date', 'DESC'] }
    get_sorted_objects(p,options)    
 end
