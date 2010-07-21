@@ -1,7 +1,8 @@
 class ExpensegroupsController < ApplicationController
   
   include AuthenticatedSystem
-  before_filter :check_administrator_role
+  before_filter :login_required
+  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_group_manager?(params[:id],Expensegroup) || current_user.is_owner?(params[:id],Expensegroup)"
 
   # GET /expensegroups
   # GET /expensegroups.xml
@@ -62,7 +63,7 @@ class ExpensegroupsController < ApplicationController
   # PUT /expensegroups/1.xml
   def update
     @expensegroup = Expensegroup.find(params[:id])
-
+    
     respond_to do |format|
       if @expensegroup.update_attributes(params[:expensegroup])
         flash[:notice] = 'Expensegroup was successfully updated.'

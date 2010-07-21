@@ -77,10 +77,15 @@
     <div id="column-content">
         <div style="clear:both"></div>
         <div class="flash notice" id='notice'>
-		<% if flash[:notice] %>
-        <%= flash[:notice] %>
+		    <% if flash[:notice] %>
+            <%= flash[:notice] %>
         <% end %>
-		</div>
+    		</div> 
+    		<div class="flash error" id='error'>
+    		  <% if flash[:error] %>
+              <%= flash[:error] %>
+          <% end %>
+    		</div>
 
         <%= yield %>
     </div>

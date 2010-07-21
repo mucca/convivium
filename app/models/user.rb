@@ -110,7 +110,29 @@ class User < ActiveRecord::Base
   def has_role?(rolename)
     self.roles.find_by_name(rolename) ? true : false
   end
-
+  
+  def is_owner?(id,model)
+    object = model.find id
+    if object.methods.include? 'creator'
+      if object.creator == self
+        true  
+      else
+        false
+      end
+   end        
+  end    
+  
+  def is_group_manager?(id,model)
+    object = model.find id
+    if object.methods.include? 'group_manager'
+      if object.group_manager == self
+        true  
+      else
+        false
+      end
+    end        
+  end
+  
   protected
     # before filter 
     def encrypt_password
