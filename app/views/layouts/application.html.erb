@@ -50,6 +50,7 @@
         <%= "prePopulate:  #@users_expensegroup, " if @users_expensegroup %>
         classes: token_classes
       }              
+      $("#expense_user_ids, #expensegroup_user_ids").val(""); /*I remove values from here because i will populate the tokenInput with json*/
       $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_settings);
       $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_groups_settings);
     }); 
