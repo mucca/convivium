@@ -60,7 +60,12 @@ class ExpensesController < ApplicationController
 
   # GET /expenses/1/edit
   def edit
-    @expense = Expense.find(params[:id])
+    @expense = Expense.find(params[:id])     
+    @users_expense = []
+    @expense.users.each do |user|
+      @users_expense.push({ :id => user.id, :name => name_or_login(user) })
+    end   
+    @users_expense = @users_expense.to_json
   end
 
   # POST /expenses

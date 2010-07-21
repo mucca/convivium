@@ -40,6 +40,11 @@ class ExpensegroupsController < ApplicationController
   # GET /expensegroups/1/edit
   def edit
     @expensegroup = Expensegroup.find(params[:id])
+    @users_expensegroup = []
+    @expensegroup.users.each do |user|
+      @users_expensegroup.push({ :id => user.id, :name => name_or_login(user) })
+    end   
+    @users_expensegroup = @users_expensegroup.to_json
   end
 
   # POST /expensegroups

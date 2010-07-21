@@ -30,23 +30,30 @@
   
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
-      var fb_style = {
-        classes: {
-            tokenList: "token-input-list-facebook",
-            token: "token-input-token-facebook",
-            tokenDelete: "token-input-delete-token-facebook",
-            selectedToken: "token-input-selected-token-facebook",
-            highlightedToken: "token-input-highlighted-token-facebook",
-            dropdown: "token-input-dropdown-facebook",
-            dropdownItem: "token-input-dropdown-item-facebook",
-            dropdownItem2: "token-input-dropdown-item2-facebook",
-            selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
-            inputToken: "token-input-input-token-facebook"
-        }
+      var token_classes = {
+          tokenList: "token-input-list-facebook",
+          token: "token-input-token-facebook",
+          tokenDelete: "token-input-delete-token-facebook",
+          selectedToken: "token-input-selected-token-facebook",
+          highlightedToken: "token-input-highlighted-token-facebook",
+          dropdown: "token-input-dropdown-facebook",
+          dropdownItem: "token-input-dropdown-item-facebook",
+          dropdownItem2: "token-input-dropdown-item2-facebook",
+          selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+          inputToken: "token-input-input-token-facebook"
       }
-      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
-      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
-    });
+      var expense_settings = {   
+        <%= "prePopulate:  #@users_expense, " if @users_expense %>
+        classes: token_classes
+      } 
+      var expense_groups_settings = {   
+        <%= "prePopulate:  #@users_expensegroup, " if @users_expensegroup %>
+        classes: token_classes
+      }              
+      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_settings);
+      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_groups_settings);
+    }); 
+    
   </script>
   
   <script type="text/javascript" charset="utf-8">
@@ -76,18 +83,18 @@
     </div>                
     <div id="column-content">
         <div style="clear:both"></div>
-        <div class="flash notice" id='notice'>
-		    <% if flash[:notice] %>
-            <%= flash[:notice] %>
-        <% end %>
-    		</div> 
-    		<div class="flash error" id='error'>
-    		  <% if flash[:error] %>
-              <%= flash[:error] %>
-          <% end %>
-    		</div>
+        
+    <% if flash[:notice] %>
+      <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
+    <% end %>
 
-        <%= yield %>
+
+    <% if flash[:error] %>    
+      <div class="flash error" id='error'><%= flash[:error] %></div>
+    <% end %> 
+          
+    <%= yield %> 
+        
     </div>
     <div id="column-right">
         <ul>
