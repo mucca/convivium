@@ -71,7 +71,10 @@ class ExpensesController < ApplicationController
       params[:expense][:creator_id] = user.id
     end 
     expense_data = params[:expense]
-    expense_data[:user_ids] = expense_data[:user_ids].split(',')
+    expense_data[:user_ids] = Set.new(expense_data[:user_ids].split(','))
+    if not expense_data[:user_ids].include? params[:expense][:creator_id]
+      expense_data[:user_ids].add(params[:expense][:creator_id])
+    end
     @expense = Expense.new(expense_data)
     
     respond_to do |format|

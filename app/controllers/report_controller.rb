@@ -12,7 +12,7 @@ class ReportController < ApplicationController
     
     start_date = Date.new y = @year, m=1, d=1
     end_date = start_date + 1.year
-    @expenses = Expense.find :all, :conditions => {:reference_date=>start_date..end_date}, :order=>'reference_date'
+    @expenses = Expense.related_to_user(current_user).between(start_date, end_date)
     @monthly_expense = {}
     for ex in @expenses
       key = ex.reference_date.month# "#{ex.reference_date.month}-#{ex.reference_date.year}"

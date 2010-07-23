@@ -122,3 +122,9 @@ td.users-column span {
     border-top-right-radius: 5px 5px;
     padding:1px;
 }
+
+ul.expense-year-list {
+    list-style-type: none;
+}
+ul.expense-year-list li {
+    display:inline;

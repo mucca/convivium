@@ -31,7 +31,7 @@
         <% if amount != 0 %>
         <tr>
           <td><%= name_or_login user %></td>
-          <td><% if amount > 0 %>+<% end %><%= amount %></td>
+          <td><% if amount > 0 %>+<% end %><%= format_number amount %></td>
         </tr>
         <% end %>
       <% end %>
