@@ -111,6 +111,14 @@ class User < ActiveRecord::Base
     self.roles.find_by_name(rolename) ? true : false
   end
 
+  def is_owner?(id, model)
+    ob = model.find :first, :conditions=>{:id=>id}
+    if self.has_role? :admin
+      return True
+    end
+    ob.creator == self
+  end
+
   protected
     # before filter 
     def encrypt_password
