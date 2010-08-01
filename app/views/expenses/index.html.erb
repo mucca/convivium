@@ -11,7 +11,8 @@
 	<% end %>
 </div>
 <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
-<div class="inline_form"><%= f.text_field :user_ids %></div>
+<div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]} %></div>
+<div class="inline_form"><%= f.select :expensegroup_ids, [] %></div>     
 <div class="inline_form"><%= submit_tag "add"%></div>
 <div class="inline_form inline_form_last"></div>
 <% end %>

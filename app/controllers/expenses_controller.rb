@@ -63,8 +63,8 @@ class ExpensesController < ApplicationController
     @expense = Expense.find(params[:id])     
     @users_expense = []
     @expense.users.each do |user|
-      @users_expense.push({ :id => user.id, :name => name_or_login(user) })
-    end   
+        @users_expense.push({:title => name_or_login(user), :value => user.id})
+    end  
     @users_expense = @users_expense.to_json
   end
 
@@ -76,7 +76,6 @@ class ExpensesController < ApplicationController
       params[:expense][:creator_id] = user.id
     end 
     expense_data = params[:expense]
-    expense_data[:user_ids] = expense_data[:user_ids].split(',')
     @expense = Expense.new(expense_data)
     
     respond_to do |format|
@@ -149,13 +148,37 @@ class ExpensesController < ApplicationController
   
   def users_autocomplete
     @response = []
-    q = '%' + params[:q] + '%'
-    for user in User.find :all, :conditions => [ "email LIKE ? OR login LIKE ? OR name LIKE ?", q,q,q ]
-      @response.push({ :id => user.id, :name => name_or_login(user) })
+    for user in User.find :all
+      @response.push({:caption => name_or_login(user), :value => user.id})
     end
     respond_to do |format|
       format.js { render :json => @response.to_json() }
     end
+  end   
+
+def group_users
+    @response = []     
+    if params[:group_id]  
+      expensegroup = Expensegroup.find(params[:group_id])     
+    
+      for user in expensegroup.users
+        @response.push({:title => name_or_login(user), :value => user.id})
+      end  
+    end
+       
+    respond_to do |format|
+      format.js { render :json => @response.to_json() }
+    end
+end
+
+def groups_autocomplete
+      @response = []
+      for group in Expensegroup.find :all
+        @response.push({:caption => group.name, :value => group.id})
+      end
+      respond_to do |format|
+        format.js { render :json => @response.to_json() }
+      end
   end
 end   
 

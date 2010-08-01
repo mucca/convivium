@@ -1,8 +1,9 @@
 class Expense < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
   belongs_to :category
-  belongs_to :expensegroup  
-  has_and_belongs_to_many :users, :uniq => true
+
+  has_and_belongs_to_many :users, :uniq => true     
+  has_and_belongs_to_many :expensegroups, :uniq => true 
   
   validates_presence_of :amount, :description, :creator, :reference_date
   

@@ -17,42 +17,68 @@
   <%= stylesheet_link_tag 'global' %>
   <%= stylesheet_link_tag 'jquery-ui.css' %>
   <%= stylesheet_link_tag 'jquery.gritter.css' %>
-  <%= stylesheet_link_tag 'token-input.css' %>
-  <%= stylesheet_link_tag 'token-input-facebook.css' %>
 
   <%= stylesheet_link_tag 'scaffold' %>
   <%= stylesheet_link_tag 'global' %>
 
   <%= javascript_include_tag :defaults %>  
   <%= javascript_include_tag 'jquery.gritter.js' %>
-  <%= javascript_include_tag 'jquery.tokeninput.js' %>
+  <%= javascript_include_tag 'jquery.fcbkcomplete.js' %>
   
   
   <script type="text/javascript" charset="utf-8">
-    $(document).ready(function(){
-      var token_classes = {
-          tokenList: "token-input-list-facebook",
-          token: "token-input-token-facebook",
-          tokenDelete: "token-input-delete-token-facebook",
-          selectedToken: "token-input-selected-token-facebook",
-          highlightedToken: "token-input-highlighted-token-facebook",
-          dropdown: "token-input-dropdown-facebook",
-          dropdownItem: "token-input-dropdown-item-facebook",
-          dropdownItem2: "token-input-dropdown-item2-facebook",
-          selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
-          inputToken: "token-input-input-token-facebook"
-      }
-      var expense_settings = {   
-        <%= "prePopulate:  #@users_expense, " if @users_expense %>
-        classes: token_classes
-      } 
-      var expense_groups_settings = {   
-        <%= "prePopulate:  #@users_expensegroup, " if @users_expensegroup %>
-        classes: token_classes
-      }              
-      $("#expense_user_ids, #expensegroup_user_ids").val(""); /*I remove values from here because i will populate the tokenInput with json*/
-      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_settings);
-      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_groups_settings);
+    $(document).ready(function(){    
+      
+      function push_group_users(item) {
+        var item = eval("item=" + item);    
+        $.ajax({
+          url: "<%= url_for :controller => 'expenses', :action => 'group_users' %>",
+          data: "group_id=" + item._value,
+          dataType: "html",
+          success: function(data) {            
+            $("#expense_user_ids").trigger("addItem", [eval(data)]);
+          }
+        });
+      }                   
+      
+      $("#expense_user_ids, #expensegroup_user_ids").val("").html("");        
+      $("#expense_user_ids").fcbkcomplete({
+        json_url: "<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>",
+        cache: true,
+        filter_case: true,
+        filter_hide: true,
+        newel: false
+      });   
+      
+      $("#expensegroup_user_ids").fcbkcomplete({
+        json_url: "<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>",
+        cache: true,
+        filter_case: true,
+        filter_hide: true,
+        newel: false
+      });   
+      
+      $("#expense_expensegroup_ids").fcbkcomplete({
+        json_url: "<%= url_for :controller => 'expenses', :action => 'groups_autocomplete' %>",
+        cache: true,                                    
+        onselect: push_group_users,
+        filter_case: true,
+        filter_hide: true,
+        newel: false
+      });
+                 
+      <% if @users_expense %>
+      $("#expense_user_ids").trigger("addItem", [<%= @users_expense %>]);  
+      <% end %>
+      
+      <% if @users_expensegroup %>
+      $("#expensegroup_user_ids").trigger("addItem", [<%= @users_expensegroup %>]);
+      <% end %>
+      
+      <% if @expense_expensegroup %>
+      $("#expense_expensegroup_ids").trigger("addItem", [<%= @expense_expensegroup %>]);    
+      <% end %>
+      
     }); 
     
   </script>
