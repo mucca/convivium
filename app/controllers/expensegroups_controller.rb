@@ -42,7 +42,7 @@ class ExpensegroupsController < ApplicationController
     @expensegroup = Expensegroup.find(params[:id])
     @users_expensegroup = []
     @expensegroup.users.each do |user|
-      @users_expensegroup.push({ :id => user.id, :name => name_or_login(user) })
+      @users_expensegroup.push({ :value => user.id, :title => name_or_login(user) })
     end   
     @users_expensegroup = @users_expensegroup.to_json
   end

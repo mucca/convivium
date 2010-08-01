@@ -49,7 +49,8 @@ $.TokenList = function (input, settings) {
     // Variables
     //
 
-    // Input box position "enum"
+    // Input box position "enum"    
+    console.log(this)
     var POSITION = {
         BEFORE: 0,
         AFTER: 1,
