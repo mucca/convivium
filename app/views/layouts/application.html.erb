@@ -7,7 +7,7 @@
   <title>
     Convivium - <%= controller.controller_name %>:<%= controller.action_name %>
   </title>     
-  <%= stylesheet_link_tag 'print' %>     
+  <% stylesheet_link_tag 'print' %>     
   <%= stylesheet_link_tag 'screen' %>   
   <%= stylesheet_link_tag 'style' %>   
   <!--[if IE]>           
@@ -15,7 +15,7 @@
   <![endif]-->       
   <%= stylesheet_link_tag 'scaffold' %>
   <%= stylesheet_link_tag 'global' %>
-  <%= stylesheet_link_tag 'jquery-ui.css' %>
+  <%= stylesheet_link_tag 'flick/jquery-ui.css' %>
   <%= stylesheet_link_tag 'jquery.gritter.css' %>
   <%= stylesheet_link_tag 'token-input.css' %>
   <%= stylesheet_link_tag 'token-input-facebook.css' %>
@@ -30,23 +30,31 @@
   
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
-      var fb_style = {
-        classes: {
-            tokenList: "token-input-list-facebook",
-            token: "token-input-token-facebook",
-            tokenDelete: "token-input-delete-token-facebook",
-            selectedToken: "token-input-selected-token-facebook",
-            highlightedToken: "token-input-highlighted-token-facebook",
-            dropdown: "token-input-dropdown-facebook",
-            dropdownItem: "token-input-dropdown-item-facebook",
-            dropdownItem2: "token-input-dropdown-item2-facebook",
-            selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
-            inputToken: "token-input-input-token-facebook"
-        }
+      var token_classes = {
+          tokenList: "token-input-list-facebook",
+          token: "token-input-token-facebook",
+          tokenDelete: "token-input-delete-token-facebook",
+          selectedToken: "token-input-selected-token-facebook",
+          highlightedToken: "token-input-highlighted-token-facebook",
+          dropdown: "token-input-dropdown-facebook",
+          dropdownItem: "token-input-dropdown-item-facebook",
+          dropdownItem2: "token-input-dropdown-item2-facebook",
+          selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
+          inputToken: "token-input-input-token-facebook"
       }
-      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
-      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", fb_style);
-    });
+      var expense_settings = {   
+        <%= "prePopulate:  #@users_expense, " if @users_expense %>
+        classes: token_classes
+      } 
+      var expense_groups_settings = {   
+        <%= "prePopulate:  #@users_expensegroup, " if @users_expensegroup %>
+        classes: token_classes
+      }              
+      $("#expense_user_ids, #expensegroup_user_ids").val(""); /*I remove values from here because i will populate the tokenInput with json*/
+      $("#expense_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_settings);
+      $("#expensegroup_user_ids").tokenInput("<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>", expense_groups_settings);
+    }); 
+    
   </script>
   
   <script type="text/javascript" charset="utf-8">
@@ -63,32 +71,30 @@
 </head>
 <body>
 <div id="main-container">
-	<div id="top-menu">
-        <ul>
-        </ul>
-		<div id="actions-container">
+    <div id="top-menu">
+    <h1>Convivium</h1>
+    <div id="actions-container">
         <% if current_user %>
             <%= t 'Hi' %> <%= name_or_login current_user %>
             <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
         <% end %>
         </div>
         <div style="clear:both"></div>
-    </div>                
-    <div id="column-content">
-        <div style="clear:both"></div>
-        <div class="flash notice" id='notice'>
-		<% if flash[:notice] %>
-        <%= flash[:notice] %>
-        <% end %>
-		</div>
-
-        <%= yield %>
     </div>
+    
+    <% if current_user %>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+        $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} }
+        );
+      });
+    </script>
+    
     <div id="column-right">
         <ul>
-            <li><%= link_to t("Report"), :controller => "expenses" , :action => "index" %></li>
-            <li><%= link_to t("Complete report"), :controller => "report" , :action => "expense_report" %></li>
-            <li><%= link_to t("History"), :controller => "report" , :action => "history" %></li>
+            <li><%= link_to t("Report"), {:controller => "expenses" , :action => "index"} %></li>
+            <li><%= link_to t("Complete report"), {:controller => "report" , :action => "expense_report"} %></li>
+            <li><%= link_to t("History"), {:controller => "report" , :action => "history"} %></li>
             <li><%= link_to t("Add expense"), { :controller => "expenses" , :action => "new"} %></li>
             <li><%= link_to t("Expense groups"), { :controller => "expensegroups" , :action => "index"} %></li>
             <li><%= link_to t("Categories"), { :controller => "categories" , :action => "index"} %></li>
@@ -96,6 +102,20 @@
         <div id="portlets-container">
         <%= yield :portlets %>
         </div>
+    </div>
+    <% end %>
+
+    <div id="column-content" class="ui-corner-all">
+      <% if flash[:notice] %>
+        <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
+      <% end %>
+
+
+      <% if flash[:error] %>    
+        <div class="flash error" id='error'><%= flash[:error] %></div>
+      <% end %> 
+          
+      <%= yield %>         
     </div>
 </div>
 

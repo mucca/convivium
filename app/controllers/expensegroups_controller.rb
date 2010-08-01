@@ -1,7 +1,8 @@
 class ExpensegroupsController < ApplicationController
   
   include AuthenticatedSystem
-  before_filter :check_administrator_role
+  before_filter :login_required
+  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_group_manager?(params[:id],Expensegroup) || current_user.is_owner?(params[:id],Expensegroup)"
 
   # GET /expensegroups
   # GET /expensegroups.xml
@@ -39,6 +40,11 @@ class ExpensegroupsController < ApplicationController
   # GET /expensegroups/1/edit
   def edit
     @expensegroup = Expensegroup.find(params[:id])
+    @users_expensegroup = []
+    @expensegroup.users.each do |user|
+      @users_expensegroup.push({ :id => user.id, :name => name_or_login(user) })
+    end   
+    @users_expensegroup = @users_expensegroup.to_json
   end
 
   # POST /expensegroups
@@ -62,7 +68,7 @@ class ExpensegroupsController < ApplicationController
   # PUT /expensegroups/1.xml
   def update
     @expensegroup = Expensegroup.find(params[:id])
-
+    
     respond_to do |format|
       if @expensegroup.update_attributes(params[:expensegroup])
         flash[:notice] = 'Expensegroup was successfully updated.'

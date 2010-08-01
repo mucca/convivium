@@ -1,130 +1,107 @@
 body {
+    font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
     margin:0;
     padding:0;
+    background:#E7E7E7;
 }
 
-#main-container {
-    margin:auto;
-}
-#column-right{
-    position:absolute;
-    float:left;
-    right:0;
-/*    padding:1em;*/
-    width:13em;
-    margin-bottom:0;
-    height:100%;
-    border-left:3px solid #063A0D;
-    border-bottom:20px solid #063A0D;
-}
-#column-content{
-    float:left;
-    margin-left:2em;
-    width:750px;
-}
-#top-menu {
-    background-color:#063A0D;
-    padding:0.5em;
+a {
+    color: #c75f3e;
 }
 
-#top-menu ul {
-    display:inline;
-    margin:0.5em;
-} 
-
-#top-menu ul li {
-    size:+2;
-    list-style: none;
-    float:left;
-    padding: 0 1em 0 1em;
-    border: 1px solid black;
+div#top-menu {
+    padding:5px 10px;
+    background:#283331;
+    text-align:right;
+}
+div#top-menu h1 {
+    margin-top:0;
+    padding-top:0.25em;
+    text-align:left;
 }
 
-img {
-    border:0px solid transparent;
-}
-
-table th {
-}
-
-input {
-    border:1px solid gray;
-    height:23px;
-}
-.mimetic {
-    border:0 solid gray;
-    width:100px;
-}
-
-#actions-container{
-    float:right;
+div#actions-container {
+    margin-right:10px;
     color:white;
 }
 
-#actions-container a {
-    color:yellow;
+#column-right ul{
+    margin:0;
+    padding-top:5px;
+    height:35px;
+    background:#5E5E5E;
 }
 
-#portlets-container h3 {
-    color:#063A0D;
-    margin-left:0;
-/*    background-color:#063A0D;*/
+#column-right ul li{
+    display: inline;
+    vertical-align:middle;
 }
 
-#portlets-container {
-    padding-left:1em;
+div#column-content {
+    background:white;
+    width:95%;
+    border:1px solid #A6A6A6;
+    padding:1em;
+    margin:auto;
+    margin-bottom:1em;
 }
 
-input.add_submit {
-    /* just to finish change the add button */
-    color:red;
-}      
-
-.button {
-    background:#8DBDD8;
-    font-size:12px;
-    height:16px;
-    margin-bottom:7px;
-    padding-top:6px;
-    text-align:center;  
-    margin-right:1px;
-}                    
-.button a , .button a:visited;{
-    text-decoration:none;
-    color:#000; 
-}
-.submitfullbtn {
-    display:none;
+caption {
+    padding: 0 0 5px 0;
+    font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    text-align: right;
 }
 
-.inline_form {
+th {
+    font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #CAE8EA url(../images/bg_header.jepg) no-repeat;
+}
+
+th.nobg {
+    border-top: 0;
+    border-left: 0;
+    border-right: 1px solid #C1DAD7;
+    background: none;
+}
+
+td {
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    background: #fff;
+    padding: 6px 6px 6px 12px;
+    color: #6D929B;
+}
+
+
+tr.specalt td {
+    background: #F5FAFA;
+    color: #B4AA9D;
+}
+
+tr.spec th {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #fff url(../images/bullet1.gif) no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+tr.specalt th {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #f5fafa url(../images/bullet2.gif) no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #797268;
+}
+
+div.inline_form {
     float:left;
 }
-
-ul.token-input-list-facebook, div.token-input-dropdown-facebook{
-    width:250px;
-}
-
-td.influence-column {
-    text-align:right;
-}
-
-td.users-column span {
-    background-color: #EFF2F7;
-    border: 1px solid #CCD5E4;
-    border-bottom-left-radius: 5px 5px;
-    border-bottom-left-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border-top-left-radius: 5px 5px;
-    border-top-left-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
-    padding:1px;
-}
-
-ul.expense-year-list {
-    list-style-type: none;
-}
-ul.expense-year-list li {
-    display:inline;

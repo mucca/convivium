@@ -1,41 +1,4 @@
 <style>
-.sortableTable {
-  border: 1px solid #999;	
-	background-position: center;
-	background-repeat:no-repeat;	
-}
-
-.sortableTable td {
-	font-size: .95em;
-	padding: 3px 6px;
-	color: #101010;
-	border-bottom: 1px solid #999; 
-	border-top: 1px solid #999; 
-}
-
-.sortableTable tr.tableHeaderRow td {
-	color: #830519;	
-  background: #c7e1f0;
-	border-top: 1px solid #830519;
-	border-bottom: 1px solid #830519;
-	font-weight: bold;
-}
-
-.sortableTable tr.tableHeaderRow td.sortup {
-	background-color: #faf1ed;
-  background-image:url(../images/arrow_down.gif); 
-	background-position: top right;
-	background-repeat:no-repeat;
-	
-}
-
-.sortableTable tr.tableHeaderRow td.sortdown {
-	background-color: #faf1ed;
-  background-image:url(../images/arrow_up.gif); 
-	background-position: top right;
-	background-repeat:no-repeat;
-}
-
 #search {
   padding: 10px;
 }
@@ -50,23 +13,41 @@
   </div>
 <% end %>
 
-<table width="100%" class='sortableTable' cellpadding="0" cellspacing="0">
+
+<table style="width:100%" cellspacing="0" summary="<%= t 'Personal expense report' %>">
+  <caption><%= t "Personal expense report" %></caption> 
   <thead>
-    <%= table_header %>
+    <tr> 
+      <th scope="col" abbr="Configurations" class="nobg <%= sort_td_class_helper 'formatted_reference_date' %>">
+        <%= sort_link_helper @action, t('Date'), 'formatted_reference_date', params %>
+      </th> 
+      <th scope="col" abbr="<%= t "Description" %>" class="<%= sort_td_class_helper 'description' %>">
+        <%= sort_link_helper @action, t('Description'), 'description', params %>
+      </th> 
+      <th scope="col" abbr="<%= t "Owner" %>" class="<%= sort_td_class_helper 'creator' %>">
+        <%= sort_link_helper @action, t('Owner'), 'creator.login', params %>
+      </th>
+      <th scope="col" abbr="<%= t "Amount" %>" class="<%= sort_td_class_helper 'amount' %>">
+        <%= sort_link_helper @action, t('Amount'), 'amount', params %>
+      </th>
+      <th scope="col" abbr="<%= t "Influence" %>"><%= t "Influence" %></th>
+      <th scope="col" abbr="<%= t "Users" %>"><%= t "Users" %></th>
+      <th scope="col" colspan="3"></th>
+    </tr> 
+    
   </thead>
   <tbody>
 	<%if @objects.size == 0%>
   	  <tr><td colspan='<%= @headings.size %>'>No items in the list</td></tr>
 	<%else  
 	    @objects.each do |object|
-	        klass = cycle('odd', 'even')        
+	        th_class = cycle('specalt', 'spec')
         %>
-	    <tr id='<%=dom_id(object)%>' class='<%= klass %>'>
-         <% @headings.each do |heading| %>
-             <td>
-               <%= object.instance_eval(heading[1]) %>                  
-             </td>  
-         <% end %>
+	    <tr id='<%=dom_id(object)%>' class='<%= th_class %>'>
+          <th scope="row"><%= object.formatted_reference_date %></th>
+          <td><%= object.description %></td>
+          <td><%= name_or_login object.creator %></td>
+          <td><%= object.amount %></td>
           <% if object.influence(current_user) < 0 %>
           <td class="influence-column negative-influence">
             <%= format_number object.influence(current_user) %>
@@ -89,7 +70,7 @@
             <td></td><td></td>
           <% end %>
   		</tr>
-	<%  end
-	 end%>
+	    <% end %>
+	<% end %>
 	</tbody>
 </table>
