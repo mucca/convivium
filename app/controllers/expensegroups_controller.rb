@@ -2,7 +2,7 @@ class ExpensegroupsController < ApplicationController
   
   include AuthenticatedSystem
   before_filter :login_required
-  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_group_manager?(params[:id],Expensegroup) || current_user.is_owner?(params[:id],Expensegroup)"
+  require_role :admin, :for => [:edit,:update,:destroy], :unless => "current_user.is_group_manager?(params[:id],Expensegroup)"
 
   # GET /expensegroups
   # GET /expensegroups.xml

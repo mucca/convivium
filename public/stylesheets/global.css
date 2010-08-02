@@ -3,7 +3,7 @@ body {
     color: #4f6b72;
     margin:0;
     padding:0;
-    background:#E7E7E7;
+    background:#5F5F5F ;
 }
 
 a {
@@ -30,7 +30,6 @@ div#actions-container {
     margin:0;
     padding-top:5px;
     height:35px;
-    background:#5E5E5E;
 }
 
 #column-right ul li{
@@ -40,11 +39,12 @@ div#actions-container {
 
 div#column-content {
     background:white;
-    width:95%;
+    width:950px;
     border:1px solid #A6A6A6;
     padding:1em;
     margin:auto;
-    margin-bottom:1em;
+    margin-bottom:1em;    
+    margin-top:2em;
 }
 
 caption {
