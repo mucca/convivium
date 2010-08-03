@@ -29,7 +29,8 @@ div#actions-container {
 #column-right ul{
     margin:0;
     padding-top:5px;
-    height:35px;
+    height:38px;
+    background:#5E5E5E;
 }
 
 #column-right ul li{
@@ -45,6 +46,28 @@ div#column-content {
     margin:auto;
     margin-bottom:1em;    
     margin-top:2em;
+}
+
+div#portlets-container {
+    background:none repeat scroll 0 0 white;
+    border:1px solid #A6A6A6;
+    margin:auto auto 1em;
+    padding:1em;
+    width:95%;
+}
+
+input[type=text] {
+    height:22px;
+}
+select {
+    height:30px;
+}
+input.maininput {
+    height:auto;
+}
+
+form ul.holder {
+    width:250px;
 }
 
 caption {
@@ -63,7 +86,7 @@ th {
     text-transform: uppercase;
     text-align: left;
     padding: 6px 6px 6px 12px;
-    background: #CAE8EA url(../images/bg_header.jepg) no-repeat;
+    background: #CAE8EA url(/images/bg_header.jepg) no-repeat;
 }
 
 th.nobg {
@@ -90,18 +113,19 @@ tr.specalt td {
 tr.spec th {
     border-left: 1px solid #C1DAD7;
     border-top: 0;
-    background: #fff url(../images/bullet1.gif) no-repeat;
+    background: #fff url(/images/bullet1.gif) no-repeat;
     font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
 
 tr.specalt th {
     border-left: 1px solid #C1DAD7;
     border-top: 0;
-    background: #f5fafa url(../images/bullet2.gif) no-repeat;
+    background: #f5fafa url(/images/bullet2.gif) no-repeat;
     font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
     color: #797268;
 }
 
 div.inline_form {
     float:left;
+    margin-right:2px;
 }

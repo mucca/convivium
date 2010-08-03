@@ -126,6 +126,13 @@
       </div>
       <% end %>
     
+    <% if current_user %>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+        $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
+        $("input[type=submit]").button({ icons: {primary:'ui-icon-folder-collapsed'} });
+      });
+    </script>
     
       <% if flash[:notice] %>
         <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
