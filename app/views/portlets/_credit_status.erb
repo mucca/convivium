@@ -1,0 +1,12 @@
+<h6><%= t 'Credit status' %></h6>
+<table>
+  <% for user, amount in get_credit_status.to_a %>
+    <% if amount != 0 %>
+    <tr class="<%= cycle 'spec', 'specalt' %>">
+      <th scope="row"><%= name_or_login user %></th>
+      <td><% if amount > 0 %>+<% end %><%= format_number amount %></td>
+    </tr>
+    <% end %>
+  <% end %>
+  <!-- TODO create the status table based on the new grouping functionality -->
+</table>

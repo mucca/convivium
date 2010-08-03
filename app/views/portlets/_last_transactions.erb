@@ -1,0 +1,12 @@
+<h6><%= t 'New transactions from last visit' %></h6>
+<table>
+  <% for t in transactions_from_last_visit %>
+    <tr class="<%= cycle 'spec', 'specalt' %>">
+      <th scope="row"><%= format_date t.reference_date %></th>
+      <th scope="row"><%= format_date t.created_at %></th>
+      <td><%= name_or_login t.creator %></td>
+      <td><%= format_number t.influence(current_user) %></td>
+    </tr>
+  <% end %>
+  <!-- TODO create the status table based on the new grouping functionality -->
+</table>
