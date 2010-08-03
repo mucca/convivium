@@ -7,7 +7,7 @@
 ***************************************/
 
 /*** MEYER RESET v1.0 ***/
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;background:transparent}body{line-height:1}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 /*** BASIC TYPOGRAPHY ***/
 html { font-size: 62.5%; font-family: "Liberation Sans", Helvetica, Arial, sans-serif; }
@@ -29,7 +29,7 @@ blockquote *:first-child:before { content: "\201C"; }
 blockquote *:first-child:after { content: "\201D"; }
 
 /*** FORMS ***/
-fieldset { padding:1.4em; margin: 0 0 1.5em 0; border: 1px solid #ccc; }
+fieldset { padding:1.4em; margin: 0 0 1.5em 0;}
 legend { font-weight: bold; font-size:1.2em; }
 label { font-weight: bold; }
 textarea, input[type='text'], input[type='password'], select { border: 1px solid #ccc; background: #fff; }
@@ -328,6 +328,7 @@ ul.holder { margin: 0; border: 1px solid #999; overflow: hidden; height: auto !i
 ul.holder li { float: left; list-style-type: none; margin: 0 5px 4px 0; white-space:nowrap;}
 ul.holder li.bit-box, ul.holder li.bit-input input { font: 11px "Lucida Grande", "Verdana"; }
 ul.holder li.bit-box { -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; border: 1px solid #CAD8F3; background: #DEE7F8; padding: 1px 5px 2px; }
+ul.holder li.group-box {background: #FFE7F8;}   
 ul.holder li.bit-box-focus { border-color: #598BEC; background: #598BEC; color: #fff; }
 ul.holder li.bit-input input { width: auto; overflow:visible; margin: 0; border: 0px; outline: 0; padding: 3px 0px 2px; } /* no left/right padding here please */
 ul.holder li.bit-input input.smallinput { width: 20px; }

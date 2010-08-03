@@ -118,6 +118,14 @@ class User < ActiveRecord::Base
     end
     ob.creator == self
   end
+  
+  def is_group_manager?(id, model)
+    ob = model.find :first, :conditions=>{:id=>id}
+    if self.has_role? :admin
+      return True
+    end
+    ob.group_manager == self
+  end
 
   protected
     # before filter 

@@ -3,11 +3,19 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Members</th>
+    <th colspan="3"></th>
   </tr>
 
 <% @expensegroups.each do |expensegroup| %>
   <tr>
-    <td><%=h expensegroup.name %></td>
+    <td><%=h expensegroup.name %></td>    
+    <td><ul class="holder" style="border:0px">
+      <% expensegroup.users.each do |u| %>
+          <li class="bit-box"><%= u.login %></li> 
+      <% end %> 
+    </ul>  
+    </td>
     <td><%= link_to 'Show', expensegroup %></td>
     <td><%= link_to 'Edit', edit_expensegroup_path(expensegroup) %></td>
     <td><%= link_to 'Destroy', expensegroup, :confirm => 'Are you sure?', :method => :delete %></td>

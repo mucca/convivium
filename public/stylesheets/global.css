@@ -3,7 +3,7 @@ body {
     color: #4f6b72;
     margin:0;
     padding:0;
-    background:#E7E7E7;
+    background:#5F5F5F ;
 }
 
 a {
@@ -45,11 +45,12 @@ ul.expense-year-list li {
 
 div#column-content {
     background:white;
-    width:95%;
+    width:950px;
     border:1px solid #A6A6A6;
     padding:1em;
     margin:auto;
-    margin-bottom:1em;
+    margin-bottom:1em;    
+    margin-top:2em;
 }
 
 div#portlets-container {
@@ -99,7 +100,7 @@ th {
     text-transform: uppercase;
     text-align: left;
     padding: 6px 6px 6px 12px;
-    background: #CAE8EA url(../images/bg_header.jepg) no-repeat;
+    background: #CAE8EA url(/images/bg_header.jpeg) no-repeat;
 }
 
 th.nobg {
@@ -126,14 +127,14 @@ tr.specalt td {
 tr.spec th {
     border-left: 1px solid #C1DAD7;
     border-top: 0;
-    background: #fff url(../images/bullet1.gif) no-repeat;
+    background: #fff url(/images/bullet1.gif) no-repeat;
     font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
 
 tr.specalt th {
     border-left: 1px solid #C1DAD7;
     border-top: 0;
-    background: #f5fafa url(../images/bullet2.gif) no-repeat;
+    background: #f5fafa url(/images/bullet2.gif) no-repeat;
     font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
     color: #797268;
 }
@@ -142,4 +143,3 @@ div.inline_form {
     float:left;
     margin-right:2px;
 }
-
