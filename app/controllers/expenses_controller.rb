@@ -158,47 +158,62 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       format.js { render :json => @response.to_json() }
     end
-  end   
+  end     
 
-def group_users
-    @response = []     
-    if params[:group_id]  
-      expensegroup = Expensegroup.find(params[:group_id])     
+  def users_and_groups_autocomplete
+    @response = []
+    for user in User.find :all
+      @response.push({:caption => name_or_login(user), :value => "user:%s" % user.id})
+    end    
     
-      for user in expensegroup.users
-        @response.push({:title => name_or_login(user), :value => user.id})
-      end  
+    for group in Expensegroup.find :all
+      @response.push({:caption => group.name, :value => "expensegroup:%s" % group.id})
     end
-       
     respond_to do |format|
       format.js { render :json => @response.to_json() }
     end
-end
+  end
 
-def groups_autocomplete
-      @response = []
-      for group in Expensegroup.find :all
-        @response.push({:caption => group.name, :value => group.id})
+  def group_users
+      @response = []     
+      if params[:group_id]  
+        expensegroup = Expensegroup.find(params[:group_id])     
+    
+        for user in expensegroup.users
+          @response.push({:title => name_or_login(user), :value => "user:%s" % user.id})
+        end  
       end
+       
       respond_to do |format|
         format.js { render :json => @response.to_json() }
       end
   end
+
+  def groups_autocomplete
+        @response = []
+        for group in Expensegroup.find :all
+          @response.push({:caption => group.name, :value => group.id})
+        end
+        respond_to do |format|
+          format.js { render :json => @response.to_json() }
+        end
+    end
+
 end   
 
-def build_table (user,p = params)
-  options = {
-   :table_headings => [['Reference date', 'formatted_reference_date'],
-                       ['Description', 'description'], 
-                       ['Creator','creator.login'],
-                       ['Amount', 'amount']], 
-   :sort_map =>  {'formatted_reference_date' => ['expenses.reference_date'], 
-                  'description' => ['expenses.description'],
-                  'amount' => ['expenses.amount'],
-                  'creator.login' => ['expenses.creator_id']},
-   :include_relations => [:creator] , 
-   :per_page => 15,        
-   :conditions => [],
-   :default_sort => ['formatted_reference_date', 'DESC'] }
-   get_sorted_objects(p,options)    
-end
+  def build_table (user,p = params)
+    options = {
+     :table_headings => [['Reference date', 'formatted_reference_date'],
+                         ['Description', 'description'], 
+                         ['Creator','creator.login'],
+                         ['Amount', 'amount']], 
+     :sort_map =>  {'formatted_reference_date' => ['expenses.reference_date'], 
+                    'description' => ['expenses.description'],
+                    'amount' => ['expenses.amount'],
+                    'creator.login' => ['expenses.creator_id']},
+     :include_relations => [:creator] , 
+     :per_page => 15,        
+     :conditions => [],
+     :default_sort => ['formatted_reference_date', 'DESC'] }
+     get_sorted_objects(p,options)    
+  end 
