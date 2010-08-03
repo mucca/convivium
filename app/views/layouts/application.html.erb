@@ -154,6 +154,14 @@
     <div id="column-content" class="ui-corner-all">   
     <div id="application-content" class="clearfix">  
       <h1>Convivium</h1>         
+      <% if current_user %>
+      <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+          $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
+          $("input:submit").button();
+        });
+      </script>
+
       <div id="column-right">
           <ul>
               <li><%= link_to t("Report"), {:controller => "expenses" , :action => "index"} %></li>
@@ -170,7 +178,8 @@
       </div>
       <% end %>
       </div>
-          
+      <% end %>
+    
     <% if current_user %>
     <div id="column-right">
         <ul>
