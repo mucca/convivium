@@ -85,13 +85,18 @@
   
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
+        
+        $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
+        $("input[type=submit]").button({ icons: {primary:'ui-icon-folder-collapsed'} });
+        $("ul.expense-year-list li a").button({ icons: {primary:'ui-icon-calculator'} });
+        
         $(".jquery-date-picker").each(function(){
-            $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false })
+            $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false });
         });
         $(".skip-import-submit").click(function(){
             $(this).parent('form').remove();
             return false;
-        });   
+        });
     })
   </script>
 </head>
@@ -109,13 +114,6 @@
     </div>
     
     <% if current_user %>
-    <script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-        $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
-        $("input[type=submit]").button({ icons: {primary:'ui-icon-folder-collapsed'} });
-      });
-    </script>
-    
     <div id="column-right">
         <ul>
             <li><%= link_to t("Report"), {:controller => "expenses" , :action => "index"} %></li>
@@ -125,9 +123,7 @@
             <li><%= link_to t("Expense groups"), { :controller => "expensegroups" , :action => "index"} %></li>
             <li><%= link_to t("Categories"), { :controller => "categories" , :action => "index"} %></li>
         </ul>
-        <div id="portlets-container">
         <%= yield :portlets %>
-        </div>
     </div>
     <% end %>
 

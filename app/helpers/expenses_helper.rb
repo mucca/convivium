@@ -23,5 +23,14 @@ module ExpensesHelper
     end
     return status
   end
+
+  def transactions_from_last_visit
+    expenses = Expense.related_to_user(current_user)
+    if current_user.previous_login 
+      expenses.created_between(current_user.previous_login, Time.now)
+    else
+      []
+    end
+  end
     
 end 

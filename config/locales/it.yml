@@ -9,7 +9,7 @@
       long: "%B %d, %Y" 
 
 it:
-  hello: "Hello world"
+  Hi: "Ciao"
   Expenses: "Spese"
   Date: "Data"
   Description: "Descrizione"
@@ -37,4 +37,7 @@ it:
   Report: "Rapporto"
   Complete report: "Rapporto completo"
   History: "Storico"
-  
+  Add expense: "Aggiungi spesa"
+  Expense groups: "Gruppi di spesa"
+  Categories: "Categorie"
+  Credit status: "Stato crediti"

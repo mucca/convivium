@@ -29,13 +29,18 @@ div#actions-container {
 #column-right ul{
     margin:0;
     padding-top:5px;
-    height:38px;
+    padding-bottom:5px;
+/*    height:38px;*/
     background:#5E5E5E;
 }
 
 #column-right ul li{
     display: inline;
     vertical-align:middle;
+}
+
+ul.expense-year-list li {
+    display:inline;
 }
 
 div#column-content {
@@ -53,6 +58,15 @@ div#portlets-container {
     margin:auto auto 1em;
     padding:1em;
     width:95%;
+}
+
+div#portlets-container div.portlet{
+    width:33%;
+    float:left;
+}
+
+div#portlets-container h1,h2,h3,h4,h5,h6 {
+    margin:0;
 }
 
 input[type=text] {
@@ -128,3 +142,4 @@ div.inline_form {
     float:left;
     margin-right:2px;
 }
+

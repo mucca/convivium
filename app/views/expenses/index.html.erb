@@ -1,44 +1,46 @@
-<h1><%= t "Expenses" %></h1>    
 <div>
-<% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"" do |f| %>
-<div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
-<div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
-<div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
+  <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"" do |f| %>
+    <div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
+    <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
+    <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
 
-<div class="inline_form">
-	<% if has_role? :admin %>
-	    <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
-	<% end %>
-</div>
-<div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
-<div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]} %></div>
-<div class="inline_form"><%= f.select :expensegroup_ids, [] %></div>     
-<div class="inline_form"><%= submit_tag "add"%></div>
-<div class="inline_form inline_form_last"></div>
-<% end %>
+    <div class="inline_form">
+      <% if current_user.has_role? :admin %>
+        <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
+      <% end %>
+    </div>
+    <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } , { } %></div>
+    <div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]} %></div>
+    <div class="inline_form"><%= f.select :expensegroup_ids, [] %></div>     
+    <div class="inline_form"><%= submit_tag "add"%></div>
+    <div class="inline_form inline_form_last"></div>
+  <% end %>
 </div>
 <div style="clear:both"></div>
   
-<br />     
+<br/>
 
 <div id="expense_list_table">
 <%= sortable_table :partial =>'table'%>     
 </div> 
 
 <% content_for :portlets do %>
-    <h3><%= t 'Credit status' %></h3>
-    <table>
-      <% for user, amount in get_credit_status.to_a %>
-        <% if amount != 0 %>
-        <tr>
-          <td><%= name_or_login user %></td>
-          <td><% if amount > 0 %>+<% end %><%= format_number amount %></td>
-        </tr>
-        <% end %>
-      <% end %>
-      <!-- TODO create the status table based on the new grouping functionality -->
-    </table>
-<% end %><!-- end portlets space -->
+  <div id="portlets-container">
+    <% for portlet in user_portlets %>
+      <div class="portlet">
+      <%= portlet %>
+      </div>
+    <% end %>
+    <div class="portlet">
+      <h6>TODO last movements portlet</h6>
+    </div>
+    <div class="portlet">
+      <h6>TODO expenses this month</h6>
+    </div>
+    <div style="clear:left"></div>
+  </div>
+<% end %>
+<!-- end portlets space -->
 
 <br />
 

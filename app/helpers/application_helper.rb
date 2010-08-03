@@ -25,6 +25,11 @@ module ApplicationHelper
   end
 
   def has_role?(role)
-    User.find(session[:user_id]).has_role? role
+    current_user.has_role? role
+  end
+  
+  def user_portlets
+    [ render(:partial=>'portlets/credit_status'), 
+      render(:partial=>'portlets/last_transactions') ]
   end
 end
