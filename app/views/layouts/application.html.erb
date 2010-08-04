@@ -151,35 +151,17 @@
 </head>
 <body>
 <div id="main-container">
-    <div id="column-content" class="ui-corner-all">   
     <div id="application-content" class="clearfix">  
-      <h1>Convivium</h1>         
-      <% if current_user %>
-      <script type="text/javascript" charset="utf-8">
-        $(document).ready(function(){
-          $("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
-          $("input:submit").button();
-        });
-      </script>
-
-      <div id="column-right">
-          <ul>
-              <li><%= link_to t("Report"), {:controller => "expenses" , :action => "index"} %></li>
-              <li><%= link_to t("Complete report"), {:controller => "report" , :action => "expense_report"} %></li>
-              <li><%= link_to t("History"), {:controller => "report" , :action => "history"} %></li>
-              <li><%= link_to t("Add expense"), { :controller => "expenses" , :action => "new"} %></li>
-              <li><%= link_to t("Expense groups"), { :controller => "expensegroups" , :action => "index"} %></li>
-              <li><%= link_to t("Categories"), { :controller => "categories" , :action => "index"} %></li>
-          </ul>
-      <% if current_user %>
-      <div style="float:right;">
-          <%= t 'Hi' %> <%= name_or_login current_user %>
-          <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
-      </div>
-      <% end %>
-      </div>
-      <% end %>
-    
+      <div id="top-menu">
+      <h1>Convivium</h1>
+      <div id="actions-container">
+          <% if current_user %>
+              <%= t 'Hi' %> <%= name_or_login current_user %>
+              <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
+          <% end %>
+          </div>
+          <div style="clear:both"></div>
+      </div>    
     <% if current_user %>
     <div id="column-right">
         <ul>
@@ -192,26 +174,17 @@
         </ul>
         <%= yield :portlets %>
     </div>
+    <div id="column-content" class="ui-corner-all">   
     <% end %>
       <% if flash[:notice] %>
         <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
       <% end %>
-
-
+      
       <% if flash[:error] %>    
         <div class="flash error" id='error'><%= flash[:error] %></div>
       <% end %> 
-      
-   <div style="margin-top:20px;width:214px;float:left;padding: 0px 4px 4px;" class="clearfix">
-      <div id="portlets-container">
-          <%= yield :portlets %>
-      </div>
-   </div>
-   
-   <div style="float:right;padding:15px;width:680px;" class="clearfix">      
       <%= yield %>     
       <br class="clear"/>    
-   </div> 
    </div>
    </div>
 </div>
