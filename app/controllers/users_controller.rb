@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
+  include AuthenticatedSystem                                                  
   before_filter :login_required, :only => [:show, :edit, :update]
   before_filter :check_administrator_role, :only => [:index, :destroy, :enable, :new, :create]
 
@@ -32,13 +32,21 @@ class UsersController < ApplicationController
     @users = User.all
   end
   
-  def edit
-    @user = current_user
+  def edit 
+    if current_user.has_role?('admin') 
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end                                      
   
   #This show action only allows users to view their own profile
   def show          
-    @user = current_user
+    if current_user.has_role?('admin') 
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end 
   
   def update

@@ -364,4 +364,13 @@ ul.holder li.bit-box-focus a.closebutton, ul.holder li.bit-box-focus a.closebutt
 .hidden { display:none;}
 
 #demo ul.holder li.bit-input input { padding: 2px 0 1px; border: 1px solid #999; }
-.ie6fix {height:1px;width:1px; position:absolute;top:0px;left:0px;z-index:1;}
+.ie6fix {height:1px;width:1px; position:absolute;top:0px;left:0px;z-index:1;}        
+
+.avatarname {
+  padding-top:3px;
+}
+.avatarname img {
+  border:1px solid grey;
+  float:left;   
+  margin-right:5px;
+}

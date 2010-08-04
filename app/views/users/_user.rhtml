@@ -1,6 +1,6 @@
 <tr class="<%= cycle('odd', 'even') %>">
-  <td><%=h user.login %></td>
+  <td><div class="avatarname"><%= image_tag user.gravatar_url(:size => 25, :secure => true, :default => 'monsterid')  %><%= link_to user.login, user_path(user) %></div></td>
   <td><%=h user.email %></td>
-  <td><%= link_to 'edit roles', user_roles_path(user) %>]</td>
+  <td><%= link_to 'edit roles', user_roles_path(user) %></td>
 </tr>
 
