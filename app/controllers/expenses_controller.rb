@@ -9,9 +9,7 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.xml
   def index                        
-     @user = User.find session[:user_id]
-     @totals = calculate_total_for Expense.last_month.related_to_user(current_user)
-    
+     @user = User.find session[:user_id]    
      @expense = Expense.new :reference_date => Date.today  
      build_table @user,params
      
@@ -76,10 +74,14 @@ class ExpensesController < ApplicationController
       params[:expense][:creator_id] = user.id
     end 
     expense_data = params[:expense]
-    expense_data[:user_ids] = Set.new(expense_data[:user_ids].split(',').each{|id| id.to_i})
+    if not expense_data.include? :users
+      expense_data[:users] = []
+    end
+    expense_data[:user_ids] = Set.new(expense_data[:users].each{|id| id.to_i})
     if not expense_data[:user_ids].include? params[:expense][:creator_id]
       expense_data[:user_ids].add(params[:expense][:creator_id])
     end
+    expense_data.delete :users
     @expense = Expense.new(expense_data)
     
     respond_to do |format|
@@ -201,19 +203,20 @@ class ExpensesController < ApplicationController
 
 end   
 
-  def build_table (user,p = params)
-    options = {
-     :table_headings => [['Reference date', 'formatted_reference_date'],
-                         ['Description', 'description'], 
-                         ['Creator','creator.login'],
-                         ['Amount', 'amount']], 
-     :sort_map =>  {'formatted_reference_date' => ['expenses.reference_date'], 
-                    'description' => ['expenses.description'],
-                    'amount' => ['expenses.amount'],
-                    'creator.login' => ['expenses.creator_id']},
-     :include_relations => [:creator] , 
-     :per_page => 15,        
-     :conditions => [],
-     :default_sort => ['formatted_reference_date', 'DESC'] }
-     get_sorted_objects(p,options)    
-  end 
+def build_table(user,p = params)
+  options = {
+    :table_headings => [['Reference date', 'formatted_reference_date'],
+                       ['Description', 'description'], 
+                       ['Creator','creator.login'],
+                       ['Amount', 'amount']], 
+    :sort_map =>  {'formatted_reference_date' => ['expenses.reference_date'], 
+                  'description' => ['expenses.description'],
+                  'amount' => ['expenses.amount'],
+                  'creator.login' => ['expenses.creator_id']},
+    :include_relations => [:creator, :users] , 
+    :per_page => 15,
+    :conditions => ['expenses_users.user_id == ? and expenses_users.expense_id = expenses.id', user.id ], 
+    :default_sort => ['formatted_reference_date', 'DESC']
+  }
+  get_sorted_objects(p,options)
+end 
