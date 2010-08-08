@@ -107,9 +107,9 @@ class User < ActiveRecord::Base
     @activated
   end     
   
-  def has_role?(rolename)
-    self.roles.find_by_name(rolename) ? true : false
-  end
+  # def has_role?(rolename)
+  #   self.roles.find_by_name(rolename) ? true : false
+  # end
 
   def is_owner?(id, model)
     ob = model.find :first, :conditions=>{:id=>id}

@@ -29,8 +29,7 @@ class ExpensesController < ApplicationController
                    :type => 'text/csv; charset=iso-8859-1; header=present',
                    :disposition => "attachment; filename=users.csv"
        }
-       
-     end        
+     end
   end
   
   # GET /expenses/1
