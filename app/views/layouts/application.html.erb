@@ -29,7 +29,6 @@
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){    
       
-      
       function sync_group_users(item) { 
         if (typeof(item) == "string") {         
           var item = eval("item=" + item);  
@@ -87,7 +86,8 @@
         onremove: deselect_removed, 
         filter_case: true,
         filter_hide: true,
-        newel: false
+        newel: false,
+        firstselected : true
       });   
       
       $("#expensegroup_user_ids").fcbkcomplete({
@@ -95,7 +95,8 @@
         cache: true,
         filter_case: true,
         filter_hide: true,
-        newel: false
+        newel: false,
+        firstselected : true
       });   
       
       $("#expense_user_ids").fcbkcomplete({
@@ -103,7 +104,8 @@
         cache: true,
         filter_case: true,
         filter_hide: true,
-        newel: false
+        newel: false,
+        firstselected : true
       });
       
       $("#expense_expensegroup_ids").fcbkcomplete({
@@ -112,7 +114,8 @@
         onselect: push_group_users, 
         filter_case: true,
         filter_hide: true,
-        newel: false
+        newel: false,
+        firstselected : true
       });
       
                  
