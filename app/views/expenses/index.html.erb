@@ -11,8 +11,9 @@
     </div>
     <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } %></div>
     <div class="inline_form"><%= f.select :users, User.all.collect{|u| [u.login, u.id]}, {},  {:multiple=> true} %></div>
-    <div class="inline_form"><%= f.select :expensegroups, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true} %></div>    <div class="inline_form"><%= submit_tag "add"%></div>
-    <div class="dummy_users_group"><select id="dummy_user_group"></select></div>
+    <div class="inline_form"><%= f.select :expensegroups, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true} %></div>
+    <div class="inline_form"><select id="dummy_user_group"></select></div>
+    <div class="inline_form"><%= submit_tag "add"%></div> 
     <div class="inline_form inline_form_last"></div>
   <% end %>
 </div>
