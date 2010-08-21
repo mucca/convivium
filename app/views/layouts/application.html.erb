@@ -161,7 +161,7 @@
       <h1>Convivium</h1>
       <div id="actions-container">
           <% if current_user %>
-              <%= t 'Hi' %> <%= name_or_login current_user %>
+              <%= t 'Hi' %> <%= link_to name_or_login(current_user), current_user%>
               <%= link_to t('Logout'), { :controller => "sessions" , :action => "destroy"} %>
           <% end %>
           </div>
