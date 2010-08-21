@@ -54,6 +54,17 @@ div#column-content {
 /*    margin-top:2em;*/
 }
 
+div#login-window {
+    background:white;
+    width:600px;
+    
+/*    border:1px solid #A6A6A6;*/
+    padding:1em;
+    margin:auto;
+    margin-bottom:2em;
+    margin-top:2em;
+}
+
 div#portlets-container {
     background:none repeat scroll 0 0 white;
     border:1px solid #A6A6A6;

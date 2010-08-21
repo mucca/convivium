@@ -28,7 +28,7 @@ class Expense < ActiveRecord::Base
     end
   end
   
-  default_scope :order => 'reference_date, id DESC'
+  default_scope :order => 'expenses.reference_date, expenses.id DESC'
   named_scope :last_week, lambda { { :conditions => ['reference_date > ?', 1.week.ago] } }
   named_scope :last_month, lambda { { :conditions => ['reference_date > ?', 1.month.ago] } }
   named_scope :related_to_group, lambda { |expensegroups|{ :conditions => ['expensegroup_id in (?)', expensegroups] } }
