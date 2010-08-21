@@ -204,6 +204,7 @@ end
 
 def build_table(user,p = params)
   options = {
+    :objects => Expense.related_to_user(user), 
     :table_headings => [['Reference date', 'formatted_reference_date'],
                        ['Description', 'description'], 
                        ['Creator','creator.login'],
@@ -212,7 +213,7 @@ def build_table(user,p = params)
                   'description' => ['expenses.description'],
                   'amount' => ['expenses.amount'],
                   'creator.login' => ['expenses.creator_id']},
-    :include_relations => [:creator, :users] , 
+    # :include_relations => [:creator, :users] , 
     :per_page => 15,
     :conditions => ['expenses_users.user_id == ? and expenses_users.expense_id = expenses.id', user.id ], 
     :default_sort => ['formatted_reference_date', 'DESC']
