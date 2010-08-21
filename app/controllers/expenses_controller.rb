@@ -164,11 +164,11 @@ class ExpensesController < ApplicationController
   def users_and_groups_autocomplete
     @response = []
     for user in User.find :all
-      @response.push({:caption => name_or_login(user), :value => "user:%s" % user.id})
+      @response.push({:caption => name_or_login(user).downcase, :value => "user:%s" % user.id})
     end    
     
     for group in Expensegroup.find :all
-      @response.push({:caption => group.name, :value => "expensegroup:%s" % group.id})
+      @response.push({:caption => group.name.downcase, :value => "expensegroup:%s" % group.id})
     end
     respond_to do |format|
       format.js { render :json => @response.to_json() }

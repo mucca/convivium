@@ -50,9 +50,17 @@ class UsersController < ApplicationController
   end 
   
   def update
-    @user = User.find(current_user)
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "User updated"
+    if current_user.has_role? :admin
+      @user = User.find_by_id params[:id]
+    else
+      @user = current_user
+    end
+    @user.update_attributes(params[:user])
+    @user.name = params[:user][:name]
+    
+    if @user.save!
+      flash[:notice] = "Profile updated"
+      puts @user.name
       redirect_to :action => 'show', :id => current_user
     else
       render :action => 'edit'
