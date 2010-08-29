@@ -5,7 +5,7 @@
 <% semantic_form_for @expensegroup do |form| %>    
     <%= form.input :name %>
     <%= form.input :group_manager, :as => :select, :collection => personal_dict %>
-    <%= form.input :user_ids, :as => :select %> 
+    <%= form.input :user_ids, :as => :select, :collection => User.all.collect{|u| [u.login, u.id]} %> 
     <%= form.input :personal, :as => :select, :collection => personal_dict %>      
     <%= form.buttons :commit %>
 <% end %>

@@ -1,3 +1,4 @@
 response = sortable_table :partial =>'table'   
 page.replace_html :expense_list_table , response      
-page["new_expense"].reset
+page["new_expense"].reset            
+page << "$('.bit-box a').trigger('click');"

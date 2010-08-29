@@ -39,10 +39,10 @@
         type = item._value.split(":")[0];
         id = item._value.split(":")[1];     
         if (type == "user") {
-          $("#expense_users option[value="+id+"]").attr("selected","selected");
+          $("#expense_user_ids option[value="+id+"]").attr("selected","selected");
         } 
         if (type == "expensegroup") {
-          $("#expense_expensegroups option[value="+id+"]").attr("selected","selected");  
+          $("#expense_expensegroup_ids option[value="+id+"]").attr("selected","selected");  
           $("li[rel="+item._value+"]").addClass('group-box');
           push_group_users(id, "#dummy_user_group");
         }
@@ -53,10 +53,10 @@
           var item = eval("item=" + item);  
         }
         if (type == "user") {
-          $("#expense_users option[value="+id+"]").attr("selected","");
+          $("#expense_user_ids option[value="+id+"]").attr("selected","");
         } 
         if (type == "expensegroup") {
-          $("#expense_expensegroups option[value="+id+"]").attr("selected","");  
+          $("#expense_expensegroup_ids option[value="+id+"]").attr("selected","");  
         }
       }
       
@@ -74,10 +74,10 @@
         });
       }
                          
-      $("#expense_users").hide();
-      $("#expense_expensegroups").hide();
+      $("#expense_users, #expense_expensegroups").hide();
       
-      $("#expense_user_ids, #expensegroup_user_ids").val("").html(""); 
+      $("#expense_user_ids option, #expensegroup_user_ids option").attr('selected',''); 
+      $("#expense_user_ids option[value=''], #expensegroup_user_ids option[value='']").remove();
              
       $("#dummy_user_group").fcbkcomplete({
         json_url: "<%= url_for :controller => 'expenses', :action => 'users_and_groups_autocomplete' %>",
@@ -90,7 +90,7 @@
         firstselected : true
       });   
       
-      $("#expensegroup_user_ids").fcbkcomplete({
+      $("#expensegroup_user_ids:not(.hidden)").fcbkcomplete({
         json_url: "<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>",
         cache: true,
         filter_case: true,
@@ -99,7 +99,7 @@
         firstselected : true
       });   
       
-      $("#expense_user_ids").fcbkcomplete({
+      $("#expense_user_ids:not(.hidden)").fcbkcomplete({
         json_url: "<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>",
         cache: true,
         filter_case: true,
@@ -108,7 +108,7 @@
         firstselected : true
       });
       
-      $("#expense_expensegroup_ids").fcbkcomplete({
+      $("#expense_expensegroup_ids:not(.hidden)").fcbkcomplete({
         json_url: "<%= url_for :controller => 'expenses', :action => 'users_autocomplete' %>",
         cache: true,
         onselect: push_group_users, 

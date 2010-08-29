@@ -72,17 +72,8 @@ class ExpensesController < ApplicationController
     user = current_user
     if not user.has_role? :admin or not params[:expense][:creator_id]
       params[:expense][:creator_id] = user.id
-    end 
-    expense_data = params[:expense]
-    if not expense_data.include? :users
-      expense_data[:users] = []
-    end
-    expense_data[:user_ids] = Set.new(expense_data[:users].each{|id| id.to_i})
-    if not expense_data[:user_ids].include? params[:expense][:creator_id]
-      expense_data[:user_ids].add(params[:expense][:creator_id])
-    end
-    expense_data.delete :users
-    @expense = Expense.new(expense_data)
+    end     
+    @expense = Expense.new(params[:expense])
     
     respond_to do |format|
       if @expense.save
