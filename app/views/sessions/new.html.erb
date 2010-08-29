@@ -1,18 +1,20 @@
-<h2>Login with User ID and Password:</h2>
-<% form_tag session_path do %>
-<p><label for="login">Login</label><br/>
-<%= text_field_tag 'login' %></p>
- 
-<p><label for="password">Password</label><br />
-<%= password_field_tag 'password' %></p>
- 
- 
-<p><label for="remember_me">Remember me:</label>
-<%= check_box_tag 'remember_me' %></p>
- 
-<p>
-<%= submit_tag 'Log in' %>
-<% link_to "Sign Up", new_user_path %>
-</p>
-<% end %>
+<div id="login-window">
+  <h2><%= t "Login with User ID and Password" %>:</h2>
+  <br/>
+  <% form_tag session_path do %>
+  <p><label for="login"><%= t "Login" %></label><br/>
+  <%= text_field_tag 'login' %></p>
 
+  <p><label for="password"><%= t "Password" %></label><br />
+  <%= password_field_tag 'password' %></p>
+
+
+  <p><label for="remember_me"><%= t "Remember me" %>:</label>
+  <%= check_box_tag 'remember_me' %></p>
+
+  <p>
+  <%= submit_tag t('Log in') %>
+  <!-- <% link_to "Sign Up", new_user_path %> -->
+  </p>
+  <% end %>  
+</div>

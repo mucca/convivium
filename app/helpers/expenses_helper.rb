@@ -1,11 +1,9 @@
 module ExpensesHelper
   
   def can_edit_expense(expense)
-    user = User.find session[:user_id]
-    if user != expense.creator
-      false
-    else
-      true
+    user = current_user
+    if user == expense.creator or user.has_role? :admin
+      return true
     end    
   end
   
@@ -25,7 +23,7 @@ module ExpensesHelper
   end
 
   def transactions_from_last_visit
-    expenses = Expense.related_to_user(current_user)
+    expenses = Expense.related_to_user(current_user).exclude_creator(current_user)
     if current_user.previous_login 
       expenses.created_between(current_user.previous_login, Time.now)
     else

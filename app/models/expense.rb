@@ -28,13 +28,14 @@ class Expense < ActiveRecord::Base
     end
   end
   
-  default_scope :order => 'reference_date, id DESC'
+  default_scope :order => 'expenses.reference_date, expenses.id DESC'
   named_scope :last_week, lambda { { :conditions => ['reference_date > ?', 1.week.ago] } }
   named_scope :last_month, lambda { { :conditions => ['reference_date > ?', 1.month.ago] } }
   named_scope :related_to_group, lambda { |expensegroups|{ :conditions => ['expensegroup_id in (?)', expensegroups] } }
-  named_scope :related_to_user, lambda { |user|{:joins => [:users], :conditions=>{ 'expenses_users.user_id'=>user.id}}}
+  named_scope :related_to_user, lambda { |user|{:joins => [:users], :conditions=>{ 'expenses_users.user_id' => user.id}}}
   named_scope :between, lambda { |from,to|{ :conditions => ['reference_date > ? and reference_date < ?', from , to ] } }
   named_scope :created_between, lambda { |from,to|{ :conditions => ['expenses.created_at > ? and expenses.created_at < ?', from , to ] } }
+  named_scope :exclude_creator, lambda { |user|{ :conditions => ['expenses.creator_id != ?', user.id ] } }
   named_scope :search, lambda {|field,value,*op| 
     op = "=" if op.empty? || op.first.nil?
     {:conditions => ["#{field} #{op} ?", value]}

@@ -29,8 +29,7 @@ class ExpensesController < ApplicationController
                    :type => 'text/csv; charset=iso-8859-1; header=present',
                    :disposition => "attachment; filename=users.csv"
        }
-       
-     end        
+     end
   end
   
   # GET /expenses/1
@@ -156,11 +155,11 @@ class ExpensesController < ApplicationController
   def users_and_groups_autocomplete
     @response = []
     for user in User.find :all
-      @response.push({:caption => name_or_login(user), :value => "user:%s" % user.id})
+      @response.push({:caption => name_or_login(user).downcase, :value => "user:%s" % user.id})
     end    
     
     for group in Expensegroup.find :all
-      @response.push({:caption => group.name, :value => "expensegroup:%s" % group.id})
+      @response.push({:caption => group.name.downcase, :value => "expensegroup:%s" % group.id})
     end
     respond_to do |format|
       format.js { render :json => @response.to_json() }
@@ -196,6 +195,7 @@ end
 
 def build_table(user,p = params)
   options = {
+    :objects => Expense.related_to_user(user), 
     :table_headings => [['Reference date', 'formatted_reference_date'],
                        ['Description', 'description'], 
                        ['Creator','creator.login'],
@@ -204,7 +204,7 @@ def build_table(user,p = params)
                   'description' => ['expenses.description'],
                   'amount' => ['expenses.amount'],
                   'creator.login' => ['expenses.creator_id']},
-    :include_relations => [:creator, :users] , 
+    # :include_relations => [:creator, :users] , 
     :per_page => 15,
     :conditions => ['expenses_users.user_id == ? and expenses_users.expense_id = expenses.id', user.id ], 
     :default_sort => ['formatted_reference_date', 'DESC']

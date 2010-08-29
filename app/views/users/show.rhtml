@@ -1,3 +1,6 @@
+<h2>User profile</h2>
+<p><%= link_to 'Edit profile', :action=>'edit', :id=>@user.id %> | <%= link_to 'Change Password', change_password_path %></p>
+
 <h2><div class="avatarname"><%= image_tag @user.gravatar_url(:size => 125, :secure => true, :default => 'monsterid')  %><%=h @user.login %></div></h2>
 <p>Joined on: <%= @user.created_at.to_s(:long) %></p>
 
