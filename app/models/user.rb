@@ -13,8 +13,13 @@ class User < ActiveRecord::Base
   # It may be a good idea to have "admin" roles return true always
   def has_role?(role_in_question)
     @_list ||= self.roles.collect(&:name)
-    return true if @_list.include?("admin")
-    (@_list.include?(role_in_question.to_s) )
+    return  self.roles.collect(&:name)
+    if @_list.include?("admin")
+      return true 
+    else
+      return false
+    end
+    # (@_list.include?(role_in_question.to_s) )
   end
   # ---------------------------------------
   
@@ -112,10 +117,10 @@ class User < ActiveRecord::Base
   # end
 
   def is_owner?(id, model)
-    ob = model.find :first, :conditions=>{:id=>id}
-    if self.has_role? :admin
-      return True
+    if self.has_role? 'admin'
+      return true
     end
+    ob = model.find :first, :conditions=>{:id=>id}
     ob.creator == self
   end
   
