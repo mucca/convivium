@@ -7,7 +7,7 @@
   <% for user in @history.keys %>  
       var data<%=h user.id %>= [
       <% for date in @history[user].keys.sort.reverse %>
-        [ Date.parse('<%= date %>'), <%= @history[user][date] %>],
+        [ <%= dump_js_date date %>, <%= @history[user][date] %>],
       <% end %>
       ];  
   <% end %>
@@ -30,28 +30,29 @@
 
   function showTooltip(user_id, date, x, y) {
     // TODO the date works without formatting probably only chrome?
-    var params = {date:date, user:user_id};
-    var url = '<%= url_for(:action => 'list') %>/?' + $.param(params);
-    $('<div id="tooltip">'+'</div>').css( {
-      'position': 'absolute',
-      'display': 'none',
-      'top': y + 5,
-      'left': x + 5,
-      'border': '1px solid #fdd',
-      'padding': '2px',
-      'background-color': '#fee',
-      'opacity': 0.80
-    }).appendTo("body").load(url).fadeIn(200);
+    var params = {'date':date.toString(), 'user':user_id};
+    var url = '<%= url_for(:action => 'list') %>/';
+    $.get(url, params, function(response){
+        $('<div id="tooltip">'+'</div>').css( {
+          'position': 'absolute',
+          'display': 'none',
+          'top': y + 5,
+          'left': x + 5,
+          'border': '1px solid #fdd',
+          'padding': '2px',
+          'background-color': '#fee',
+          'opacity': 0.80
+        }).appendTo("body").html(response).fadeIn(200);        
+    });
   }
 
    var previousPoint = null;
    $("#plot-container").bind("plothover", function (event, pos, item) {
       if(item){
-        console.log(item);
         if (previousPoint != item.datapoint) {
             previousPoint = item.datapoint;
             $("#tooltip").remove();
-            var selectedDate = new Date(item.datapoint[0]);
+            var selectedDate = item.datapoint[0];
             showTooltip(item.series['user_id'], selectedDate, pos.pageX, pos.pageY);
         }
       } else {
