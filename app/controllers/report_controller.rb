@@ -46,7 +46,7 @@ class ReportController < ApplicationController
             @history[user] = {}
           end
           user_total[user] += expense.influence current_user
-          @history[user][expense.reference_date] = user_total[user]
+          @history[user][expense.reference_date.to_date.to_time] = user_total[user]
         end
       end
     end
@@ -54,10 +54,10 @@ class ReportController < ApplicationController
   
   def list
     # TODO filter the expenses the user can see
-    @date = DateTime.parse params[:date]
+    @date = Time.parse params[:date]
     @user = User.find(:first , :conditions=>{:id=>params[:user]})
     @expenses = []
-    for expense in Expense.related_to_user(current_user).between(@date-1.day, @date)
+    for expense in Expense.related_to_user(current_user).between(@date-1.day, @date+1.day)
       if expense.users.include? @user
         @expenses.push expense
       end
