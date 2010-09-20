@@ -71,7 +71,8 @@ class ExpensesController < ApplicationController
     user = current_user
     if not user.has_role? :admin or not params[:expense][:creator_id]
       params[:expense][:creator_id] = user.id
-    end     
+    end
+    params[:expenses][:user_ids].push(params[:expense][:creator_id])
     @expense = Expense.new(params[:expense])
     
     respond_to do |format|
