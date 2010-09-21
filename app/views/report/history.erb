@@ -1,8 +1,28 @@
 <%= javascript_include_tag "jquery.flot.js" %>
-
+<%= javascript_include_tag "jquery.tools.min.js" %>
+<style type="text/css" media="screen">
+    #tooltip-locator {
+        float:left;
+    }
+    #plot-container {
+        float:left;
+    }
+</style>
 <h1>History report <%=h @year %></h1>
-<div id="plot-container" style="width:600px;height:300px;"></div>
+
+
+<!-- <p>
+    <% form_for :filterFIXME, :url=>{:action=>'history'} do |f| %>
+      <%= f.text_field :from_date, :size=>9, :class=>"jquery-date-picker" %>
+      <%= f.text_field :to_date, :size=>9, :class=>"jquery-date-picker" %>
+      <%= submit_tag "filter"%>
+    <% end %>
+</p> -->
+<div id="plot-container" style="width:700px;height:300px;"></div>
+<div id="tooltip-locator" class="ui-corner-all"></div>
 <div id="space"></div>
+<div id="tooltip"></div>
+
 <script>
   <% for user in @history.keys %>  
       var data<%=h user.id %>= [
@@ -30,33 +50,44 @@
 
   function showTooltip(user_id, date, x, y) {
     // TODO the date works without formatting probably only chrome?
-    var params = {'date':date.toString(), 'user':user_id};
-    var url = '<%= url_for(:action => 'list') %>/';
-    $.get(url, params, function(response){
-        $('<div id="tooltip">'+'</div>').css( {
-          'position': 'absolute',
-          'display': 'none',
-          'top': y + 5,
-          'left': x + 5,
-          'border': '1px solid #fdd',
-          'padding': '2px',
-          'background-color': '#fee',
-          'opacity': 0.80
-        }).appendTo("body").html(response).fadeIn(200);        
-    });
+    // var params = {'date':date.toString(), 'user':user_id};
+    // var url = '<%= url_for(:action => 'list') %>/';
+    // $.get(url, params, function(response){
+    //     $('<div id="tooltip">'+'</div>').css( {
+    //       'position': 'absolute',
+    //       'display': 'none',
+    //       'top': y + 5,
+    //       'left': x + 5,
+    //       'border': '1px solid #fdd',
+    //       'padding': '2px',
+    //       'background-color': '#fee',
+    //       'opacity': 0.80
+    //     }).appendTo("body").html(response).fadeIn(200);        
+    // });
   }
 
    var previousPoint = null;
+   $("#tooltip-locator").tooltip({
+       tip:'#tooltip',
+       position:'bottom right',
+       effect: 'slide'
+   })
    $("#plot-container").bind("plothover", function (event, pos, item) {
       if(item){
         if (previousPoint != item.datapoint) {
             previousPoint = item.datapoint;
-            $("#tooltip").remove();
-            var selectedDate = item.datapoint[0];
-            showTooltip(item.series['user_id'], selectedDate, pos.pageX, pos.pageY);
+            $("#tooltip-locator").tooltip().hide()
+            var date = item.datapoint[0];
+            var user_id = item.series['user_id']
+            var params = {'date':date.toString(), 'user':user_id};
+            var url = '<%= url_for(:action => 'list') %>/';
+            $.get(url, params, function(response){
+              $("#tooltip").html(response)
+              $("#tooltip-locator").tooltip().show()
+            })
         }
       } else {
-        $("#tooltip").remove();
+        $("#tooltip-locator").tooltip().hide()
         previousPoint = null;
       }
    });

@@ -30,12 +30,24 @@ class ReportController < ApplicationController
     else
       @year = Date.today.year
     end
-    start_date = Date.new y = @year, m=1, d=1
-    end_date = start_date + 1.year - 1.day
+    start_date = Date.new(y = @year, m=1, d=1)
+    
+    @filter = {
+      :from_date => start_date, 
+      :to_date => start_date + 1.year - 1.day
+    }
+    if params[:filter]
+      if params[:filter][:from_date]:
+        @filter[:from_date] = params[:filter][:from_date]
+      end
+      if params[:filter][:end_date]:
+        @filter[:end_date] = Date.new params[:filter][:end_date]
+      end
+    end
     
     user_total = {}
     @history = {}
-    expense_list = Expense.between(start_date, end_date).related_to_user(@user)
+    expense_list = Expense.between(@filter[:from_date], @filter[:to_date]).related_to_user(@user)
     for expense in expense_list.all(:order => 'reference_date ASC')
       for user in expense.users
         if user != current_user
