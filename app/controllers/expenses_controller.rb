@@ -72,6 +72,7 @@ class ExpensesController < ApplicationController
     if not user.has_role? :admin or not params[:expense][:creator_id]
       params[:expense][:creator_id] = user.id
     end
+    params[:expense][:user_ids] ||= []
     params[:expense][:user_ids].push(params[:expense][:creator_id])
     @expense = Expense.new(params[:expense])
     
@@ -80,7 +81,14 @@ class ExpensesController < ApplicationController
         flash[:notice] = 'Expense was successfully created.'
         format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @expense, :status => :created, :location => @expense }
-        format.js { build_table User.find session[:user_id] }
+        format.js { 
+          build_table User.find current_user
+          # FIXME this second part does not work and i want to update the portlet status
+          # render :update do |page|
+          #   page.replace 'credit_status_portlet', :partial => 'portlets/credit_status'
+          #   page["credit_status_portlet"].visual_effect :highlight
+          # end 
+        }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @expense.errors, :status => :unprocessable_entity }

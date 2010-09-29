@@ -1,7 +1,18 @@
+<%= javascript_include_tag "jquery.tools.min.js" %>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        // $("input[type=text]").tooltip()
+    })
+</script>
+
 <div>
   <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"" do |f| %>
-    <div class="inline_form"><%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker" %></div>
-    <div class="inline_form"><%= f.text_field :description, :size=>20 %></div>
+    <div class="inline_form">
+        <%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker", :title=>t("Expense reference date")%>
+    </div>
+    <div class="inline_form">
+        <%= f.text_field :description, :size=>20, :title=>t("Description") %>
+    </div>
     <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
 
     <div class="inline_form">

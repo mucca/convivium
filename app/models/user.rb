@@ -125,10 +125,10 @@ class User < ActiveRecord::Base
   end
   
   def is_group_manager?(id, model)
-    ob = model.find :first, :conditions=>{:id=>id}
-    if self.has_role? :admin
-      return True
+    if self.has_role? 'admin'
+      return true
     end
+    ob = model.find :first, :conditions=>{:id=>id}
     ob.group_manager == self
   end
 
