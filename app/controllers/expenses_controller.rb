@@ -11,7 +11,7 @@ class ExpensesController < ApplicationController
   def index                        
      @user = User.find session[:user_id]    
      @expense = Expense.new :reference_date => Date.today  
-     build_table @user,params
+     build_table(@user, params)
      
      respond_to do |format|
        format.html # index.html.erb

@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   has_many :categories, :foreign_key=>:creator_id
   
   after_save do |user| 
-    user.roles << Role.find_by_name("admin")  # OK we need to know that admin role exists!!!!
+    # user.roles << Role.find_by_name("admin")  # OK we need to know that admin role exists!!!!
   end   
   
   # TODO handle after_destroy, what about alla datas collected ?
