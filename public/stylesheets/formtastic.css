@@ -1,0 +1,8 @@
+form.formtastic li {
+    list-style:none;
+}
+
+form.formtastic li label{
+    display:block;
+    margin:10px 0 5px 0;
+}

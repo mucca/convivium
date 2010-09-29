@@ -5,7 +5,7 @@
     <td><%=h expense.creator.login %></td>
     <td>
       <% for user in expense.users %>
-      <span><% name_or_login user %></span>
+      <span><%= name_or_login user %></span>
       <% end %>
     </td>
     <td><%=h expense.description %></td>

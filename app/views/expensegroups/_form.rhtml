@@ -2,7 +2,7 @@
 
 <% User.all.collect{|u| {u.login => u.id }}.each{|u| personal_dict.merge! u} if current_user.has_role? 'admin' %>    
 
-<% semantic_form_for @expensegroup do |form| %>    
+<% semantic_form_for @expensegroup do |form| %>
     <%= form.input :name %>
     <%= form.input :group_manager, :as => :select, :collection => personal_dict %>
     <%= form.input :user_ids, :as => :select, :collection => User.all.collect{|u| [u.login, u.id]} %> 
