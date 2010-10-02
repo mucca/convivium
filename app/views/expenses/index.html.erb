@@ -1,29 +1,62 @@
 <%= javascript_include_tag "jquery.tools.min.js" %>
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
-        // $("input[type=text]").tooltip()
+        $(".tooltip.bottom").prev().tooltip({
+            offset: [10, 2],
+            effect: 'slide',
+            position:'bottom center',
+            events: {
+              def:     "mouseenter,mouseleave",    // default show/hide events for an element
+              input:   "focus mouseenter,blur mouseleave",
+              widget:  "mouseenter,mouseleave",
+              tooltip: "mouseenter,mouseleave"
+            }
+        })
+        $(".tooltip.top").prev().tooltip({
+            offset: [10, 2],
+            effect: 'slide',
+            position:'top center',
+            events: {
+              def:     "mouseenter,mouseleave",    // default show/hide events for an element
+              input:   "focus mouseenter,blur mouseleave",
+              widget:  "mouseenter,mouseleave",
+              tooltip: "mouseenter,mouseleave"
+            }
+        })
     })
 </script>
 
 <div>
   <% form_remote_for :expense, @expense, :url=>{:action=>'create'}, :html=>{:id=>'new_expense'}, :complete =>"" do |f| %>
     <div class="inline_form">
-        <%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker", :title=>t("Expense reference date")%>
+        <%= f.text_field :reference_date, :size=>9, :class=>"jquery-date-picker"%>
     </div>
     <div class="inline_form">
-        <%= f.text_field :description, :size=>20, :title=>t("Description") %>
+        <%= f.text_field :description, :size=>20%>
+        <div class="tooltip bottom small white"><%= t "Description" %></div>
     </div>
-    <div class="inline_form"><%= f.text_field :amount, :size=>9 %></div>    
+    <div class="inline_form">
+        <%= f.text_field :amount, :size=>9 %>
+        <div class="tooltip bottom small white"><%= t "Amount" %></div>
+    </div>
 
     <div class="inline_form">
       <% if current_user.has_role? :admin %>
         <%= f.select :creator_id , User.find(:all).collect {|p| [ p.login, p.id ] } , { :selected => current_user.id } %>		
       <% end %>
+      <div class="tooltip top small white"><%= t "Owner" %></div>
     </div>
-    <div class="inline_form"><%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } %></div>
+    <div class="inline_form">
+        <%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } %>
+        <div class="tooltip top small white"><%= t "Category" %></div>
+    </div>
     <div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
     <div class="inline_form"><%= f.select :expensegroup_ids, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
-    <div class="inline_form"><select id="dummy_user_group" disabled="disabled"></select></div>
+    <div class="inline_form">
+        <select id="dummy_user_group" disabled="disabled"></select>
+        
+    </div>
+    <div class="tooltip top white small"><%= t "Users" %></div>
     <div class="inline_form"><%= submit_tag "add"%></div>
     <div class="inline_form inline_form_last"></div>
   <% end %>

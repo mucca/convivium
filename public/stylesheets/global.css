@@ -155,3 +155,49 @@ div.inline_form {
     float:left;
     margin-right:2px;
 }
+
+
+.tooltip {
+    background:url("../images/tooltip/black_arrow.png") repeat scroll 0 0 transparent;
+    color:#FFFFFF;
+    display:none;
+    font-size:12px;
+    height:70px;
+    padding:25px;
+    width:160px;
+    z-index:800;
+}
+
+.tooltip.white {
+    background:url("../images/tooltip/white_arrow.png") repeat scroll 0 0 transparent;
+    color:black;
+}
+
+.tooltip.white.small {
+    background:url("../images/tooltip/white_arrow_small.png") repeat scroll 0 0 transparent;
+    color:black;
+    padding:5px;
+    padding:5px;
+    padding-top:15px;
+    text-align: center;
+    width:91px;
+    height:37px;
+}
+
+.tooltip.bottom.small {
+    background:url("../images/tooltip/black_arrow_bottom_small.png") repeat scroll 0 0 transparent;
+    padding:5px;
+    padding:5px;
+    padding-top:15px;
+    text-align: center;
+    width:91px;
+    height:37px;    
+}
+.tooltip.bottom {
+    background:url("../images/tooltip/black_arrow_bottom.png") repeat scroll 0 0 transparent;
+}
+
+.tooltip.bottom.small.white {
+    background:url("../images/tooltip/white_arrow_bottom_small.png") repeat scroll 0 0 transparent;
+    color:black;
+}

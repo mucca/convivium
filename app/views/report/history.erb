@@ -1,5 +1,4 @@
 <%= javascript_include_tag "jquery.flot.js" %>
-<%= javascript_include_tag "jquery.tools.min.js" %>
 <style type="text/css" media="screen">
     #tooltip-locator {
         float:left;
@@ -11,13 +10,6 @@
 <h1>History report <%=h @year %></h1>
 
 
-<!-- <p>
-    <% form_for :filterFIXME, :url=>{:action=>'history'} do |f| %>
-      <%= f.text_field :from_date, :size=>9, :class=>"jquery-date-picker" %>
-      <%= f.text_field :to_date, :size=>9, :class=>"jquery-date-picker" %>
-      <%= submit_tag "filter"%>
-    <% end %>
-</p> -->
 <ul class="expense-year-list">
     <li><a href="#" id="reset-zoom">Reset</a></li>
 </ul>
