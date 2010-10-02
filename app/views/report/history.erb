@@ -18,6 +18,9 @@
       <%= submit_tag "filter"%>
     <% end %>
 </p> -->
+<ul class="expense-year-list">
+    <li><a href="#" id="reset-zoom">Reset</a></li>
+</ul>
 <div id="plot-container" style="width:700px;height:300px;"></div>
 <div id="tooltip-locator" class="ui-corner-all"></div>
 <div id="space"></div>
@@ -39,32 +42,27 @@
   var options = { 
      lines: { show: true },
      points: { show: true },
-     // selection: { mode: "xy" },
+     selection: { mode: "x" },
      legend: { position: 'nw' },
      grid: { hoverable: true, clickable: true },
-     //yaxis: { min: -1.2, max: 1.2 }
      xaxis: { mode: 'time' },
    }
    var container = $("#plot-container")
-  var plot = $.plot(container, dataset, options);
-
-  function showTooltip(user_id, date, x, y) {
-    // TODO the date works without formatting probably only chrome?
-    // var params = {'date':date.toString(), 'user':user_id};
-    // var url = '<%= url_for(:action => 'list') %>/';
-    // $.get(url, params, function(response){
-    //     $('<div id="tooltip">'+'</div>').css( {
-    //       'position': 'absolute',
-    //       'display': 'none',
-    //       'top': y + 5,
-    //       'left': x + 5,
-    //       'border': '1px solid #fdd',
-    //       'padding': '2px',
-    //       'background-color': '#fee',
-    //       'opacity': 0.80
-    //     }).appendTo("body").html(response).fadeIn(200);        
-    // });
-  }
+   var plot = $.plot(container, dataset, options);
+   
+   container.bind("plotselected", function (event, ranges) {
+           plot = $.plot(container, dataset,
+                         $.extend(true, {}, options, {
+                             xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+                         }));
+   });
+   
+   $('#reset-zoom').click(function(){
+        plot = $.plot(container, dataset,
+           $.extend(true, {}, options, { xaxis: { min: null, max: null }
+        }));
+        return false;
+   })
 
    var previousPoint = null;
    $("#tooltip-locator").tooltip({
