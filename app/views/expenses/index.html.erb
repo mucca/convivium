@@ -33,11 +33,11 @@
     </div>
     <div class="inline_form">
         <%= f.text_field :description, :size=>20%>
-        <div class="tooltip bottom small white"><%= t "Description" %></div>
+        <div class="tooltip top small white"><%= t "Description" %></div>
     </div>
     <div class="inline_form">
         <%= f.text_field :amount, :size=>9 %>
-        <div class="tooltip bottom small white"><%= t "Amount" %></div>
+        <div class="tooltip top small white"><%= t "Amount" %></div>
     </div>
 
     <div class="inline_form">
@@ -53,6 +53,7 @@
     <div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
     <div class="inline_form"><%= f.select :expensegroup_ids, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
     <div class="inline_form">
+        
         <select id="dummy_user_group" disabled="disabled"></select>
         
     </div>
