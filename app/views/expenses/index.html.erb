@@ -11,7 +11,7 @@
               widget:  "mouseenter,mouseleave",
               tooltip: "mouseenter,mouseleave"
             }
-        })
+        });
         $(".tooltip.top").prev().tooltip({
             offset: [10, 2],
             effect: 'slide',
@@ -22,8 +22,8 @@
               widget:  "mouseenter,mouseleave",
               tooltip: "mouseenter,mouseleave"
             }
-        })
-    })
+        });
+    });
 </script>
 
 <div>
@@ -53,16 +53,21 @@
     <div class="inline_form"><%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
     <div class="inline_form"><%= f.select :expensegroup_ids, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true, :class=> 'hidden'} %></div>
     <div class="inline_form">
-        
         <select id="dummy_user_group" disabled="disabled"></select>
-        
     </div>
     <div class="tooltip top white small"><%= t "Users" %></div>
+    <div class="inline_form"><%= f.check_box :personal_transaction %><%= f.label :personal_transaction, 'Transaction' %><br /></div>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            $("#expense_personal_transaction").button({icons: { primary: "ui-icon-check" }})
+        })
+    </script>
     <div class="inline_form"><%= submit_tag "add"%></div>
     <div class="inline_form inline_form_last"></div>
   <% end %>
 </div>
 <div style="clear:both"></div>
+<div id="form-error-box"></div>
 <br/>
 <div id="expense_list_table">
 <%= sortable_table :partial =>'table'%>     

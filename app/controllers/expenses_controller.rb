@@ -73,7 +73,10 @@ class ExpensesController < ApplicationController
       params[:expense][:creator_id] = user.id
     end
     params[:expense][:user_ids] ||= []
-    params[:expense][:user_ids].push(params[:expense][:creator_id])
+    
+    if not params[:expense][:user_ids].include? params[:expense][:creator_id]
+      params[:expense][:user_ids].push(params[:expense][:creator_id])
+    end
     @expense = Expense.new(params[:expense])
     
     respond_to do |format|
@@ -100,6 +103,7 @@ class ExpensesController < ApplicationController
                   page["expense_#{attribute}"].visual_effect :highlight
                 end
               end
+              page['form-error-box'].html(@expense.errors['base']).fadeIn.delay(5000).fadeOut
             end
           }
       end

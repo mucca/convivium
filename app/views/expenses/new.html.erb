@@ -3,6 +3,10 @@
 <% form_for(@expense) do |f| %>
   <%= f.error_messages %>
   <p>
+    <%= f.label :personal_transaction %>   <br/>
+    <%= f.check_box :personal_transaction %>
+  </p>
+  <p>
 	<%= f.label :reference_date %><br />
 	<%= f.text_field :reference_date, :class=>"jquery-date-picker" %>
   </p>
