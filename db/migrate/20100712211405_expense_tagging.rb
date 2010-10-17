@@ -4,13 +4,6 @@ class ExpenseTagging < ActiveRecord::Migration
       t.column "expense_id", :integer, :null => false
       t.column "user_id",  :integer, :null => false
     end
-    for expense in Expense.all
-      expense.users = expense.expensegroup.users
-      expense.save!
-    end
-    for g in Expensegroups.all
-      g.delete
-    end
   end
 
   def self.down
