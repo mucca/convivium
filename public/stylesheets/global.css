@@ -84,10 +84,18 @@ div#portlets-container h1,h2,h3,h4,h5,h6 {
 
 input[type=text] {
     height:22px;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px;
 }
 select {
-    height:30px;
+    height:29px;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px;
 }
+
+ul.holder {
+    -moz-border-radius: 4px; -webkit-border-radius: 4px;
+    border:1px solid #CCCCCC;
+}
+
 input.maininput {
     height:auto;
 }
