@@ -1,4 +1,3 @@
-<%= javascript_include_tag "jquery.flot.js" %>
 <style type="text/css" media="screen">
     #tooltip-locator {
         float:left;
@@ -43,10 +42,10 @@
    var plot = $.plot(container, dataset, options);
    
    container.bind("plotselected", function (event, ranges) {
-           plot = $.plot(container, dataset,
-                         $.extend(true, {}, options, {
-                             xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
-                         }));
+       plot = $.plot(container, dataset,
+                     $.extend(true, {}, options, {
+                         xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+                     }));
    });
    
    $('#reset-zoom').click(function(){
@@ -62,25 +61,25 @@
        position:'bottom right',
        effect: 'slide'
    })
-   $("#plot-container").bind("plothover", function (event, pos, item) {
-      if(item){
-        if (previousPoint != item.datapoint) {
-            previousPoint = item.datapoint;
-            $("#tooltip-locator").tooltip().hide()
-            var date = item.datapoint[0];
-            var user_id = item.series['user_id']
-            var params = {'date':date.toString(), 'user':user_id};
-            var url = '<%= url_for(:action => 'list') %>/';
-            $.get(url, params, function(response){
-              $("#tooltip").html(response)
-              $("#tooltip-locator").tooltip().show()
-            })
-        }
-      } else {
-        $("#tooltip-locator").tooltip().hide()
-        previousPoint = null;
-      }
-   });
+   // $("#plot-container").bind("plothover", function (event, pos, item) {
+   //    if(item){
+   //      if (previousPoint != item.datapoint) {
+   //          previousPoint = item.datapoint;
+   //          $("#tooltip-locator").tooltip().hide()
+   //          var date = item.datapoint[0];
+   //          var user_id = item.series['user_id']
+   //          var params = {'date':date.toString(), 'user':user_id};
+   //          var url = '<%= url_for(:action => 'list') %>/';
+   //          $.get(url, params, function(response){
+   //            $("#tooltip").html(response)
+   //            $("#tooltip-locator").tooltip().show()
+   //          })
+   //      }
+   //    } else {
+   //      $("#tooltip-locator").tooltip().hide()
+   //      previousPoint = null;
+   //    }
+   // });
    
    $("#plot-container").bind("plothover",  function (event, pos, item) {
        latestPosition = pos;

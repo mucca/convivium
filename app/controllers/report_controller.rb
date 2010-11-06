@@ -1,3 +1,4 @@
+
 class ReportController < ApplicationController
   
   before_filter :login_required
@@ -9,8 +10,11 @@ class ReportController < ApplicationController
     else
       @year = Date.today.year
     end
-    
-    start_date = Date.new y = @year, m=1, d=1
+    if params.keys.include? :start_date
+      start_date = params[:start_date]
+    else
+      start_date = Date.new y = @year, m=1, d=1
+    end
     end_date = start_date + 1.year
     @expenses = Expense.related_to_user(current_user).between(start_date, end_date)
     @monthly_expense = {}
@@ -30,7 +34,11 @@ class ReportController < ApplicationController
     else
       @year = Date.today.year
     end
-    start_date = Date.new(y = @year, m=1, d=1)
+    if params.keys.include? 'last_period'
+      start_date = Date.today - 30.days
+    else
+      start_date = Date.new(y = @year, m=1, d=1)
+    end
     
     @filter = {
       :from_date => start_date, 
@@ -62,6 +70,18 @@ class ReportController < ApplicationController
         end
       end
     end
+    
+    respond_to do |format|
+      format.html
+      format.json { 
+        @response = []
+        for user in @history.keys:
+          data = @history[user].keys.sort.reverse.collect{ |date| [date.to_date, @history[user][date]]}
+          @response.push({ :label=>name_or_login(user),:data=>data })
+        end
+        render :json => ActiveSupport::JSON.encode(@response)
+      }
+    end
   end
   
   def list
@@ -88,6 +108,24 @@ class ReportController < ApplicationController
       categories[key] += ex.amount / ex.users.length 
     end
     for category in categories.keys
+    end
+  end
+
+  def category_last_month
+    @user = current_user
+    results = {}
+    for expense in Expense.last_period.related_to_user @user
+      if not results.keys.include? expense.category
+        results[expense.category] = 0
+      end
+      results[expense.category] = results[expense.category] + expense.amount
+    end
+    @response = []
+    for category in results.keys
+      @response.push({ :label=> category.name, :data=>results[category] })
+    end 
+    respond_to do |format|
+      format.json { render :json => @response.to_json() }
     end
   end
   

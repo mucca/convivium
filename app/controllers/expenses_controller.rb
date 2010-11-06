@@ -7,29 +7,33 @@ class ExpensesController < ApplicationController
   sortable_table Expense   
   
   # GET /expenses
-  # GET /expenses.xml
-  def index                        
-     @user = User.find session[:user_id]    
-     @expense = Expense.new :reference_date => Date.today  
-     build_table(@user, params)
-     
-     respond_to do |format|
-       format.html # index.html.erb
-       format.xml  { render :xml => @expenses }
-       format.csv {
-         response = FasterCSV.generate do |csv| 
-           csv << ["Creation date", "Reference date", "Category", "Group", 
-                   'User', "Description", "Amount"]
-           Expense.all.each do |e|
-             csv << [ e.created_at, e.reference_date, e.category, e.creator.login, 
-                      e.description, e.amount ]
-           end
-         end
-         send_data response,
-                   :type => 'text/csv; charset=iso-8859-1; header=present',
-                   :disposition => "attachment; filename=users.csv"
-       }
-     end
+  def index
+  end
+  
+  # GET /expenses/list
+  # GET /expenses/list.xml
+  def list
+    @user = User.find session[:user_id]    
+    @expense = Expense.new :reference_date => Date.today  
+    build_table(@user, params)
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @expenses }
+      format.csv {
+        response = FasterCSV.generate do |csv| 
+          csv << ["Creation date", "Reference date", "Category", "Group", 
+                  'User', "Description", "Amount"]
+          Expense.all.each do |e|
+            csv << [ e.created_at, e.reference_date, e.category, e.creator.login, 
+                     e.description, e.amount ]
+          end
+        end
+        send_data response,
+                  :type => 'text/csv; charset=iso-8859-1; header=present',
+                  :disposition => "attachment; filename=users.csv"
+      }
+    end
   end
   
   # GET /expenses/1

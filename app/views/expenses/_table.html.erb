@@ -45,7 +45,7 @@
 	        th_class = cycle('specalt', 'spec')
         %>
 	    <tr id='<%=dom_id(object)%>' class='<%= th_class %>'>
-          <th scope="row"><%= object.formatted_reference_date %></th>
+          <td><%= object.formatted_reference_date %></td>
           <td><%= object.description %></td>
           <td><%= name_or_login object.creator %></td>
           <td><%= object.amount %></td>

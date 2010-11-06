@@ -1,0 +1,58 @@
+<script type="text/javascript" charset="utf-8">
+    var pie_url = "<%= url_for :controller=>'report', :action=>'category_last_month' %>";
+    var history_url = "<%= url_for :controller=>'report', :action=>'history', :last_period=>1 %>";
+
+    $(document).ready(function(){
+        $.getJSON(pie_url, {}, function(data){
+            var options = {
+                pie: { 
+                    show: true, 
+                    pieStrokeLineWidth: 1, 
+                    pieStrokeColor: '#FFF', 
+                    showLabel: false
+                },
+                legend: {
+                    show: true,
+                    container:$("#month-category-pie-legend")
+                }
+            }
+            $.plot($('#month-category-pie'), data, options)
+        })
+
+        $.getJSON(history_url, {}, function(data){
+            var container = $("#credit-last-month");
+            for(s in data){
+                for(i in data[s]['data']){
+                    data[s]['data'][i][0] = $.datepicker.parseDate('yy-mm-dd', data[s]['data'][i][0]);
+                }
+            }
+            var options = { 
+               lines: { show: true },
+               xaxis:{
+                   mode:'time',
+               },
+               legend: {
+                   show: true,
+                   container:$("#credit-last-month-legend")
+               }
+             }
+            $.plot(container, data, options)
+            container.toggleClass("loading-plot")
+        })
+        
+    })
+</script>
+
+<div class="span-6 colborder">
+    <h5>spese questo mese</h5>
+    <div id="month-category-pie" class="span-4 loading-plot" style="height:150px;width:150px"></div>
+    <div class="span-2 last" id="month-category-pie-legend"></div>
+</div>
+<div class="span-6 colborder">
+    <h5>spese stato crediti e debiti</h5>
+    <div id="credit-last-month" class="span-4 loading-plot" style="height:150px;width:150px"></div>
+    <div class="span-2 last" id="credit-last-month-legend"></div>
+</div>
+<div class="span-5 last">
+    <h5>spese di oggi</h5>
+</div>

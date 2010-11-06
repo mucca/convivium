@@ -28,8 +28,16 @@ module ApplicationHelper
     current_user.has_role? role
   end
   
+  def global_portlets
+    if current_user
+      [ render(:partial=>'portlets/credit_status'), 
+        render(:partial=>'portlets/last_transactions') ]
+    else
+      []
+    end
+  end
+  
   def user_portlets
-    [ render(:partial=>'portlets/credit_status'), 
-      render(:partial=>'portlets/last_transactions') ]
+    []
   end
 end
