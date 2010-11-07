@@ -85,6 +85,7 @@ class ExpensesController < ApplicationController
             page.replace 'credit_status_portlet', :partial => 'portlets/credit_status'
             page["credit_status_portlet"].visual_effect :highlight
             page["new-expense-home-errors"].hide
+            page["new-expense-home"].reset
           end 
         }
       else
