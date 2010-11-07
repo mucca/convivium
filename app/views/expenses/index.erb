@@ -3,7 +3,7 @@
     var history_url = "<%= url_for :controller=>'report', :action=>'history', :last_period=>1 %>";
 
     $(document).ready(function(){
-        $.getJSON(pie_url, {}, function(data){
+        $.getJSON(pie_url, function(data){
             var options = {
                 pie: { 
                     show: true, 
@@ -55,4 +55,26 @@
 </div>
 <div class="span-5 last">
     <h5>spese di oggi</h5>
+    <% form_remote_for :expense, @expense, :url=>{:action=>'create_home'}, :html=>{:id=>'new-expense-home'}, :complete =>"" do |f| %>
+          <div class="flash error hide" id="new-expense-home-errors"></div>
+          <div class="span-3">
+              <%= f.text_field :description, :class=>"span-3"%>
+              <div class="tooltip top small white"><%= t "Description" %></div>
+          </div>
+          <div class="span-2 last">
+              <%= f.text_field :amount, :size=>9 %>
+              <div class="tooltip top small white"><%= t "Amount" %></div>
+          </div>
+          <div class="span-5">
+              <%= f.select :expensegroup_ids, Expensegroup.all.collect{|u| [u.name, u.id]}, {},  {:multiple=> true, :class=> 'hide'} %>
+              <%= f.select :user_ids, User.all.collect{|u| [u.login, u.id]}, {},  {:multiple=> true, :class=> 'hide'} %>
+              <select id="dummy_user_group" disabled="disabled"></select>
+          </div>
+          <div class="tooltip top white small"><%= t "Users" %></div>
+          <div class="span-5">
+              <%= f.select :category_id , get_user_categories_for_expense(@expense).collect {|p| [ p.name, p.id ] } %>
+              <div class="tooltip top small white"><%= t "Category" %></div>
+          </div>
+          <div class="span-2 last"><%= submit_tag "add"%></div>
+    <% end %>
 </div>

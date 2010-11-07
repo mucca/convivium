@@ -57,6 +57,7 @@ class Expense < ActiveRecord::Base
   named_scope :last_week, lambda { { :conditions => ['reference_date > ?', 1.week.ago] } }
   named_scope :last_month, lambda { { :conditions => ['reference_date > ?', 1.month.ago] } }
   named_scope :last_period, lambda { { :conditions => ['reference_date > ?', 30.days.ago] } }
+  named_scope :last_year, lambda { { :conditions => ['reference_date > ?', 360.days.ago] } }
   named_scope :related_to_group, lambda { |expensegroups|{ :conditions => ['expensegroup_id in (?)', expensegroups] } }
   named_scope :related_to_user, lambda { |user| {:joins => [:users], :conditions=>{ 'expenses_users.user_id' => user.id }}}
   # named_scope :related_to_user, lambda { |user| {:joins => "LEFT JOIN expenses_users ON expenses_users.user_id = " + user.id.to_s }}

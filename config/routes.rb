@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'expenses/users_and_groups_autocomplete', :controller => 'expenses', :action => 'users_and_groups_autocomplete'     
   map.connect 'expenses/group_users', :controller => 'expenses', :action => 'group_users'  
   map.connect 'expenses/groups_autocomplete', :controller => 'expenses', :action => 'groups_autocomplete'
+  map.connect 'expenses/create_home', :controller => 'expenses', :action => 'create_home'
   map.connect 'expenses/list', :controller => 'expenses', :action => 'list'
   map.resources :expenses
   

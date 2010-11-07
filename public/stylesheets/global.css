@@ -7,11 +7,13 @@ body {
 h7 {
     border-bottom: 1px solid #999;
 }
+
 form ul.holder { 
-    width: 200px;
+    width: 177px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
+form ul.holder li input { height:auto;}
 
 div#login-window {
     background:white;
@@ -34,13 +36,13 @@ ul.holder li input:focus {
 }
 
 input[type=text], input[type=password], select {
-    height:22px;
+    height:23px;
     -moz-border-radius: 4px; -webkit-border-radius: 4px;
     border: 1px solid #999;
 }
+
 select {
     height:29px;
-    
 }
 
 .tooltip {
@@ -87,4 +89,11 @@ div.last-expenses-box { font-size:90%; margin-bottom:0.5em; }
     background:url("../images/ajax-loader.gif");
     background-position:50% 50%;
     background-repeat:no-repeat;
+}
+
+div#title h1 {
+    background:url('../images/logo.png');
+    background-repeat:no-repeat;
+    height:150px;
+    text-indent:-1000em;
 }

@@ -8,6 +8,7 @@ class ExpensesController < ApplicationController
   
   # GET /expenses
   def index
+    @expense = Expense.new
   end
   
   # GET /expenses/list
@@ -67,6 +68,35 @@ class ExpensesController < ApplicationController
         @users_expense.push({:title => name_or_login(user), :value => user.id})
     end  
     @users_expense = @users_expense.to_json
+  end
+
+  def create_home
+    @expense = Expense.new(params[:expense])
+    @expense.creator = current_user
+    if not @expense.users.include? @expense.creator
+      @expense.users.push @expense.creator
+    end
+    @expense.reference_date = DateTime.now
+    
+    respond_to do |format|
+      if @expense.save
+        format.js { 
+          render :update do |page|
+            page.replace 'credit_status_portlet', :partial => 'portlets/credit_status'
+            page["credit_status_portlet"].visual_effect :highlight
+            page["new-expense-home-errors"].hide
+          end 
+        }
+      else
+        format.js {
+          render :update do |page|
+            # page["new-expense-home-errors"].html(@expense.errors[0].to_s).show
+            puts @expense.errors
+            page["new-expense-home-errors"].html(@expense.errors.full_messages.join('<br>')).show
+          end
+        }
+      end
+    end
   end
 
   # POST /expenses

@@ -114,7 +114,12 @@ class ReportController < ApplicationController
   def category_last_month
     @user = current_user
     results = {}
-    for expense in Expense.last_period.related_to_user @user
+    if params.keys.include? 'last_year'
+      expenses = Expense.last_year
+    else
+      expenses = Expense.last_period
+    end
+    for expense in expenses.related_to_user(@user)
       if not results.keys.include? expense.category
         results[expense.category] = 0
       end
