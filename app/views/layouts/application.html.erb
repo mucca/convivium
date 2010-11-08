@@ -133,18 +133,22 @@
         </ul>
         <% end %>
     </div>
+    
     <div class="span-4 colborder" id="portlet-container">
         <%= yield :portlets %>
         <%= global_portlets %>
     </div>
+    
     <div class="span-19 last">
-        <% if flash[:notice] %>
-          <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
-        <% end %>
+        <% if current_user %>
+            <% if flash[:notice] %>
+              <div class="flash notice" id='notice'> <%= flash[:notice] %></div>
+            <% end %>
         
-        <% if flash[:error] %>    
-          <div class="flash error" id='error'><%= flash[:error] %></div>
-        <% end %> 
+            <% if flash[:error] %>    
+              <div class="flash error" id='error'><%= flash[:error] %></div>
+            <% end %> 
+        <% end %>
         
         <%= yield %>
     </div>
