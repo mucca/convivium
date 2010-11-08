@@ -13,17 +13,35 @@ form ul.holder {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
-form ul.holder li input { height:auto;}
+form ul.holder li input {height:auto;}
+div.facebook-auto {
+    width:189px;
+    margin-top:-4px;
+    background:white;
+}
+div.facebook-auto .default {border-color:#999;}
 
 div#login-window {
+    border:1px solid #999;
     background:white;
-    width:600px;
-    padding:1em;
+    padding:0 2em;
     margin:auto;
     margin-bottom:2em;
     margin-top:2em;
-    margin-left: 200px;
+    margin-left: 280px;
+    width:363px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
+div#login-window input[type=text], div#login-window input[type=password] {
+    width:100%;
+    font-size:12px;
+}
+
+div#login-window h2 {
+    display:none;
+}
+
 div#login-info {
     text-align:right;
 }
@@ -37,7 +55,9 @@ ul.holder li input:focus {
 
 input[type=text], input[type=password], select {
     height:23px;
-    -moz-border-radius: 4px; -webkit-border-radius: 4px;
+    padding:1px 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     border: 1px solid #999;
 }
 
@@ -96,4 +116,5 @@ div#title h1 {
     background-repeat:no-repeat;
     height:150px;
     text-indent:-1000em;
+    margin-bottom:-30px;
 }
