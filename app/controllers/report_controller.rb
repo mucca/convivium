@@ -123,7 +123,7 @@ class ReportController < ApplicationController
       if not results.keys.include? expense.category
         results[expense.category] = 0
       end
-      results[expense.category] = results[expense.category] + expense.amount
+      results[expense.category] = results[expense.category] + expense.influence(@user).abs
     end
     @response = []
     for category in results.keys
