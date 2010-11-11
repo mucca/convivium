@@ -55,8 +55,6 @@ $(document).ready(function(){
 	$("#column-right ul li a").button({ icons: {primary:'ui-icon-folder-collapsed'} });
 	$("#column-right ul li.users_link a").button({ icons: {primary:'ui-icon-person'} });
 	$("input[type=submit]").button({ icons: {primary:'ui-icon-folder-collapsed'} });
-	$("ul.expense-year-list li a").button({ icons: {primary:'ui-icon-calculator'} });
-	$("ul.expense-year-list li a").button({ icons: {primary:'ui-icon-calculator'} });
 
 	$(".jquery-date-picker").each(function(){
 	    $(this).datepicker({ dateFormat: 'yy-mm-dd',constrainInput: false, firstDay:1 });

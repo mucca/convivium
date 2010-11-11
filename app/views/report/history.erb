@@ -9,9 +9,9 @@
 <h1>History report <%=h @year %></h1>
 
 
-<ul class="expense-year-list">
+<!-- <ul class="horizontal-list">
     <li><a href="#" id="reset-zoom">Reset</a></li>
-</ul>
+</ul> -->
 <div id="plot-container" style="width:700px;height:300px;"></div>
 <div id="tooltip-locator" class="ui-corner-all"></div>
 <div id="space"></div>
@@ -33,7 +33,7 @@
   var options = { 
      lines: { show: true },
      points: { show: true },
-     selection: { mode: "x" },
+     // selection: { mode: "x" },
      legend: { position: 'nw' },
      grid: { hoverable: true, clickable: true },
      xaxis: { mode: 'time' },
@@ -61,6 +61,7 @@
        position:'bottom right',
        effect: 'slide'
    })
+   
    // $("#plot-container").bind("plothover", function (event, pos, item) {
    //    if(item){
    //      if (previousPoint != item.datapoint) {

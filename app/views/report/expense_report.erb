@@ -1,11 +1,11 @@
-<%= javascript_include_tag "jquery.flot.js" %>
 <script>
   var data1= [
   <% @monthly_expense.keys.sort.each do |month| %>
     [<%= month %>, <%= @monthly_expense[month] %>],
   <% end %>
-  ];  
+  ];
   $(document).ready(function(){
+    $("ul.horizontal-list li a").button({ icons: {primary:'ui-icon-calculator'} });
     var plot = $.plot($("#plot-container"),
                [ { data: data1, label: ""} ],
                { lines: { show: true },
@@ -18,16 +18,16 @@
 
      $("#plot-container").bind("plotclick", function (event, pos, item) {
        if (item) {
-         plot.highlight(item.series, item.datapoint);
-         var month = item.datapoint[0]
-         $("#space").load('<%= url_for :controller=>'report', :action=>'expense_list_month' %>/' + month)
-         }
+             plot.highlight(item.series, item.datapoint);
+             var month = item.datapoint[0]
+             $("#space").load('<%= url_for :controller=>'report', :action=>'expense_list_month' %>/' + month)
+       }
      });
    });
 </script>
 
 <h1>Year expense report</h1>
-<ul class="expense-year-list">
+<ul class="horizontal-list">
   <% for year in [Date.today.year-2, Date.today.year-1, Date.today.year]%>
   <li class="<% if year == @year %>selected<% end %>"><%= link_to year, :controller=>'report', :action=>'expense_report', :id=>year %></li>
   <% end %>

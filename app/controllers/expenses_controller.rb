@@ -85,7 +85,10 @@ class ExpensesController < ApplicationController
             page.replace 'credit_status_portlet', :partial => 'portlets/credit_status'
             page["credit_status_portlet"].visual_effect :highlight
             page["new-expense-home-errors"].hide
+            page["new-expense-home-success"].html(t 'Expense creted').show().delay(1000).fadeOut()
             page["new-expense-home"].reset
+            page["new-expense-home"].find('li.bit-box').remove
+            page << "category_chart();history_chart();"
           end 
         }
       else
@@ -203,7 +206,7 @@ class ExpensesController < ApplicationController
   def users_and_groups_autocomplete
     @response = []
     for user in User.find :all
-      @response.push({:caption => name_or_login(user).downcase, :value => "user:%s" % user.id})
+      @response.push({:caption => name_or_login(user), :value => "user:%s" % user.id})
     end    
     
     for group in Expensegroup.find :all

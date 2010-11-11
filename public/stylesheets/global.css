@@ -94,15 +94,29 @@ select {
 table caption {
     background:none;
     padding: 0 0 5px 0;
-    text-align: right;ù
+    text-align: right;
     font-style:italic;
 }
-
+ul.tabs {
+}
+ul.tabs li {
+/*    background:#782b3b;*/
+}
 ul.tabs li a{
     padding:5px 15px;
+    background:none;
+    color:#999;
+}
+
+ul.horizontal-list li{
+    list-style-type: none;
+    display: inline;
 }
 
 div.legend table { width:auto; }
+/*FXIXME the background color of the even rows of the table */
+tbody tr:nth-child(even) td, tbody tr.even td {}
+
 div.last-expenses-box { font-size:90%; margin-bottom:0.5em; }
 
 .loading-plot{
@@ -114,7 +128,7 @@ div.last-expenses-box { font-size:90%; margin-bottom:0.5em; }
 div#title h1 {
     background:url('../images/logo.png');
     background-repeat:no-repeat;
-    height:150px;
+    height:120px;
     text-indent:-1000em;
     margin-bottom:-30px;
 }
